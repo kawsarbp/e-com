@@ -19,5 +19,6 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::get('/logout',[AdminController::class,'logout'])->name('logout');
         Route::post('/check-current-password',[AdminController::class,'checkcurrentpassword'])->name('checkcurrentpassword');
         Route::post('/update-current-password',[AdminController::class,'checkupdatepassword'])->name('checkupdatepassword');
+        Route::match(['get','post'],'/update-admin-details',[AdminController::class,'admindetails'])->name('admindetails');
     });
 });
