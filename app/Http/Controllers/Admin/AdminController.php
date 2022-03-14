@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+
 //use App\Http\Middleware\Admin as AdminMiddleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Testing\Fluent\Concerns\Has;
 use Intervention\Image\Facades\Image;
-//use Image;
-//use Intervention\Image\Image;
+
 use function Spatie\LaravelIgnition\ContextProviders\resolveUpdates;
 use function Symfony\Component\Console\Helper\removeDecoration;
 
@@ -20,8 +21,10 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
+        Session::put('page','dashboard');
         return view('admin.dashboard');
     }
+
     /*login*/
     public function login(Request $request)
     {
@@ -40,18 +43,23 @@ class AdminController extends Controller
         }
         return view('admin.login');
     }
+
     /*logout*/
     public function logout()
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.login');
     }
+
     /*settings*/
     public function settings()
     {
+        Session::put('page','settings');
+
         $auth = Auth::guard('admin')->user();
         return view('admin.settings', compact('auth'));
     }
+
     /*password*/
     public function checkcurrentpassword(Request $request)
     {
@@ -65,6 +73,8 @@ class AdminController extends Controller
 
     public function checkupdatepassword(Request $request)
     {
+        Session::put('page','update-current-password');
+
         if ($request->isMethod('post')) {
             $data = $request->all();
 
@@ -80,16 +90,18 @@ class AdminController extends Controller
             }
         }
     }
+
     /*admin details*/
     public function admindetails(Request $request)
     {
-        if($request->isMethod('post'))
-        {
+        Session::put('page','update-admin-details');
+
+        if ($request->isMethod('post')) {
             $data = $request->all();
             $rules = [
-              'name' => 'required|regex:/^[\pL\s\-]+$/u',
-              'mobile' => 'required|numeric',
-              'photo' => 'image',
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'mobile' => 'required|numeric',
+                'photo' => 'image',
             ];
             $customMessage = [
                 'name.required' => 'This Name Field Is Required !',
@@ -97,31 +109,27 @@ class AdminController extends Controller
                 'mobile.required' => 'Mobile is required !',
                 'photo.image' => 'Valid Image required !',
             ];
-            $this->validate($request,$rules,$customMessage);
+            $this->validate($request, $rules, $customMessage);
             /*upload image*/
-            if($request->hasFile('photo'))
-            {
+            if ($request->hasFile('photo')) {
                 $image_tmp = $request->file('photo');
-                if ($image_tmp->isValid())
-                {
-                   $extenstion = $image_tmp->getClientOriginalExtension();
-                    $image_name = rand(111111111,999999999).date('dmyhis.').$extenstion;
+                if ($image_tmp->isValid()) {
+                    $extenstion = $image_tmp->getClientOriginalExtension();
+                    $image_name = rand(111111111, 999999999) . date('dmyhis.') . $extenstion;
                     $image_path = 'image/admin/admin_image';
 //                    Image::make($image_tmp)->save($image_path);
-                    $image_tmp->move($image_path,$image_name);
-                }elseif (!empty($data['current_admin_image']))
-                {
+                    $image_tmp->move($image_path, $image_name);
+                } elseif (!empty($data['current_admin_image'])) {
                     $image_name = $data['current_admin_image'];
-                }else
-                {
+                } else {
                     $image_name = "";
                 }
             }
             /*update admin details*/
-            Admin::where('email',Auth::guard('admin')->user()->email)->update(['name'=>$data['name'],'mobile'=>$data['mobile'],'photo'=>$image_name]);
-            session()->flash('message','update successfully!');
-            session()->flash('type','success');
-            return  redirect()->back();
+            Admin::where('email', Auth::guard('admin')->user()->email)->update(['name' => $data['name'], 'mobile' => $data['mobile'], 'photo' => $image_name]);
+            session()->flash('message', 'update successfully!');
+            session()->flash('type', 'success');
+            return redirect()->back();
         }
         return view('admin.update-admin-details');
     }
