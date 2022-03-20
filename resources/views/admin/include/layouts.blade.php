@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="/assets/admin/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/assets/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/assets/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="/assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
@@ -58,6 +62,7 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 <!-- ChartJS -->
 <script src="/assets/admin/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -65,6 +70,19 @@
 <!-- JQVMap -->
 <script src="/assets/admin/plugins/jqvmap/jquery.vmap.min.js"></script>
 <script src="/assets/admin/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+{{--datatable--}}
+<script src="/assets/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/assets/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    $(function () {
+        $("#sections").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+
 <!-- jQuery Knob Chart -->
 <script src="/assets/admin/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->

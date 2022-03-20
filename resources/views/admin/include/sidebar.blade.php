@@ -11,7 +11,8 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{url('image/admin/admin_image/'.Auth::guard('admin')->user()->photo)}}" style="height: 35px;" class="img-circle elevation-2" alt="User Image">
+                <img src="{{url('image/admin/admin_image/'.Auth::guard('admin')->user()->photo)}}" style="height: 35px;"
+                     class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="{{route('admin.dashboard')}}" class="d-block">{{Auth::guard('admin')->user()->name}}</a>
@@ -37,46 +38,58 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                @if(Session::get('page') == 'dashboard')
+                {{--@if(Session::get('page') == 'dashboard')
                     <?php $active = 'active' ?>
                 @else
                     <?php $active = '' ?>
-                @endif
+                @endif--}}
                 <li class="nav-item">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link {{$active}}">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link  {{request()->is('admin/dashboard')?'active':''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p> Dashboard </p>
                     </a>
                 </li>
-                @if(Session::get('page') == 'settings' || Session::get('page') == 'update-admin-details')
-                    <?php $active = 'active' ?>
-                @else
-                    <?php $active = '' ?>
-                @endif
+                {{--settings--}}
+
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link {{$active}}">
+                    <a href="#" class="nav-link {{request()->is('admin/settings') ?'active':'' }} {{request()->is('admin/update-admin-details') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Settings </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if(Session::get('page') == 'settings')
-                            <?php $active = 'active' ?>
-                        @else
-                            <?php $active = '' ?>
-                        @endif
+
                         <li class="nav-item">
-                            <a href="{{  route('admin.settings')  }}" class="nav-link {{$active}}">
+                            <a href="{{  route('admin.settings')  }}" class="nav-link {{request()->is('admin/settings') ?'active':'' }}">
                                 <p>Update Admin Password</p>
                             </a>
                         </li>
-                            @if(Session::get('page') == 'update-admin-details')
-                                <?php $active = 'active' ?>
-                            @else
-                                <?php $active = '' ?>
-                            @endif
+
                         <li class="nav-item">
-                            <a href="{{ route('admin.admindetails') }}" class="nav-link {{$active}}">
+                            <a href="{{ route('admin.admindetails') }}" class="nav-link {{request()->is('admin/update-admin-details') ?'active':'' }}">
                                 <p>Update Admin Details</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{--catalogues--}}
+
+
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{--{{$active}}--}}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p> Catalogues </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{  route('admin.sections')  }}" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{--{{$active}}--}}">
+                                <p>Section</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ url('admin/categories') }}" class="nav-link ">
+                                <p>Categories</p>
                             </a>
                         </li>
                     </ul>

@@ -56,12 +56,12 @@
                 @error('password') <span class="text-danger">{{$message}}</span> @enderror
                 <div class="row">
                     <div class="col-8">
-                        <div class="icheck-primary">
+                        {{--<div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">
                                 Remember Me
                             </label>
-                        </div>
+                        </div>--}}
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
@@ -70,14 +70,11 @@
                     <!-- /.col -->
                 </div>
             </form>
-
         </div>
-        <!-- /.login-card-body -->
     </div>
 </div>
-<!-- /.login-box -->
 
-<!-- jQuery -->
+
 <script src="{{asset('assets/admin/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

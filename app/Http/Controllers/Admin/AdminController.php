@@ -7,6 +7,7 @@ use App\Models\Admin;
 
 //use App\Http\Middleware\Admin as AdminMiddleware;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +20,12 @@ use function Symfony\Component\Console\Helper\removeDecoration;
 
 class AdminController extends Controller
 {
+    /*public function __construct()
+    {
+        $this->middleware('guest:admin')->only('login');
+    }
+    protected $redirectTo = RouteServiceProvider::HOME;*/
+
     public function dashboard()
     {
         Session::put('page','dashboard');
