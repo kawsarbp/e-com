@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="/assets/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="/assets/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/assets/admin/plugins/select2/css/select2.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="/assets/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- JQVMap -->
@@ -62,7 +64,10 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="/assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<script src="/assets/admin/plugins/select2/js/select2.full.min.js"></script>
+<script>
+    $('.select2').select2();
+</script>
 <!-- ChartJS -->
 <script src="/assets/admin/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -77,6 +82,12 @@
 <script>
     $(function () {
         $("#sections").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+    $(function () {
+        $("#categories").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -97,7 +108,7 @@
 <!-- AdminLTE App -->
 <script src="/assets/admin/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/assets/admin/js/demo.js"></script>
+{{--<script src="/assets/admin/js/demo.js"></script>--}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/assets/admin/js/pages/dashboard.js"></script>
 <script src="/assets/admin/js/update-password.js"></script>
