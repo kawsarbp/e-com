@@ -51,7 +51,7 @@
                 </li>
                 {{--settings--}}
 
-                <li class="nav-item menu-open">
+                <li class="nav-item {{request()->is('admin/settings') ?'menu-open':'' }} {{request()->is('admin/update-admin-details') ?'menu-open':'' }}">
                     <a href="#" class="nav-link {{request()->is('admin/settings') ?'active':'' }} {{request()->is('admin/update-admin-details') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Settings </p>
@@ -75,8 +75,8 @@
                 {{--catalogues--}}
 
 
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{--{{$active}}--}}">
+                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} ">
+                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} ">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Catalogues </p>
                     </a>
@@ -88,7 +88,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ url('admin/categories') }}" class="nav-link ">
+                            <a href="{{ route('admin.categories') }}" class="nav-link  {{request()->is('admin/categories') ?'active':'' }} ">
                                 <p>Categories</p>
                             </a>
                         </li>

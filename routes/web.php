@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SectionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,10 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         /*Section Route*/
         Route::get('/sections',[SectionController::class,'sections'])->name('sections');
         Route::post('/update-section-status',[SectionController::class,'updateSectionStatus'])->name('updateSectionStatus');
+        /*Category Route*/
+        Route::get('/categories',[CategoryController::class,'categories'])->name('categories');
+        Route::post('/update-category-status',[CategoryController::class,'updateCategoryStatus'])->name('updateCategoryStatus');
+
 
     });
 });
