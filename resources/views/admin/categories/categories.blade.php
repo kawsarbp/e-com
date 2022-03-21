@@ -24,6 +24,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
+                        @if(session()->has('message'))
+                            <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
+                        @endif
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Categories</h3>

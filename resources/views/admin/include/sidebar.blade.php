@@ -11,7 +11,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{url('image/admin/admin_image/'.Auth::guard('admin')->user()->photo)}}" style="height: 33px;"
+                <img src="{{url('image/admin/admin_images/'.Auth::guard('admin')->user()->photo)}}" style="height: 33px;"
                      class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
@@ -44,7 +44,7 @@
                 </li>
                 {{--settings--}}
 
-                <li class="nav-item {{request()->is('admin/settings') ?'menu-open':'' }} {{request()->is('admin/update-admin-details') ?'menu-open':'' }}">
+                <li class="nav-item {{request()->is('admin/settings') ?'menu-open':'' }} {{request()->is('admin/update-admin-details') ?'menu-open':'' }} ">
                     <a href="#" class="nav-link {{request()->is('admin/settings') ?'active':'' }} {{request()->is('admin/update-admin-details') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Settings </p>
@@ -68,20 +68,20 @@
                 {{--catalogues--}}
 
 
-                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} ">
-                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} ">
+                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }}">
+                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Catalogues </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{  route('admin.sections')  }}" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{--{{$active}}--}}">
+                            <a href="{{  route('admin.sections')  }}" class="nav-link {{request()->is('admin/sections') ?'active':'' }}">
                                 <p>Section</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.categories') }}" class="nav-link  {{request()->is('admin/categories') ?'active':'' }} ">
+                            <a href="{{ route('admin.categories') }}" class="nav-link  {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }} ">
                                 <p>Categories</p>
                             </a>
                         </li>

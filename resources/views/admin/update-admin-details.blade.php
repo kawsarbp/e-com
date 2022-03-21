@@ -56,7 +56,7 @@
                                         <label for="photo">Photo</label>
                                         <input type="file" class="form-control" name="photo" id="photo">
                                         @if(!empty(Auth::guard('admin')->user()->photo))
-                                            <a target="_blank" href="{{url('image/admin/admin_image/'.Auth::guard('admin')->user()->photo)}}">View Image</a>
+                                            <a target="_blank" href="{{url('image/admin/admin_images/'.Auth::guard('admin')->user()->photo)}}">View Image</a>
                                             <input type="hidden" name="current_admin_image" value="{{Auth::guard('admin')->user()->photo}}">
                                         @endif
                                         @error('photo') <span class="text-danger font-italic">{{$message}}</span> @enderror

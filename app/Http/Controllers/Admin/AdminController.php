@@ -123,7 +123,7 @@ class AdminController extends Controller
                 if ($image_tmp->isValid()) {
                     $extenstion = $image_tmp->getClientOriginalExtension();
                     $image_name = rand(111111111, 999999999) . date('dmyhis.') . $extenstion;
-                    $image_path = 'image/admin/admin_image';
+                    $image_path = 'image/admin/admin_images';
 //                    Image::make($image_tmp)->save($image_path);
                     $image_tmp->move($image_path, $image_name);
                 } elseif (!empty($data['current_admin_image'])) {

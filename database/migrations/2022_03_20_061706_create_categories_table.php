@@ -18,14 +18,14 @@ return new class extends Migration
             $table->integer('parent_id');
             $table->integer('section_id');
             $table->string('category_name');
-            $table->string('category_image');
-            $table->float('category_discount');
-            $table->text('description');
+            $table->string('category_images')->nullable();
+            $table->float('category_discount')->nullable();
+            $table->text('description')->nullable();
             $table->string('url');
-            $table->string('meta_title');
-            $table->string('meta_description');
-            $table->string('meta_keywords');
-            $table->tinyInteger('status');
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->string('meta_keywords')->nullable();
+            $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
     }
