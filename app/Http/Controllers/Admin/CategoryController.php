@@ -59,7 +59,7 @@ class CategoryController extends Controller
                 'category_image.image' => 'Please Select your Image !',
                 'url.required' => 'Please Enter your Url !',
             ];
-            $this->validate($request,$rules,$customMessage);
+            $this->validate($request, $rules, $customMessage);
 
             $category->parent_id = $data['parent_id'];
             $category->section_id = $data['section_id'];
@@ -88,12 +88,27 @@ class CategoryController extends Controller
 
             $category->save();
 
-            Session::flash('message','Category Save Successfully!');
-            Session::flash('type','success');
+            Session::flash('message', 'Category Save Successfully!');
+            Session::flash('type', 'success');
             return redirect()->route('admin.categories');
         }
 
         $getSection = Section::get();
         return view('admin.categories.add_edit_category', compact('title', 'getSection'));
     }
+
+    /*category append level*/
+    public function appendCategoriesLevel(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+
+            $getCategories = Category::with('subcategories')->where(['section_id' => $data['section_id'],'parent_id'=>0,'status'=>1])->get();
+            $getCategories = json_decode(json_encode($getCategories),true);
+
+            return view('admin.categories.append_categories_level',compact('getCategories'));
+        }
+    }
+
+
 }

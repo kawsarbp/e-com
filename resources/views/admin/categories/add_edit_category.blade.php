@@ -22,15 +22,6 @@
 
         <section class="content">
             <div class="container-fluid">
-                {{--@if($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach($errors->all() as $err)
-                                <li>{{$err}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif--}}
                 <form action="{{route('admin.addEditCategory')}}" name="CategoryForm" id="CategoryForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card card-default">
@@ -54,11 +45,8 @@
                                         <input type="text" class="form-control" value="{{old('category_name')}}" name="category_name" id="category_name" placeholder="Enter Category Name">
                                         @error('category_name') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
-                                    <div class="form-group">
-                                        <label for="parent_id">Select Category Lavel</label>
-                                        <select name="parent_id" id="parent_id"  class="form-control select2" style="width: 100%;">
-                                            <option value="0"> Main Category </option>
-                                        </select>
+                                    <div id="appendCategoriesLevel">
+                                        @include('admin.categories.append_categories_level')
                                     </div>
                                 </div>
                                 <!-- /.col -->
@@ -81,13 +69,11 @@
                                                 <input type="file" class="custom-file-input" name="category_image" id="category_image">
                                                 <label class="custom-file-label" for="category_image">Choose file</label>
                                             </div>
-
                                             {{--<div class="input-group-append">
                                                 <span class="input-group-text">Upload</span>
                                             </div>--}}
                                         </div>
                                         @error('category_image') <span class="text-danger">{{$message}}</span> @enderror
-
                                     </div>
                                 </div>
                             </div>
