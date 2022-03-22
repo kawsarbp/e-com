@@ -30,7 +30,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Categories</h3>
-                                <a href="{{route('admin.addEditCategory')}}" class="btn btn-success btn-sm float-right">Add Category</a>
+                                <a href="{{url('admin/add-edit-category')}}" class="btn btn-success btn-sm float-right">Add Category</a>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="card-body">
@@ -42,16 +42,28 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Id</th>
-                                                    <th>Name</th>
+                                                    <th>Category</th>
+                                                    <th>Parent Category</th>
+                                                    <th>Section</th>
                                                     <th>Url</th>
                                                     <th>Status</th>
+                                                    <th>Actions</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 @foreach($category as $categories)
+
                                                     <tr>
                                                         <td>{{$categories->id}}</td>
                                                         <td>{{$categories->category_name}}</td>
+                                                        <td>
+                                                            @if(!isset($categories->parentcategory->category_name))
+                                                                {{$parent_category = 'Root'}}
+                                                            @else
+                                                                {{$parent_category = $categories->parentcategory->category_name}}
+                                                            @endif
+                                                        </td>
+                                                        <td>{{$categories->section->name}}</td>
                                                         <td>{{$categories->url}}</td>
                                                         <td>
                                                             @if($categories->status == 1)
@@ -59,6 +71,9 @@
                                                             @else
                                                                 <a class="updateCategoryStatus" id="category-{{$categories->id}}" category_id="{{$categories->id}}" href="javascript:void (0)">Inactive</a>
                                                             @endif
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{url('admin/add-edit-category/'.$categories->id)}}">Edit</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

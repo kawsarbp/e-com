@@ -12,7 +12,9 @@ class CategoryController extends Controller
 {
     public function categories()
     {
-        $category = Category::get();
+        $category = Category::with(['section','parentcategory'])->get();
+        /*$category = json_decode(json_encode($category));
+        return $category;*/
         return view('admin.categories.categories', compact('category'));
     }
 
@@ -34,12 +36,20 @@ class CategoryController extends Controller
     {
 
         if ($id == "") {
-            $title = 'Add Category';
             /*add category funtionality*/
+            $title = 'Add Category';
             $category = new Category;
+            $categorydata = array();
+            $getCategories = array();
+            $message = 'Category Save Successfully!';
         } else {
-            $title = 'Edit Category';
             /*edit category funtionality*/
+            $title = 'Edit Category';
+            $categorydata = Category::where('id',$id)->first();
+            $getCategories = Category::with('subcategories')->where(['parent_id'=>0,'section_id'=>$categorydata['section_id']])->get();
+            $category = Category::find($id);
+
+            $message = 'Category Update Successfully!';
         }
 
         if ($request->isMethod('post')) {
@@ -82,19 +92,19 @@ class CategoryController extends Controller
                     // Image::make($image_tmp)->save($image_path);
                     $image_tmp->move($image_path, $image_name);
 
-                    $category->category_image = $image_name;
+                    $category->category_images = $image_name;
                 }
             }
 
             $category->save();
 
-            Session::flash('message', 'Category Save Successfully!');
+            Session::flash('message', $message);
             Session::flash('type', 'success');
             return redirect()->route('admin.categories');
         }
 
         $getSection = Section::get();
-        return view('admin.categories.add_edit_category', compact('title', 'getSection'));
+        return view('admin.categories.add_edit_category', compact('title', 'getSection','categorydata','getCategories'));
     }
 
     /*category append level*/
