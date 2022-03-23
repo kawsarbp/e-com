@@ -112,5 +112,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/assets/admin/js/pages/dashboard.js"></script>
 <script src="/assets/admin/js/update-password.js"></script>
+{{--sweet alert--}}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

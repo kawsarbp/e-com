@@ -73,8 +73,8 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <a href="{{url('admin/add-edit-category/'.$categories->id)}}">Edit</a>
-                                                            <a href="{{url('admin/delete-category/'.$categories->id)}}">Delete</a>
+                                                            <a href="{{url('admin/add-edit-category/'.$categories->id)}}" class="btn btn-info btn-sm">Edit</a>
+                                                            <a class="confirmDelete btn btn-danger btn-sm" href="javascript:void (0)" record="category" recordid="{{$categories->id}}" {{--href="{{url('admin/delete-category/'.$categories->id)}}"--}}>Delete</a>
                                                         </td>
                                                     </tr>
                                                 @endforeach

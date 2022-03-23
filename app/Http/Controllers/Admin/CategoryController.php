@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -99,14 +98,12 @@ class CategoryController extends Controller
                     $category->category_images = $image_name;
                 }
             }
-
             $category->save();
 
             Session::flash('message', $message);
             Session::flash('type', 'success');
             return redirect()->route('admin.categories');
         }
-
         $getSection = Section::get();
         return view('admin.categories.add_edit_category', compact('title', 'getSection', 'categorydata', 'getCategories'));
     }
@@ -142,9 +139,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         $image_parth = 'image/admin/category_images/' . $category->category_images;
-        if(File::exists($image_parth))
-        {
-            /*$category->delete($image_parth);*/
+        if (File::exists($image_parth)) {
             File::delete($image_parth);
         }
         $category->delete();
