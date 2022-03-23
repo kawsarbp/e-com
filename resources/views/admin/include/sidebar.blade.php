@@ -67,9 +67,8 @@
 
                 {{--catalogues--}}
 
-
-                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }}">
-                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }}">
+                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/products') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }}">
+                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/products') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Catalogues </p>
                     </a>
@@ -85,8 +84,14 @@
                                 <p>Categories</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{  route('admin.products')  }}" class="nav-link {{request()->is('admin/products') ?'active':'' }}">
+                                <p>Products</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
+
             </ul>
         </nav>
     </div>
