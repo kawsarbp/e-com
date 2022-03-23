@@ -31,5 +31,7 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::post('/update-category-status',[CategoryController::class,'updateCategoryStatus'])->name('updateCategoryStatus');
         Route::match(['get','post'],'add-edit-category/{id?}',[CategoryController::class,'addEditCategory'])->name('addEditCategory');
         Route::post('/append-categories-level',[CategoryController::class,'appendCategoriesLevel'])->name('appendCategoriesLevel');
+        Route::get('/category-delete-image/{id}',[CategoryController::class,'deleteCategoryImage'])->name('deleteCategoryImage');
+        Route::get('/delete-category/{id}',[CategoryController::class,'deleteCategory'])->name('deleteCategory');
     });
 });

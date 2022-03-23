@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
     public function categories()
     {
-        $category = Category::with(['section','parentcategory'])->get();
+        $category = Category::with(['section', 'parentcategory'])->get();
         /*$category = json_decode(json_encode($category));
         return $category;*/
         return view('admin.categories.categories', compact('category'));
@@ -45,8 +46,11 @@ class CategoryController extends Controller
         } else {
             /*edit category funtionality*/
             $title = 'Edit Category';
-            $categorydata = Category::where('id',$id)->first();
-            $getCategories = Category::with('subcategories')->where(['parent_id'=>0,'section_id'=>$categorydata['section_id']])->get();
+            $categorydata = Category::where('id', $id)->first();
+            if (!$categorydata)
+                return redirect()->back();
+            else
+                $getCategories = Category::with('subcategories')->where(['parent_id' => 0, 'section_id' => $categorydata['section_id']])->get();
             $category = Category::find($id);
 
             $message = 'Category Update Successfully!';
@@ -104,7 +108,7 @@ class CategoryController extends Controller
         }
 
         $getSection = Section::get();
-        return view('admin.categories.add_edit_category', compact('title', 'getSection','categorydata','getCategories'));
+        return view('admin.categories.add_edit_category', compact('title', 'getSection', 'categorydata', 'getCategories'));
     }
 
     /*category append level*/
@@ -113,11 +117,38 @@ class CategoryController extends Controller
         if ($request->ajax()) {
             $data = $request->all();
 
-            $getCategories = Category::with('subcategories')->where(['section_id' => $data['section_id'],'parent_id'=>0,'status'=>1])->get();
-            $getCategories = json_decode(json_encode($getCategories),true);
+            $getCategories = Category::with('subcategories')->where(['section_id' => $data['section_id'], 'parent_id' => 0, 'status' => 1])->get();
+            $getCategories = json_decode(json_encode($getCategories), true);
 
-            return view('admin.categories.append_categories_level',compact('getCategories'));
+            return view('admin.categories.append_categories_level', compact('getCategories'));
         }
+    }
+
+    /*delete category image*/
+    public function deleteCategoryImage($id)
+    {
+        $categoryImage = Category::select('category_images')->where('id', $id)->first();
+        $image_parth = 'image/admin/category_images/';
+        if (file_exists($image_parth . $categoryImage->category_images)) {
+            unlink($image_parth . $categoryImage->category_images);
+        }
+        Category::where('id', $id)->update(['category_images' => '']);
+        return redirect()->back()->with(['message' => 'Category Image Deleted!', 'type' => 'success']);
+    }
+
+    /*delete category*/
+    public function deleteCategory($id)
+    {
+        $category = Category::find($id);
+
+        $image_parth = 'image/admin/category_images/' . $category->category_images;
+        if(File::exists($image_parth))
+        {
+            /*$category->delete($image_parth);*/
+            File::delete($image_parth);
+        }
+        $category->delete();
+        return redirect()->back()->with(['message' => 'Category Delete Successfully!', 'type' => 'success']);
     }
 
 

@@ -19,10 +19,12 @@
                 </div>
             </div>
         </section>
-{{--        {{$categorydata['id']}}--}}
 
         <section class="content">
             <div class="container-fluid">
+                @if(session()->has('message'))
+                    <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
+                @endif
                 <form
                     {{--action="{{url('admin/add-edit-category')}}"--}}
                     @if(empty($categorydata['id'])) action="{{url('admin/add-edit-category')}}" @else
@@ -88,6 +90,10 @@
                                                 <span class="input-group-text">Upload</span>
                                             </div>--}}
                                         </div>
+                                        @if(!empty($categorydata['category_images']))
+                                        <img style="width: 100px; height: 85px;" src="{{'/image/admin/category_images/'.$categorydata['category_images']}}" alt="">
+                                            <a href="{{url('admin/category-delete-image/'.$categorydata['id'])}}">Delete Image</a>
+                                        @endif
                                         @error('category_image') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
                                 </div>
