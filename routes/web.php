@@ -38,5 +38,8 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::get('/products',[ProductController::class,'products'])->name('products');
         Route::post('/update-product-status',[ProductController::class,'updateProductStatus'])->name('updateProductStatus');
         Route::get('/delete-product/{id}',[ProductController::class,'deleteProduct'])->name('deleteProduct');
+        Route::match(['get','post'],'/add-edit-product/{id?}',[ProductController::class,'addEditProduct'])->name('addEditProduct');
+
+
     });
 });

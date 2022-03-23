@@ -45,6 +45,8 @@
                                                     <th>Product Name</th>
                                                     <th>Product Code</th>
                                                     <th>Product Color</th>
+                                                    <th>Category</th>
+                                                    <th>Section</th>
                                                     <th>Status</th>
                                                     <th>Actions</th>
                                                 </tr>
@@ -57,6 +59,8 @@
                                                         <td>{{$products->product_name}}</td>
                                                         <td>{{$products->product_code}}</td>
                                                         <td>{{$products->product_color}}</td>
+                                                        <td>{{$products->category->category_name}}</td>
+                                                        <td>{{$products->section->name}}</td>
                                                         <td>
                                                             @if($products->status == 1)
                                                                 <a class="updateProductStatus" id="product-{{$products->id}}" product_id="{{$products->id}}" href="javascript:void (0)">Active</a>
@@ -83,4 +87,3 @@
         </section>
     </div>
 @endsection
-

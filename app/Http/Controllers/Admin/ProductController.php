@@ -11,9 +11,10 @@ class ProductController extends Controller
 {
     public function products()
     {
-        $product = Product::get();
-        return view('admin.products.products',compact('product'));
+        $product = Product::with(['category', 'section'])->get();
+        return view('admin.products.products', compact('product'));
     }
+
     /*status*/
     public function updateProductStatus(Request $request)
     {
@@ -28,11 +29,29 @@ class ProductController extends Controller
             return response()->json(['status' => $status, 'product_id' => $data['product_id']]);
         }
     }
+
     /*delete product*/
     public function deleteProduct($id)
     {
         $category = Product::find($id);
         $category->delete();
         return redirect()->back()->with(['message' => 'Product Delete Successfully!', 'type' => 'success']);
-    } 
+    }
+
+    /*add product*/
+    public function addEditProduct(Request $request, $id = null)
+    {
+        if ($id == "") {
+            $title = "Add Product";
+        } else {
+            $title = "Edit Product";
+        }
+
+        $fabricArry = array('Cotton','Polyester','Wool');
+        $sleeveArry = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
+        $patternArry = array('Checked','Plain','Printed','Self','Solid');
+        $fitArry = array('Regular','Slim');
+        $occasionArry = array('Casual','Formal');
+        return view('admin.products.add_edit_products',compact('title','fabricArry','sleeveArry','patternArry','fitArry','occasionArry'));
+    }
 }
