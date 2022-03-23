@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -47,11 +48,15 @@ class ProductController extends Controller
             $title = "Edit Product";
         }
 
-        $fabricArry = array('Cotton','Polyester','Wool');
-        $sleeveArry = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
-        $patternArry = array('Checked','Plain','Printed','Self','Solid');
-        $fitArry = array('Regular','Slim');
-        $occasionArry = array('Casual','Formal');
-        return view('admin.products.add_edit_products',compact('title','fabricArry','sleeveArry','patternArry','fitArry','occasionArry'));
+        $fabricArray = array('Cotton','Polyester','Wool');
+        $sleeveArray = array('Full Sleeve','Half Sleeve','Short Sleeve','Sleeveless');
+        $patternArray = array('Checked','Plain','Printed','Self','Solid');
+        $fitArray = array('Regular','Slim');
+        $occasionArray = array('Casual','Formal');
+        //sections with categories and sub categories
+        $categories = Section::with('categories')->get();
+
+
+        return view('admin.products.add_edit_products',compact('title','fabricArray','sleeveArray','patternArray','fitArray','occasionArray','categories'));
     }
 }
