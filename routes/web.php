@@ -41,7 +41,7 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::match(['get','post'],'/add-edit-product/{id?}',[ProductController::class,'addEditProduct'])->name('addEditProduct');
         Route::get('/product-delete-image/{id}',[ProductController::class,'deleteProductImage'])->name('deleteProductImage');
         Route::get('/product-delete-video/{id}',[ProductController::class,'deleteProductVideo'])->name('deleteProductVideo');
-
-
+        /*Attribute Route*/
+        Route::match(['get','post'],'/add-attributes/{id}',[ProductController::class,'addAttributes'])->name('addAttributes');
     });
 });

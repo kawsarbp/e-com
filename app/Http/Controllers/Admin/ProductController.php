@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductsAttribute;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -167,6 +168,7 @@ class ProductController extends Controller
         Product::where('id', $id)->update(['main_image' => '']);
         return redirect()->back()->with(['message' => 'Product Image Deleted!', 'type' => 'success']);
     }
+
     /*product delete video*/
     public function deleteProductVideo($id)
     {
@@ -178,4 +180,45 @@ class ProductController extends Controller
         Product::where('id', $id)->update(['product_video' => '']);
         return redirect()->back()->with(['message' => 'Product Video Deleted!', 'type' => 'success']);
     }
+
+    /*addAttributes*/
+    public function addAttributes(Request $request, $id)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+
+            foreach ($data['sku'] as $key => $value) {
+                if (!empty($value)) {
+                    $attrCountSize = ProductsAttribute::where(['product_id' => $id, 'size' => $data['size'][$key]])->count();
+                    if ($attrCountSize > 0) {
+                        return redirect()->back()->with(['message' => 'This Size already Exists, Please try another Size.', 'type' => 'warning']);
+                    }
+                    $attrCountSku = ProductsAttribute::where(['product_id' => $id,'sku' => $value])->count();
+                    if ($attrCountSku > 0) {
+                        return redirect()->back()->with(['message' => 'This SKU already Exists, Please try another SKU.', 'type' => 'warning']);
+                    }
+
+                    $attribute = new ProductsAttribute;
+                    $attribute->product_id = $id;
+                    $attribute->sku = $value;
+                    $attribute->size = $data['size'][$key];
+                    $attribute->price = $data['price'][$key];
+                    $attribute->stock = $data['stock'][$key];
+                    $attribute->status = 1;
+                    $attribute->save();
+                }
+            }
+            return redirect()->back()->with(['message' => 'Products Attributes Save Successfully !', 'type' => 'success']);
+        }
+
+        $productdata = Product::select('id','product_name','product_code','product_color','main_image')->with('attributes')->find($id);
+        if (empty($productdata))
+            return redirect()->back();
+        else
+
+            $title = 'Products Attributes';
+        return view('admin.products.add_attributes', compact('productdata', 'title'));
+    }
+
+
 }
