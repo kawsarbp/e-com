@@ -22,6 +22,16 @@
 
         <section class="content">
             <div class="container-fluid">
+                {{--@if($errors->any())
+                    <div class="alert-danger alert text-center">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif--}}
+
                 @if(session()->has('message'))
                     <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
                 @endif
@@ -56,9 +66,9 @@
                                             @foreach($categories as $section)
                                                 <optgroup label="{{$section['name']}}"></optgroup>
                                                 @foreach($section['categories'] as $category)
-                                                    <option value="{{$category['id']}}"> &nbsp;-- {{$category['category_name']}}</option>
+                                                    <option value="{{$category['id']}}" @if(!empty(@old('category_id')) && $category['id'] == @old('category_id')) selected=""  @endif > &nbsp;-- {{$category['category_name']}}</option>
                                                     @foreach($category['subcategories'] as $subcategory)
-                                                        <option value="{{$subcategory['id']}}"> &nbsp;&nbsp;&nbsp;&raquo; {{$subcategory['category_name']}}</option>
+                                                        <option value="{{$subcategory['id']}}" @if(!empty(@old('category_id')) && $subcategory['id'] == @old('category_id')) selected=""  @endif > &nbsp;&nbsp;&nbsp;&raquo; {{$subcategory['category_name']}}</option>
                                                     @endforeach
                                                 @endforeach
                                             @endforeach
@@ -88,8 +98,8 @@
                                                @else
                                                value="{{old('product_code')}}"
                                                @endif
-                                               name="product_name" id="product_name" placeholder="Enter product Name">
-                                        @error('product_name') <span class="text-danger">{{$message}}</span> @enderror
+                                               name="product_code" id="product_code" placeholder="Enter product Code">
+                                        @error('product_code') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="product_color">product Color</label>
@@ -177,7 +187,7 @@
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="wash_care">Wash Care</label>
-                                        <textarea id="wash_care" name="description" class="form-control" rows="3" placeholder="Wash Care">
+                                        <textarea id="wash_care" name="wash_care" class="form-control" rows="3" placeholder="Wash Care">
                                             @if(!empty($productdata['wash_care']))
                                                 {{$productdata['wash_care']}}
                                             @else
@@ -275,7 +285,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="is_featured">Featured Item</label>
-                                        <input type="checkbox" name="is_featured" id="is_featured" value="1">
+                                        <input type="checkbox" name="is_featured" id="is_featured" value="Yes">
                                     </div>
                                 </div>
                             </div>
