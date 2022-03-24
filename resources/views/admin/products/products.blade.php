@@ -45,6 +45,7 @@
                                                     <th>Product Name</th>
                                                     <th>Product Code</th>
                                                     <th>Product Color</th>
+                                                    <th>Product Image</th>
                                                     <th>Category</th>
                                                     <th>Section</th>
                                                     <th>Status</th>
@@ -59,6 +60,16 @@
                                                         <td>{{$products->product_name}}</td>
                                                         <td>{{$products->product_code}}</td>
                                                         <td>{{$products->product_color}}</td>
+                                                        <td>
+                                                            <?php
+                                                            $product_image_path = "/image/admin/product_images/".$products->main_image
+                                                            ?>
+                                                            @if(!empty($products->main_image) || file_exists($product_image_path))
+                                                            <img style="width: 120px; height: 100px;" src="/image/admin/product_images/{{$products->main_image}}" alt="">
+                                                            @else
+                                                                <img style="width: 120px; height: 100px;" src="/image/admin/product_images/no_image.png" alt="">
+                                                            @endif
+                                                        </td>
                                                         <td>{{$products->category->category_name}}</td>
                                                         <td>{{$products->section->name}}</td>
                                                         <td>

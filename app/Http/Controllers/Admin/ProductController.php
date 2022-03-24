@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Facades\Image;
+use function Spatie\Ignition\ErrorPage\jsonEncode;
 
 class ProductController extends Controller
 {
@@ -56,9 +57,13 @@ class ProductController extends Controller
         if ($id == "") {
             $title = "Add Product";
             $product = new Product;
+            $productdata = array();
             $message = "Product Save Successfully!";
         } else {
             $title = "Edit Product";
+            $productdata = Product::find($id);
+            $product = Product::find($id);
+            $message = "Product Update Successfully !";
         }
         if ($request->isMethod('post')) {
             $data = $request->all();
@@ -149,6 +154,6 @@ class ProductController extends Controller
         $categories = Section::with('categories')->get();
 
 
-        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories'));
+        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories','productdata'));
     }
 }
