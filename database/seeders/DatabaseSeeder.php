@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
                 SectionsTableSeeder::class,
                 CategoryTableSeeder::class,
                 ProductsTableSeeder::class,
+                ProductsAttributesTableSeeder::class,
             ]);
 
         // \App\Models\User::factory(10)->create();
