@@ -147,6 +147,10 @@
                                                 <label class="custom-file-label" for="main_image">Choose file</label>
                                             </div>
                                         </div>
+                                        @if(!empty($productdata['main_image']))
+                                            <img style="width: 100px; height: 85px;" src="{{'/image/admin/product_images/'.$productdata['main_image']}}" alt="">
+                                            <a href="{{url('admin/product-delete-image/'.$productdata['id'])}}">Delete Image</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -161,6 +165,13 @@
                                                 <label class="custom-file-label" for="product_video">Choose file</label>
                                             </div>
                                         </div>
+                                        @if(!empty($productdata['product_video']))
+                                            <div>
+                                                <a href="{{url('videos/product_videos/'.$productdata['product_video'])}}" download="">Download</a> |
+                                                <a href="{{url('admin/product-delete-video/'.$productdata['id'])}}">Delete</a>
+                                            </div>
+                                        @endif
+
                                     </div>
                                     <div class="form-group">
                                         <label for="description">product Description</label>

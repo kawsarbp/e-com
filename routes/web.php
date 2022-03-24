@@ -39,6 +39,8 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::post('/update-product-status',[ProductController::class,'updateProductStatus'])->name('updateProductStatus');
         Route::get('/delete-product/{id}',[ProductController::class,'deleteProduct'])->name('deleteProduct');
         Route::match(['get','post'],'/add-edit-product/{id?}',[ProductController::class,'addEditProduct'])->name('addEditProduct');
+        Route::get('/product-delete-image/{id}',[ProductController::class,'deleteProductImage'])->name('deleteProductImage');
+        Route::get('/product-delete-video/{id}',[ProductController::class,'deleteProductVideo'])->name('deleteProductVideo');
 
 
     });

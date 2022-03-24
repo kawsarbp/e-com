@@ -42,7 +42,7 @@ class ProductController extends Controller
         $image_parth = 'image/admin/product_images/' . $product->main_image;
         $video_parth = 'videos/product_videos/' . $product->product_video;
         if (File::exists($image_parth) || File::delete($video_parth)) {
-            [File::delete($image_parth),File::delete($video_parth)];
+            [File::delete($image_parth), File::delete($video_parth)];
         }
 //        if (File::exists($video_parth)) {
 //            File::delete($video_parth);
@@ -63,6 +63,8 @@ class ProductController extends Controller
             $title = "Edit Product";
             $productdata = Product::find($id);
             $product = Product::find($id);
+            if (!$product)
+                return redirect()->back();
             $message = "Product Update Successfully !";
         }
         if ($request->isMethod('post')) {
@@ -126,15 +128,13 @@ class ProductController extends Controller
                 }
             }
             /*upload product video*/
-            if($request->hasFile('product_video'))
-            {
+            if ($request->hasFile('product_video')) {
                 $video_tmp = $request->file('product_video');
-                if($video_tmp->isValid())
-                {
+                if ($video_tmp->isValid()) {
                     $extenstion = $video_tmp->getClientOriginalExtension();
                     $video_name = rand(111111111, 999999999) . date('dmyhis.') . $extenstion;
                     $video_path = 'videos/product_videos/';
-                    $video_tmp->move($video_path,$video_name);
+                    $video_tmp->move($video_path, $video_name);
                     $product->product_video = $video_name;
                 }
             }
@@ -153,7 +153,29 @@ class ProductController extends Controller
         //sections with categories and sub categories
         $categories = Section::with('categories')->get();
 
+        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories', 'productdata'));
+    }
 
-        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories','productdata'));
+    /*product delete image*/
+    public function deleteProductImage($id)
+    {
+        $productImage = Product::select('main_image')->where('id', $id)->first();
+        $image_parth = 'image/admin/product_images/';
+        if (file_exists($image_parth . $productImage->main_image)) {
+            unlink($image_parth . $productImage->main_image);
+        }
+        Product::where('id', $id)->update(['main_image' => '']);
+        return redirect()->back()->with(['message' => 'Product Image Deleted!', 'type' => 'success']);
+    }
+    /*product delete video*/
+    public function deleteProductVideo($id)
+    {
+        $productImage = Product::select('product_video')->where('id', $id)->first();
+        $image_parth = 'videos/product_videos/';
+        if (file_exists($image_parth . $productImage->product_video)) {
+            unlink($image_parth . $productImage->product_video);
+        }
+        Product::where('id', $id)->update(['product_video' => '']);
+        return redirect()->back()->with(['message' => 'Product Video Deleted!', 'type' => 'success']);
     }
 }
