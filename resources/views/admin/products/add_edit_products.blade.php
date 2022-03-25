@@ -48,7 +48,6 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-
                                     <div class="form-group">
                                         <label for="category_id">Select Category</label>
                                         <select name="category_id" id="category_id" class="form-control select2" style="width: 100%;">
@@ -65,7 +64,18 @@
                                         </select>
                                         @error('category_id') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="brand_id">Select brand</label>
+                                        <select name="brand_id" id="brand_id" class="form-control select2" style="width: 100%;">
+                                            <option value=""> -- Select Brand -- </option>
+                                            @foreach($brands as $brand)
+                                                <option value="{{$brand['id']}}" @if(!empty($productdata['brand_id']) && $productdata['brand_id']==$brand['id']) selected="" @endif> {{$brand['name']}} </option>
+                                            @endforeach
+                                        </select>
+                                        @error('brand_id') <span class="text-danger">{{$message}}</span> @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_name">product Name</label>
                                         <input type="text" class="form-control"
@@ -77,9 +87,6 @@
                                                name="product_name" id="product_name" placeholder="Enter product Name">
                                         @error('product_name') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_code">product Code</label>
                                         <input type="text" class="form-control"
@@ -91,6 +98,8 @@
                                                name="product_code" id="product_code" placeholder="Enter product Code">
                                         @error('product_code') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_color">product Color</label>
                                         <input type="text" class="form-control"
@@ -102,8 +111,6 @@
                                                name="product_color" id="product_color" placeholder="Enter product Color">
                                         @error('product_color') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_code">product Price</label>
                                         <input type="text" class="form-control"
@@ -115,6 +122,8 @@
                                                name="product_price" id="product_price" placeholder="Enter product Price">
                                         @error('product_price') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_discount">product Discount (%)</label>
                                         <input type="text" class="form-control"
@@ -126,8 +135,6 @@
                                                name="product_discount" id="product_discount" placeholder="Enter product Discount">
                                         @error('product_discount') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="product_weight">product Weight</label>
                                         <input type="text" class="form-control"
@@ -139,6 +146,11 @@
                                                name="product_weight" id="product_weight" placeholder="Enter product Weight">
                                         @error('product_weight') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="main_image">product Main Image</label>
                                         <div class="input-group">
@@ -152,11 +164,6 @@
                                             <a href="{{url('admin/product-delete-image/'.$productdata['id'])}}">Delete Image</a>
                                         @endif
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="product_video">product Video</label>
                                         <div class="input-group">
@@ -173,6 +180,8 @@
                                         @endif
 
                                     </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="description">product Description</label>
                                         <textarea id="description" name="description" class="form-control" rows="3" placeholder="Description">
@@ -183,9 +192,6 @@
                                             @endif
                                         </textarea>
                                     </div>
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="wash_care">Wash Care</label>
                                         <textarea id="wash_care" name="wash_care" class="form-control" rows="3" placeholder="Wash Care">
@@ -196,19 +202,17 @@
                                             @endif
                                         </textarea>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="fabric">Select Fabric</label>
-                                        <select name="fabric" id="fabric" class="form-control select2" style="width: 100%;">
-                                            <option value=""> -- Select Fabric -- </option>
-                                            @foreach($fabricArray as $fabric)
-                                                <option value="{{$fabric}}" @if(!empty($productdata['fabric']) && $productdata['fabric']==$fabric) selected="" @endif> {{$fabric}} </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
                                 </div>
-
                                     <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="fabric">Select Fabric</label>
+                                            <select name="fabric" id="fabric" class="form-control select2" style="width: 100%;">
+                                                <option value=""> -- Select Fabric -- </option>
+                                                @foreach($fabricArray as $fabric)
+                                                    <option value="{{$fabric}}" @if(!empty($productdata['fabric']) && $productdata['fabric']==$fabric) selected="" @endif> {{$fabric}} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         <div class="form-group">
                                             <label for="sleeve">Select Sleeve</label>
                                             <select name="sleeve" id="sleeve" class="form-control select2" style="width: 100%;">
@@ -218,7 +222,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                    </div>
+                                    <div class="col-12 col-sm-6">
                                         <div class="form-group">
                                             <label for="pattern">Select Pattern</label>
                                             <select name="pattern" id="pattern" class="form-control select2" style="width: 100%;">
@@ -228,8 +233,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6">
                                         <div class="form-group">
                                             <label for="fit">Select Fit</label>
                                             <select name="fit" id="fit" class="form-control select2" style="width: 100%;">
@@ -239,7 +242,9 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                    <div class="form-group">
                                             <label for="occasion">Select Occasion</label>
                                             <select name="occasion" id="occasion" class="form-control select2" style="width: 100%;">
                                                 <option value=""> -- Select -- </option>
@@ -248,8 +253,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="meta_title">Meta Title</label>
                                         <textarea id="meta_title" name="meta_title" class="form-control" rows="3" placeholder="Meta Title">

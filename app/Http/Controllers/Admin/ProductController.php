@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductsAttribute;
@@ -74,6 +75,7 @@ class ProductController extends Controller
             /*product validation*/
             $rules = [
                 'category_id' => 'required',
+                'brand_id' => 'required',
                 'product_name' => 'required|regex:/^[\pL\s\-]+$/u',
                 'product_code' => 'required|regex:/^[\w-]*$/',
                 'product_price' => 'required|numeric',
@@ -81,6 +83,7 @@ class ProductController extends Controller
             ];
             $customMessage = [
                 'category_id.required' => 'Category is required !',
+                'brand_id.required' => 'Brand is required !',
                 'product_name.required' => 'Product name is required !',
                 'product_name.regex' => 'Valid Product name is required !',
                 'product_price.required' => 'Product Price is required !',
@@ -98,6 +101,7 @@ class ProductController extends Controller
             $categoryDetails = Category::find($data['category_id']);
             $product->section_id = $categoryDetails['section_id'];
             $product->category_id = $data['category_id'];
+            $product->brand_id = $data['brand_id'];
             $product->product_name = $data['product_name'];
             $product->product_code = $data['product_code'];
             $product->product_color = $data['product_color'];
@@ -155,7 +159,10 @@ class ProductController extends Controller
         //sections with categories and sub categories
         $categories = Section::with('categories')->get();
 
-        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories', 'productdata'));
+        /*get all brands*/
+        $brands = Brand::where(['status'=>1])->get();
+
+        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories', 'productdata','brands'));
     }
 
     /*product delete image*/
