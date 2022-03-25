@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
                 CategoryTableSeeder::class,
                 ProductsTableSeeder::class,
                 ProductsAttributesTableSeeder::class,
+                ProductsImagesTableSeeder::class,
             ]);
 
         // \App\Models\User::factory(10)->create();

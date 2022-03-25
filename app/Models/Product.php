@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Database\Seeders\ProductsImagesTableSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,11 @@ class Product extends Model
     public function attributes()
     {
         return $this->hasMany('App\Models\ProductsAttribute');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\ProductsImage');
     }
 
 }

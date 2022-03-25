@@ -81,6 +81,7 @@
                                                         </td>
                                                         <td>
                                                             <a title="Add/Edit Attributes" href="{{url('admin/add-attributes/'.$products->id)}}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></a>
+                                                            <a title="Add Images" href="{{url('admin/add-images/'.$products->id)}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i></a>
                                                             <a title="Edit Product" href="{{url('admin/add-edit-product/'.$products->id)}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
                                                             <a title="Delete Product" class="confirmDelete btn btn-danger btn-sm" href="javascript:void (0)" record="product" recordid="{{$products->id}}"><i class="fa fa-trash"></i></a>
                                                         </td>

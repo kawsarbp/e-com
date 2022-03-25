@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductsAttribute;
+use App\Models\ProductsImage;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -227,12 +228,13 @@ class ProductController extends Controller
             $data = $request->all();
             foreach ($data['attrId'] as $key => $attr) {
                 if (!empty($attr)) {
-                    ProductsAttribute::where(['id'=>$data['attrId'][$key]])->update(['price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+                    ProductsAttribute::where(['id' => $data['attrId'][$key]])->update(['price' => $data['price'][$key], 'stock' => $data['stock'][$key]]);
                 }
             }
             return redirect()->back()->with(['message' => 'Products Attributes Update Successfully !', 'type' => 'success']);
         }
     }
+
     /*attribute status*/
     public function updateAttributeStatus(Request $request)
     {
@@ -247,12 +249,70 @@ class ProductController extends Controller
             return response()->json(['status' => $status, 'attribute_id' => $data['attribute_id']]);
         }
     }
+
     /*delete product attribute*/
     public function deleteAttribute($id)
     {
         $product = ProductsAttribute::find($id);
         $product->delete();
         return redirect()->back()->with(['message' => 'Product Attribute Delete Successfully!', 'type' => 'success']);
+    }
+
+    /*product addImages*/
+    public function addImages(Request $request, $id)
+    {
+        if ($request->isMethod('post')) {
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+                foreach ($images as $key => $image) {
+                    $productImage = new ProductsImage;
+                    $extenstion = $image->getClientOriginalExtension();
+                    $image_name = rand(111111111, 999999999) . date('dmyhis.') . $extenstion;
+                    $image_path = 'image/admin/product_images/';
+                    $image->move($image_path, $image_name);
+
+                    $productImage->image = $image_name;
+                    $productImage->product_id = $id;
+                    $productImage->status = 1;
+                    $productImage->save();
+                }
+            }
+            return redirect()->back()->with(['message' => 'Product Image Add Successfully!', 'type' => 'success']);
+        }
+
+        $title = "Product Images";
+        $productdata = Product::with('images')->select('id', 'product_name', 'product_code', 'product_color', 'main_image')->find($id);
+        if (empty($productdata))
+            return redirect()->back();
+        else
+            return view('admin.products.add_images', compact('productdata', 'title'));
+    }
+
+    /*Image status*/
+    public function updateImageStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            if ($data['status'] == "Active") {
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+            ProductsImage::where('id', $data['image_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'image_id' => $data['image_id']]);
+        }
+    }
+
+    /*delete image*/
+    public function deleteImage($id)
+    {
+        $productImage = ProductsImage::select('image')->where('id', $id)->first();
+        $image_parth = 'image/admin/product_images/';
+        if (file_exists($image_parth . $productImage->image)) {
+            unlink($image_parth . $productImage->image);
+        }
+        ProductsImage::where('id', $id)->delete();
+        return redirect()->back()->with(['message' => 'Product Image Deleted!', 'type' => 'success']);
     }
 
 }

@@ -46,6 +46,12 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::post('/edit-attributes/{id}',[ProductController::class,'editAttributes'])->name('editAttributes');
         Route::post('/update-attribute-status',[ProductController::class,'updateAttributeStatus'])->name('updateAttributeStatus');
         Route::get('/delete-attribute/{id}',[ProductController::class,'deleteAttribute'])->name('deleteAttribute');
+        /*Product Images Route*/
+
+        Route::match(['get','post'],'/add-images/{id}',[ProductController::class,'addImages'])->name('addImages');
+        Route::post('/update-image-status',[ProductController::class,'updateImageStatus'])->name('updateImageStatus');
+        Route::get('/delete-image/{id}',[ProductController::class,'deleteImage'])->name('deleteImage');
+
 
     });
 });
