@@ -21,7 +21,7 @@ class ProductController extends Controller
         return view('admin.products.products', compact('product'));
     }
 
-    /*status*/
+    /*product status*/
     public function updateProductStatus(Request $request)
     {
         if ($request->ajax()) {
@@ -193,7 +193,7 @@ class ProductController extends Controller
                     if ($attrCountSize > 0) {
                         return redirect()->back()->with(['message' => 'This Size already Exists, Please try another Size.', 'type' => 'warning']);
                     }
-                    $attrCountSku = ProductsAttribute::where(['product_id' => $id,'sku' => $value])->count();
+                    $attrCountSku = ProductsAttribute::where(['product_id' => $id, 'sku' => $value])->count();
                     if ($attrCountSku > 0) {
                         return redirect()->back()->with(['message' => 'This SKU already Exists, Please try another SKU.', 'type' => 'warning']);
                     }
@@ -211,7 +211,7 @@ class ProductController extends Controller
             return redirect()->back()->with(['message' => 'Products Attributes Save Successfully !', 'type' => 'success']);
         }
 
-        $productdata = Product::select('id','product_name','product_code','product_color','main_image')->with('attributes')->find($id);
+        $productdata = Product::select('id', 'product_name', 'product_code', 'product_color', 'main_image')->with('attributes')->find($id);
         if (empty($productdata))
             return redirect()->back();
         else
@@ -220,5 +220,39 @@ class ProductController extends Controller
         return view('admin.products.add_attributes', compact('productdata', 'title'));
     }
 
+    /*edit attributes*/
+    public function editAttributes(Request $request, $id)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            foreach ($data['attrId'] as $key => $attr) {
+                if (!empty($attr)) {
+                    ProductsAttribute::where(['id'=>$data['attrId'][$key]])->update(['price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+                }
+            }
+            return redirect()->back()->with(['message' => 'Products Attributes Update Successfully !', 'type' => 'success']);
+        }
+    }
+    /*attribute status*/
+    public function updateAttributeStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            if ($data['status'] == "Active") {
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+            ProductsAttribute::where('id', $data['attribute_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'attribute_id' => $data['attribute_id']]);
+        }
+    }
+    /*delete product attribute*/
+    public function deleteAttribute($id)
+    {
+        $product = ProductsAttribute::find($id);
+        $product->delete();
+        return redirect()->back()->with(['message' => 'Product Attribute Delete Successfully!', 'type' => 'success']);
+    }
 
 }

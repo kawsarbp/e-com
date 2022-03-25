@@ -25,9 +25,11 @@
                 @if(session()->has('message'))
                     <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
                 @endif
-                <form name="attributeForm" id="attributeForm" action="{{url('admin/add-attributes/'.$productdata['id'])}}" method="POST" enctype="multipart/form-data">
+                <form name="addAttributeForm" id="addAttributeForm"
+                      action="{{url('admin/add-attributes/'.$productdata['id'])}}" method="POST"
+                      enctype="multipart/form-data">
                     @csrf
-{{--                    <input type="hidden" name="product_id" value="{{$productdata['id']}}">--}}
+                    {{--                    <input type="hidden" name="product_id" value="{{$productdata['id']}}">--}}
                     <div class="card card-default">
                         <div class="card-header">
                             <h3 class="card-title">{{$title}}</h3>
@@ -45,13 +47,16 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="product_name">product Name: &nbsp;&nbsp;&nbsp;</label> {{$productdata['product_name']}}
+                                        <label for="product_name">product Name:
+                                            &nbsp;&nbsp;&nbsp;</label> {{$productdata['product_name']}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="product_code">product Code: &nbsp;&nbsp;&nbsp;</label> {{$productdata['product_code']}}
+                                        <label for="product_code">product Code:
+                                            &nbsp;&nbsp;&nbsp;</label> {{$productdata['product_code']}}
                                     </div>
                                     <div class="form-group">
-                                        <label for="product_color">product Color: &nbsp;&nbsp;&nbsp;</label> {{$productdata['product_color']}}
+                                        <label for="product_color">product Color:
+                                            &nbsp;&nbsp;&nbsp;</label> {{$productdata['product_color']}}
                                     </div>
                                 </div>
                                 <!-- /.col -->
@@ -59,18 +64,25 @@
                                     <div class="form-group">
                                         @if(!empty($productdata['main_image']))
                                             <div>
-                                                <img style="width: 150px; height: 180px;" src="{{'/image/admin/product_images/'.$productdata['main_image']}}" alt="">
+                                                <img style="width: 150px; height: 180px;"
+                                                     src="{{'/image/admin/product_images/'.$productdata['main_image']}}"
+                                                     alt="">
                                             </div>
                                         @endif
                                     </div>
                                     <div class="form-group">
                                         <div class="field_wrapper">
                                             <div>
-                                                <input style="width: 100px;" type="text" required="" id="size"  name="size[]" value="" placeholder="Size" />
-                                                <input style="width: 100px;" type="text" required="" id="sku"  name="sku[]" value="" placeholder="SKU" />
-                                                <input style="width: 100px;" type="number" required="" id="price"  name="price[]" value="" placeholder="Price" />
-                                                <input style="width: 100px;" type="number" required="" id="stock"  name="stock[]" value="" placeholder="Stock" />
-                                                <a href="javascript:void(0);" class="add_button" title="Add field">Add</a>
+                                                <input style="width: 100px;" type="text" required="" id="size"
+                                                       name="size[]" value="" placeholder="Size"/>
+                                                <input style="width: 100px;" type="text" required="" id="sku"
+                                                       name="sku[]" value="" placeholder="SKU"/>
+                                                <input style="width: 100px;" type="number" required="" id="price"
+                                                       name="price[]" value="" placeholder="Price"/>
+                                                <input style="width: 100px;" type="number" required="" id="stock"
+                                                       name="stock[]" value="" placeholder="Stock"/>
+                                                <a href="javascript:void(0);" class="add_button"
+                                                   title="Add field">Add</a>
                                             </div>
                                         </div>
                                     </div>
@@ -78,10 +90,14 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Add Attributes</button>
                         </div>
                     </div>
                 </form>
+
+                <form action="{{url('admin/edit-attributes/'.$productdata['id'])}}" method="POST"
+                      name="editAttributeForm" id="editAttributeForm">
+                    @csrf
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Added Product Attributes</h3>
@@ -105,11 +121,36 @@
                                             <tbody>
                                             @foreach($productdata['attributes'] as $attribute)
                                                 <tr>
+                                                    <input type="text" style="display:none;" name="attrId[]"
+                                                           value="{{$attribute->id}}">
                                                     <td>{{$attribute->id}}</td>
                                                     <td>{{$attribute->size}}</td>
                                                     <td>{{$attribute->sku}}</td>
-                                                    <td>{{$attribute->price}}</td>
-                                                    <td>{{$attribute->stock}}</td>
+                                                    <td>
+                                                        <input type="number" name="price[]"
+                                                               value="{{$attribute->price}}" required="">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="stock[]"
+                                                               value="{{$attribute->stock}}" required="">
+                                                    </td>
+                                                    <td>
+                                                        @if($attribute['status'] == 1)
+                                                            <a href="javascript:void (0)" class="updateAttributeStatus"
+                                                               id="attribute-{{$attribute['id']}}"
+                                                               attribute_id="{{$attribute['id']}}">Active</a>
+                                                        @else
+                                                            <a href="javascript:void (0)" class="updateAttributeStatus"
+                                                               id="attribute-{{$attribute['id']}}"
+                                                               attribute_id="{{$attribute['id']}}">Active</a>
+                                                        @endif
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <a href="javascript:void (0)" title="Delete Attribute"
+                                                           class="confirmDelete" record="attribute"
+                                                           recordid="{{$attribute['id']}}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -118,7 +159,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">Update Attribute</button>
+                        </div>
                     </div>
+                </form>
+
             </div>
         </section>
     </div>
