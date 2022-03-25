@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
@@ -50,8 +51,13 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::match(['get','post'],'/add-images/{id}',[ProductController::class,'addImages'])->name('addImages');
         Route::post('/update-image-status',[ProductController::class,'updateImageStatus'])->name('updateImageStatus');
         Route::get('/delete-image/{id}',[ProductController::class,'deleteImage'])->name('deleteImage');
-        Route::post('/edit-images/{id}',[ProductController::class,'editImage'])->name('editImage');
-
+        //Route::post('/edit-images/{id}',[ProductController::class,'editImage'])->name('editImage');
+        /*Brand Route*/
+        Route::get('/brands',[BrandController::class,'brands'])->name('brands');
+        Route::post('/update-brand-status',[BrandController::class,'updateBrandStatus'])->name('updateBrandStatus');
+        Route::post('/update-brand-status',[BrandController::class,'updateBrandStatus'])->name('updateBrandStatus');
+        Route::match(['get','post'],'/add-edit-brand/{id?}',[BrandController::class,'addEditBrand'])->name('addEditBrand');
+        Route::get('/delete-brand/{id}',[BrandController::class,'deleteBrand'])->name('deleteBrand');
 
     });
 });

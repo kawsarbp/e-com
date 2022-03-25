@@ -314,10 +314,6 @@ class ProductController extends Controller
         ProductsImage::where('id', $id)->delete();
         return redirect()->back()->with(['message' => 'Product Image Deleted!', 'type' => 'success']);
     }
-    /*edit image*/
-    public function editImage($id)
-    {
-        return $id;
-    }
+
 
 }

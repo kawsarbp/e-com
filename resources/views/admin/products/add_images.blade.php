@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary btn-sm">Update Image </button>
+                            <button type="submit" class="btn btn-primary btn-sm" disabled>Update Image </button>
                         </div>
                     </div>
                 </form>

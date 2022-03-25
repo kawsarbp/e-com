@@ -97,7 +97,7 @@ $(document).ready(function () {
             }
         });
     });
-    /*update product attribute Status*/
+    /*update product Image Status*/
     $(".updateImageStatus").click(function () {
         var status = $(this).text();
         var image_id = $(this).attr("image_id");
@@ -110,6 +110,25 @@ $(document).ready(function () {
                     $("#image-" + image_id).html("<a class='updateImageStatus'  href='javascript:void (0)'>Inactive</a>");
                 } else if (resp['status'] == 1) {
                     $("#image-" + image_id).html("<a class='updateImageStatus'  href='javascript:void (0)'>Active</a>");
+                }
+            }, error: function () {
+                alert("Error");
+            }
+        });
+    });
+    /*update Brand Status*/
+    $(".updateBrandStatus").click(function () {
+        var status = $(this).children("i").attr("status");
+        var brand_id = $(this).attr("brand_id");
+        $.ajax({
+            type: 'post',
+            url: '/admin/update-brand-status',
+            data: {status: status, brand_id: brand_id},
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#brand-" + brand_id).html('<i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i>');
+                } else if (resp['status'] == 1) {
+                    $("#brand-" + brand_id).html('<i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i>');
                 }
             }, error: function () {
                 alert("Error");
