@@ -21,7 +21,7 @@ $(document).ready(function () {
         })
     });
     /*update section Status*/
-    $(".updateSectionStatus").click(function () {
+        $(document).on("click",".updateSectionStatus",function () {
         var status = $(this).text();
         var section_id = $(this).attr("section_id");
         $.ajax({
@@ -41,7 +41,7 @@ $(document).ready(function () {
     });
 
     /*update category Status*/
-    $(".updateCategoryStatus").click(function () {
+        $(document).on("click",".updateCategoryStatus",function () {
         var status = $(this).text();
         var category_id = $(this).attr("category_id");
         $.ajax({
@@ -59,27 +59,9 @@ $(document).ready(function () {
             }
         });
     });
-    /*update products Status*/
-    $(".updateProductStatus").click(function () {
-        var status = $(this).text();
-        var product_id = $(this).attr("product_id");
-        $.ajax({
-            type: 'post',
-            url: '/admin/update-product-status',
-            data: {status: status, product_id: product_id},
-            success: function (resp) {
-                if (resp['status'] == 0) {
-                    $("#product-" + product_id).html("<a class='updateProductStatus'  href='javascript:void (0)'>Inactive</a>");
-                } else if (resp['status'] == 1) {
-                    $("#product-" + product_id).html("<a class='updateProductStatus'  href='javascript:void (0)'>Active</a>");
-                }
-            }, error: function () {
-                alert("Error");
-            }
-        });
-    });
+
     /*update product attribute Status*/
-    $(".updateAttributeStatus").click(function () {
+        $(document).on("click",".updateAttributeStatus",function () {
         var status = $(this).text();
         var attribute_id = $(this).attr("attribute_id");
         $.ajax({
@@ -98,7 +80,7 @@ $(document).ready(function () {
         });
     });
     /*update product Image Status*/
-    $(".updateImageStatus").click(function () {
+            $(document).on("click",".updateImageStatus",function () {
         var status = $(this).text();
         var image_id = $(this).attr("image_id");
         $.ajax({
@@ -117,7 +99,8 @@ $(document).ready(function () {
         });
     });
     /*update Brand Status*/
-    $(".updateBrandStatus").click(function () {
+        $(document).on("click",".updateBrandStatus",function () {
+
         var status = $(this).children("i").attr("status");
         var brand_id = $(this).attr("brand_id");
         $.ajax({
@@ -129,6 +112,25 @@ $(document).ready(function () {
                     $("#brand-" + brand_id).html('<i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i>');
                 } else if (resp['status'] == 1) {
                     $("#brand-" + brand_id).html('<i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i>');
+                }
+            }, error: function () {
+                alert("Error");
+            }
+        });
+    });
+    /*update products Status*/
+    $(document).on("click",".updateProductStatus",function () {
+        var status = $(this).text();
+        var product_id = $(this).attr("product_id");
+        $.ajax({
+            type: 'post',
+            url: '/admin/update-product-status',
+            data: {status: status, product_id: product_id},
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#product-" + product_id).html("<a class='updateProductStatus'  href='javascript:void (0)'>Inactive</a>");
+                } else if (resp['status'] == 1) {
+                    $("#product-" + product_id).html("<a class='updateProductStatus'  href='javascript:void (0)'>Active</a>");
                 }
             }, error: function () {
                 alert("Error");
@@ -161,7 +163,8 @@ $(document).ready(function () {
     });*/
 
     /*sweetAlert*/
-    $(".confirmDelete").click(function () {
+
+        $(document).on("click",".confirmDelete",function () {
         var record = $(this).attr("record");
         var recordid = $(this).attr("recordid");
 

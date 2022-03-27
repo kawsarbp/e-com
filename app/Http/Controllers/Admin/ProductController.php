@@ -219,7 +219,7 @@ class ProductController extends Controller
             return redirect()->back()->with(['message' => 'Products Attributes Save Successfully !', 'type' => 'success']);
         }
 
-        $productdata = Product::select('id', 'product_name', 'product_code', 'product_color', 'main_image')->with('attributes')->find($id);
+        $productdata = Product::select('id','product_name', 'product_code', 'product_color', 'main_image')->with('attributes')->find($id);
         if (empty($productdata))
             return redirect()->back();
         else
