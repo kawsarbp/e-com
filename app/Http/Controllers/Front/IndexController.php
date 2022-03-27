@@ -9,6 +9,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return view('front.index');
+        $page_name = 'index';
+        return view('front.index',compact('page_name'));
     }
 }
