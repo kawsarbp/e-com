@@ -1,10 +1,11 @@
 <?php
-
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Front\IndexController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,6 +59,11 @@ Route::prefix('/admin')->name('admin.')->group(function (){
         Route::post('/update-brand-status',[BrandController::class,'updateBrandStatus'])->name('updateBrandStatus');
         Route::match(['get','post'],'/add-edit-brand/{id?}',[BrandController::class,'addEditBrand'])->name('addEditBrand');
         Route::get('/delete-brand/{id}',[BrandController::class,'deleteBrand'])->name('deleteBrand');
-
     });
+});
+
+
+/*Front End Routes*/
+Route::name('front.')->group(function (){
+    Route::get('/',[IndexController::class,'index'])->name('index');
 });
