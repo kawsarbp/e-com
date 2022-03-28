@@ -77,7 +77,7 @@ Route::name('front.')->group(function (){
     Route::get('/',[IndexController::class,'index'])->name('index');
     /*Listing Route*/
     Route::get('/{url}',[ProductsController::class,'listing'])->name('listing');
-    
+
 
 
 });
