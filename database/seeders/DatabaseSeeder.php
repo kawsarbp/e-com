@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
                 ProductsAttributesTableSeeder::class,
                 ProductsImagesTableSeeder::class,
                 BrandsTableSeeder::class,
+                BannerTableSeeder::class,
             ]);
 
         // \App\Models\User::factory(10)->create();

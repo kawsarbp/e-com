@@ -20,6 +20,7 @@ class ProductsTableSeeder extends Seeder
             [
                 'category_id' => 2,
                 'section_id' => 1,
+                'brand_id' => 1,
                 'product_name' => 'Blue Casual T-Shirt',
                 'product_code' => 'BT001',
                 'product_color' => 'blue',
@@ -44,6 +45,7 @@ class ProductsTableSeeder extends Seeder
             [
                 'category_id' => 2,
                 'section_id' => 1,
+                'brand_id' => 2,
                 'product_name' => 'Red Casual T-Shirt',
                 'product_code' => 'BT001',
                 'product_color' => 'Red',
