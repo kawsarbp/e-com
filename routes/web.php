@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
+use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -72,5 +73,11 @@ Route::prefix('/admin')->name('admin.')->group(function (){
 
 /*Front End Routes*/
 Route::name('front.')->group(function (){
+    /*Home Page Route*/
     Route::get('/',[IndexController::class,'index'])->name('index');
+    /*Listing Route*/
+    Route::get('/{url}',[ProductsController::class,'listing'])->name('listing');
+    
+
+
 });

@@ -26,7 +26,7 @@
 <body>
 @include('front.include.header')
 
-@include('front.home_page_banner')
+@include('front.banners.home_page_banner')
 
 <div id="mainBody">
     <div class="container">
