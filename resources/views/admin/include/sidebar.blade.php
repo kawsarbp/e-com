@@ -67,8 +67,8 @@
 
                 {{--catalogues--}}
 
-                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/brands') ?'menu-open':'' }} {{request()->is('admin/add-edit-product') ?'menu-open':'' }} {{request()->is('admin/products') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }}">
-                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }}  {{request()->is('admin/products') ?'active':'' }} {{request()->is('admin/brands') ?'active':'' }} {{request()->is('admin/add-edit-product') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }}">
+                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/banners') ?'menu-open':'' }} {{request()->is('admin/brands') ?'menu-open':'' }} {{request()->is('admin/add-edit-product') ?'menu-open':'' }} {{request()->is('admin/products') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }}">
+                    <a href="#" class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/banners') ?'active':'' }}  {{request()->is('admin/products') ?'active':'' }} {{request()->is('admin/brands') ?'active':'' }} {{request()->is('admin/add-edit-product') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Catalogues </p>
                     </a>
@@ -92,6 +92,11 @@
                         <li class="nav-item">
                             <a href="{{  route('admin.brands')  }}" class="nav-link {{request()->is('admin/brands') ?'active':'' }}">
                                 <p>Brands</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{  route('admin.banners')  }}" class="nav-link {{request()->is('admin/banners') ?'active':'' }}">
+                                <p>Banners</p>
                             </a>
                         </li>
                     </ul>

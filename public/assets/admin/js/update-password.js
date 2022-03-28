@@ -137,6 +137,25 @@ $(document).ready(function () {
             }
         });
     });
+    /*update banner Status*/
+    $(document).on("click",".updateBannerStatus",function () {
+        var status = $(this).text();
+        var banner_id = $(this).attr("banner_id");
+        $.ajax({
+            type: 'post',
+            url: '/admin/update-banner-status',
+            data: {status: status, banner_id: banner_id},
+            success: function (resp) {
+                if (resp['status'] == 0) {
+                    $("#banner-" + banner_id).html("<a class='updateBannerStatus'  href='javascript:void (0)'>Inactive</a>");
+                } else if (resp['status'] == 1) {
+                    $("#banner-" + banner_id).html("<a class='updateBannerStatus'  href='javascript:void (0)'>Active</a>");
+                }
+            }, error: function () {
+                alert("Error");
+            }
+        });
+    });
     /*append categories lavel*/
     $('#section_id').change(function () {
         var section_id = $(this).val();
