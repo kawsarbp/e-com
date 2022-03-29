@@ -2,15 +2,13 @@
 @section('content')
     <div class="span9">
         <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> <span class="divider">/</span></li>
-            <li class="active">{{$catagoryDetails['catDetails']['category_name']}}</li>
+            <li><a href="{{route('front.index')}}">Home</a><span class="divider">/</span></li>
+            <li class="active"><?php  echo $catagoryDetails['breadcrumbs']; ?></li>
         </ul>
-        <h3> {{$catagoryDetails['catDetails']['category_name']}} <small class="pull-right"> 40 products are available </small></h3>
+        <h3> {{$catagoryDetails['catDetails']['category_name']}} <small class="pull-right"> {{count($categoryProducts)}} products are available </small></h3>
         <hr class="soft"/>
         <p>
-            Nowadays the lingerie industry is one of the most successful business spheres.We always stay in touch with
-            the latest fashion tendencies - that is why our goods are so popular and we have a great number of faithful
-            customers all over the country.
+            {{$catagoryDetails['catDetails']['description']}}
         </p>
         <hr class="soft"/>
         <form class="form-horizontal span6">
@@ -233,9 +231,9 @@
                             <div class="caption">
                                 <h5>{{$product['product_name']}}</h5>
                                 <p>
-                                    Brand
+                                    {{$product['brand']['name']}}
                                 </p>
-                                <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
+                                <h4 style="text-align:center"><a class="btn" href="javascript:void (0) "> <i
                                             class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
                                             class="icon-shopping-cart"></i></a> <a class="btn btn-primary" href="#">Rs.{{$product['product_price']}}</a>
                                 </h4>
