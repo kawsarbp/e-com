@@ -16,11 +16,11 @@
                 <label class="control-label alignL">Sort By </label>
                 <select name="sort" id="sort">
                     <option value="">Default</option>
-                    <option value="latest_product">Latest Products</option>
-                    <option value="product_name_a_z">Product name A - Z</option>
-                    <option value="product_name_z_a">Product name Z - A</option>
-                    <option value="product_price_lowest">Lowest Price first</option>
-                    <option value="product_price_highest">Highest Price first</option>
+                    <option value="latest_product" @if(isset($_GET['sort']) && $_GET['sort'] == 'latest_product') selected="" @endif >Latest Products</option>
+                    <option value="product_name_a_z" @if(isset($_GET['sort']) && $_GET['sort'] == 'product_name_a_z') selected="" @endif >Product name A - Z</option>
+                    <option value="product_name_z_a" @if(isset($_GET['sort']) && $_GET['sort'] == 'product_name_z_a') selected="" @endif >Product name Z - A</option>
+                    <option value="product_price_lowest" @if(isset($_GET['sort']) && $_GET['sort'] == 'product_price_lowest') selected="" @endif >Lowest Price first</option>
+                    <option value="product_price_highest" @if(isset($_GET['sort']) && $_GET['sort'] == 'product_price_highest') selected="" @endif >Highest Price first</option>
                 </select>
             </div>
         </form>
@@ -43,7 +43,7 @@
                         @endif
                     </div>
                     <div class="span4">
-                        <h3>{{$product['product_name']}}</h3>
+                        <h3>{{$product['product_name']}} </h3>
                         <hr class="soft"/>
                         <h5>{{$product['brand']['name']}}</h5>
                         <p>
@@ -83,7 +83,7 @@
                                 @endif
                             </a>
                             <div class="caption">
-                                <h5>{{$product['product_name']}}</h5>
+                                <h5>{{$product['product_name']}} {{$product['id']}}</h5>
                                 <p>
                                     {{$product['brand']['name']}}
                                 </p>
@@ -101,8 +101,11 @@
         </div>
         <a href="javascript:void (0);" class="btn btn-large pull-right">Compare Product</a>
         <div class="pagination">
-            {{ $categoryProducts->links() }}
-{{--            {{ $categoryProducts->appends(['sort' => 'price_lowest']) }}--}}
+            @if(isset($_GET['sort']) && !empty($_GET['sort']))
+                {{ $categoryProducts->appends(['sort' => $_GET['sort'] ]) }}
+            @else
+                {{ $categoryProducts->links() }}
+            @endif
         </div>
         <br class="clr"/>
     </div>

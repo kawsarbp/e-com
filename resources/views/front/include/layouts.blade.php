@@ -45,6 +45,6 @@
 
 <script src="/assets/front/js/front.js"></script>
 <script src="/assets/front/js/jquery.lightbox-0.5.js"></script>
-
+<script src="/assets/front/js/script.js"></script>
 </body>
 </html>
