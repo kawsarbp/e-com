@@ -9,32 +9,47 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function listing($url)
+    public function listing($url, Request $request)
     {
-        $categoryCount = Category::where(['url' => $url, 'status' => 1])->count();
-        if ($categoryCount > 0) {
-            $catagoryDetails = Category::catDetails($url);
-            $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
-            /*sort*/
-            if (isset($_GET['sort']) && !empty($_GET['sort'])) {
-                if ($_GET['sort'] == 'latest_product') {
-                    $catProducts->orderBy('id', 'Desc');
-                }else if ($_GET['sort'] == 'product_name_a_z') {
-                    $catProducts->orderBy('product_name', 'Asc');
-                }else if ($_GET['sort'] == 'product_name_z_a') {
-                    $catProducts->orderBy('product_name', 'Desc');
-                }else if ($_GET['sort'] == 'product_price_lowest') {
-                    $catProducts->orderBy('product_price', 'Asc');
-                }else if ($_GET['sort'] == 'product_price_highest') {
-                    $catProducts->orderBy('product_price', 'Desc');
+        if ($request->ajax()) {
+            $data = $request->all();
+            $url = $data['url'];
+            $categoryCount = Category::where(['url' => $url, 'status' => 1])->count();
+            if ($categoryCount > 0) {
+                $catagoryDetails = Category::catDetails($url);
+                $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
+                /*sort*/
+                if (isset($data['sort']) && !empty($data['sort'])) {
+                    if ($data['sort'] == 'latest_product') {
+                        $catProducts->orderBy('id', 'Desc');
+                    } else if ($data['sort'] == 'product_name_a_z') {
+                        $catProducts->orderBy('product_name', 'Asc');
+                    } else if ($data['sort'] == 'product_name_z_a') {
+                        $catProducts->orderBy('product_name', 'Desc');
+                    } else if ($data['sort'] == 'product_price_lowest') {
+                        $catProducts->orderBy('product_price', 'Asc');
+                    } else if ($data['sort'] == 'product_price_highest') {
+                        $catProducts->orderBy('product_price', 'Desc');
+                    }
+                } else {
+                    $catProducts->orderBy('id', 'Asc');
                 }
+                $categoryProducts = $catProducts->paginate(3);
+                return view('front.products.ajax_products_listing', compact('catagoryDetails', 'categoryProducts', 'url'));
             } else {
-                $catProducts->orderBy('id', 'Asc');
+                abort(404);
             }
-            $categoryProducts = $catProducts->paginate(3);
-            return view('front.products.listing', compact('catagoryDetails', 'categoryProducts'));
         } else {
-            abort(404);
+            $categoryCount = Category::where(['url' => $url, 'status' => 1])->count();
+            if ($categoryCount > 0) {
+                $catagoryDetails = Category::catDetails($url);
+                $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
+
+                $categoryProducts = $catProducts->paginate(3);
+                return view('front.products.listing', compact('catagoryDetails', 'categoryProducts', 'url'));
+            } else {
+                abort(404);
+            }
         }
     }
 }
