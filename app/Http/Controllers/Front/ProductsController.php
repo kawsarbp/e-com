@@ -44,9 +44,17 @@ class ProductsController extends Controller
             if ($categoryCount > 0) {
                 $catagoryDetails = Category::catDetails($url);
                 $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
-
                 $categoryProducts = $catProducts->paginate(3);
-                return view('front.products.listing', compact('catagoryDetails', 'categoryProducts', 'url'));
+
+                $productFilters = Product::productFilters();
+                $fabricArray = $productFilters['fabricArray'];
+                $sleeveArray = $productFilters['sleeveArray'];
+                $patternArray = $productFilters['patternArray'];
+                $fitArray = $productFilters['fitArray'];
+                $occasionArray = $productFilters['occasionArray'];
+
+                $page_name = "listing";
+                return view('front.products.listing', compact('catagoryDetails', 'categoryProducts', 'url','fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray','page_name'));
             } else {
                 abort(404);
             }

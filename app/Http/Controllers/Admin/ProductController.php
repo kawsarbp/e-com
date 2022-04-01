@@ -144,27 +144,23 @@ class ProductController extends Controller
                     $product->product_video = $video_name;
                 }
             }
-
             $product->save();
             Session::flash('message', $message);
             Session::flash('type', 'success');
             return redirect()->route('admin.products');
         }
-
-        $fabricArray = array('Cotton', 'Polyester', 'Wool');
-        $sleeveArray = array('Full Sleeve', 'Half Sleeve', 'Short Sleeve', 'Sleeveless');
-        $patternArray = array('Checked', 'Plain', 'Printed', 'Self', 'Solid');
-        $fitArray = array('Regular', 'Slim');
-        $occasionArray = array('Casual', 'Formal');
+        $productFilters = Product::productFilters();
+        $fabricArray = $productFilters['fabricArray'];
+        $sleeveArray = $productFilters['sleeveArray'];
+        $patternArray = $productFilters['patternArray'];
+        $fitArray = $productFilters['fitArray'];
+        $occasionArray = $productFilters['occasionArray'];
         //sections with categories and sub categories
         $categories = Section::with('categories')->get();
-
         /*get all brands*/
-        $brands = Brand::where(['status'=>1])->get();
-
-        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories', 'productdata','brands'));
+        $brands = Brand::where(['status' => 1])->get();
+        return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories', 'productdata', 'brands'));
     }
-
     /*product delete image*/
     public function deleteProductImage($id)
     {
@@ -194,7 +190,6 @@ class ProductController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-
             foreach ($data['sku'] as $key => $value) {
                 if (!empty($value)) {
                     $attrCountSize = ProductsAttribute::where(['product_id' => $id, 'size' => $data['size'][$key]])->count();
@@ -205,7 +200,6 @@ class ProductController extends Controller
                     if ($attrCountSku > 0) {
                         return redirect()->back()->with(['message' => 'This SKU already Exists, Please try another SKU.', 'type' => 'warning']);
                     }
-
                     $attribute = new ProductsAttribute;
                     $attribute->product_id = $id;
                     $attribute->sku = $value;
@@ -219,7 +213,7 @@ class ProductController extends Controller
             return redirect()->back()->with(['message' => 'Products Attributes Save Successfully !', 'type' => 'success']);
         }
 
-        $productdata = Product::select('id','product_name', 'product_code', 'product_color', 'main_image')->with('attributes')->find($id);
+        $productdata = Product::select('id', 'product_name', 'product_code', 'product_color', 'main_image')->with('attributes')->find($id);
         if (empty($productdata))
             return redirect()->back();
         else

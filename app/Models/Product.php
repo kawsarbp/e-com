@@ -33,4 +33,14 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\Brand','brand_id')->select('id','name','status');
     }
+
+    public static function productFilters()
+    {
+        $productFilters['fabricArray'] = array('Cotton', 'Polyester', 'Wool','Pure Cotton');
+        $productFilters['sleeveArray'] = array('Full Sleeve', 'Half Sleeve', 'Short Sleeve', 'Sleeveless');
+        $productFilters['patternArray'] = array('Checked', 'Plain', 'Printed', 'Self', 'Solid');
+        $productFilters['fitArray'] = array('Regular', 'Slim');
+        $productFilters['occasionArray'] = array('Casual', 'Formal');
+        return $productFilters;
+    }
 }
