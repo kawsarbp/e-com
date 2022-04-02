@@ -13,11 +13,32 @@ class ProductsController extends Controller
     {
         if ($request->ajax()) {
             $data = $request->all();
+            /*echo "<pre>";print_r($data);die;*/
             $url = $data['url'];
             $categoryCount = Category::where(['url' => $url, 'status' => 1])->count();
             if ($categoryCount > 0) {
                 $catagoryDetails = Category::catDetails($url);
                 $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
+                /*check for fabric*/
+                if (isset($data['fabric']) && !empty($data['fabric'])) {
+                    $catProducts->whereIn('products.fabric',$data['fabric']);
+                }
+                /*check for sleeve*/
+                if (isset($data['sleeve']) && !empty($data['sleeve'])) {
+                    $catProducts->whereIn('products.sleeve',$data['sleeve']);
+                }
+                /*check for pattern*/
+                if (isset($data['pattern']) && !empty($data['pattern'])) {
+                    $catProducts->whereIn('products.pattern',$data['pattern']);
+                }
+                /*check for fit*/
+                if (isset($data['fit']) && !empty($data['fit'])) {
+                    $catProducts->whereIn('products.fit',$data['fit']);
+                }
+                /*check for occasion*/
+                if (isset($data['occasion']) && !empty($data['occasion'])) {
+                    $catProducts->whereIn('products.occasion',$data['occasion']);
+                }
                 /*sort*/
                 if (isset($data['sort']) && !empty($data['sort'])) {
                     if ($data['sort'] == 'latest_product') {
