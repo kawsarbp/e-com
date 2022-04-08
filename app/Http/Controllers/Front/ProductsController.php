@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers\Front;
-
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+//use Illuminate\Routing\Route;
+
+use Illuminate\Support\Facades\Route;
 
 class ProductsController extends Controller
 {
-    public function listing($url, Request $request)
+    public function listing(Request $request)
     {
         if ($request->ajax()) {
             $data = $request->all();
@@ -60,7 +62,11 @@ class ProductsController extends Controller
             } else {
                 abort(404);
             }
-        } else {
+        }
+        else {
+            /*dynamic url*/
+            $url = Route::getFacadeRoot()->current()->uri();
+            
             $categoryCount = Category::where(['url' => $url, 'status' => 1])->count();
             if ($categoryCount > 0) {
                 $catagoryDetails = Category::catDetails($url);
