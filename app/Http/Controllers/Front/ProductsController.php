@@ -57,7 +57,7 @@ class ProductsController extends Controller
                 } else {
                     $catProducts->orderBy('id', 'Asc');
                 }
-                $categoryProducts = $catProducts->paginate(3);
+                $categoryProducts = $catProducts->paginate(18);
                 return view('front.products.ajax_products_listing', compact('catagoryDetails', 'categoryProducts', 'url'));
             } else {
                 abort(404);
@@ -66,12 +66,12 @@ class ProductsController extends Controller
         else {
             /*dynamic url*/
             $url = Route::getFacadeRoot()->current()->uri();
-            
+
             $categoryCount = Category::where(['url' => $url, 'status' => 1])->count();
             if ($categoryCount > 0) {
                 $catagoryDetails = Category::catDetails($url);
                 $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
-                $categoryProducts = $catProducts->paginate(3);
+                $categoryProducts = $catProducts->paginate(18);
 
                 $productFilters = Product::productFilters();
                 $fabricArray = $productFilters['fabricArray'];
@@ -87,4 +87,10 @@ class ProductsController extends Controller
             }
         }
     }
+    /*product details page*/
+    public function details($code,$id)
+    {
+        return view('front.products.details');
+    }
+
 }

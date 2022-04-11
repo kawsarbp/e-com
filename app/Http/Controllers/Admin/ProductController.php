@@ -161,6 +161,7 @@ class ProductController extends Controller
         $brands = Brand::where(['status' => 1])->get();
         return view('admin.products.add_edit_products', compact('title', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'categories', 'productdata', 'brands'));
     }
+
     /*product delete image*/
     public function deleteProductImage($id)
     {

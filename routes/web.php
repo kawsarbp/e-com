@@ -78,16 +78,13 @@ Route::name('front.')->group(function () {
     /*Home Page Route*/
     Route::get('/', [IndexController::class, 'index'])->name('index');
     /*Listing Route*/
-    /*get category urls*/
+    /*get category urls dynamic*/
     $catUrls = Category::select('url')->where(['status' => 1])->get()->pluck('url')->toArray();
     foreach ($catUrls as $url) {
         Route::get('/' . $url, [ProductsController::class, 'listing'])->name('listing');
     }
-
-    Route::get('/contact-us', function () {
-        echo 'done';
-        die;
-    });
+    /*product details route*/
+    Route::get('/product/{code}/{id}',[ProductsController::class,'details'])->name('details');
 
 
 });
