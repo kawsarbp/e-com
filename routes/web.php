@@ -84,7 +84,7 @@ Route::name('front.')->group(function () {
         Route::get('/' . $url, [ProductsController::class, 'listing'])->name('listing');
     }
     /*product details route*/
-    Route::get('/product/{code}/{id}',[ProductsController::class,'details'])->name('details');
+    Route::get('/product/{id}',[ProductsController::class,'details'])->name('details');
 
 
 });

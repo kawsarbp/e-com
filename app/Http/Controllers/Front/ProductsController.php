@@ -88,9 +88,14 @@ class ProductsController extends Controller
         }
     }
     /*product details page*/
-    public function details($code,$id)
+    public function details($id)
     {
-        return view('front.products.details');
+        $productDetails = Product::with('category','brand','attributes','images')->find($id);
+
+        if(empty($productDetails))
+            return redirect()->back();
+        else
+        return view('front.products.details',compact('productDetails'));
     }
 
 }

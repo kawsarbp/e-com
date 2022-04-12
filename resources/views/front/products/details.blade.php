@@ -1,4 +1,7 @@
 @extends('front.include.layouts')
+@section('title')
+    Product Details
+@endsection
 @section('content')
     <div class="span9">
         <ul class="breadcrumb">
@@ -9,31 +12,32 @@
         <div class="row">
             <div id="gallery" class="span3">
                 <a href="/assets/front/themes/images/products/large/f1.jpg" title="Blue Casual T-Shirt">
-                    <img src="/assets/front/themes/images/products/large/3.jpg" style="width:100%" alt="Blue Casual T-Shirt"/>
+                    <img src="/assets/front/themes/images/products/large/3.jpg" style="width:100%"
+                         alt="Blue Casual T-Shirt"/>
                 </a>
                 <div id="differentview" class="moreOptopm carousel slide">
                     <div class="carousel-inner">
                         <div class="item active">
                             <a href="/assets/front/themes/images/products/large/f1.jpg"> <img style="width:29%"
-                                                                                src="/assets/front/themes/images/products/large/f1.jpg"
-                                                                                alt=""/></a>
+                                                                                              src="/assets/front/themes/images/products/large/f1.jpg"
+                                                                                              alt=""/></a>
                             <a href="/assets/front/themes/images/products/large/f2.jpg"> <img style="width:29%"
-                                                                                src="/assets/front/themes/images/products/large/f2.jpg"
-                                                                                alt=""/></a>
+                                                                                              src="/assets/front/themes/images/products/large/f2.jpg"
+                                                                                              alt=""/></a>
                             <a href="/assets/front/themes/images/products/large/f3.jpg"> <img style="width:29%"
-                                                                                src="/assets/front/themes/images/products/large/f3.jpg"
-                                                                                alt=""/></a>
+                                                                                              src="/assets/front/themes/images/products/large/f3.jpg"
+                                                                                              alt=""/></a>
                         </div>
                         <div class="item">
                             <a href="/assets/front/themes/images/products/large/f3.jpg"> <img style="width:29%"
-                                                                                src="/assets/front/themes/images/products/large/f3.jpg"
-                                                                                alt=""/></a>
+                                                                                              src="/assets/front/themes/images/products/large/f3.jpg"
+                                                                                              alt=""/></a>
                             <a href="/assets/front/themes/images/products/large/f1.jpg"> <img style="width:29%"
-                                                                                src="/assets/front/themes/images/products/large/f1.jpg"
-                                                                                alt=""/></a>
+                                                                                              src="/assets/front/themes/images/products/large/f1.jpg"
+                                                                                              alt=""/></a>
                             <a href="/assets/front/themes/images/products/large/f2.jpg"> <img style="width:29%"
-                                                                                src="/assets/front/themes/images/products/large/f2.jpg"
-                                                                                alt=""/></a>
+                                                                                              src="/assets/front/themes/images/products/large/f2.jpg"
+                                                                                              alt=""/></a>
                         </div>
                     </div>
                     <!--
@@ -54,17 +58,18 @@
                 </div>
             </div>
             <div class="span6">
-                <h3>Blue Casual Polo T-Shirt </h3>
-                <small>- Brand Name</small>
+                <h3>{{$productDetails['product_name']}}</h3>
+                <small>- {{$productDetails['brand']['name']}}</small>
                 <hr class="soft"/>
                 <small>100 items in stock</small>
                 <form class="form-horizontal qtyFrm">
                     <div class="control-group">
-                        <h4>Rs.1000</h4>
+                        <h4>Rs.{{$productDetails['product_price']}}</h4>
                         <select class="span2 pull-left">
-                            <option>Small</option>
-                            <option>Medium</option>
-                            <option>Large</option>
+                            <option>Select Size</option>
+                            @foreach($productDetails['attributes'] as $attribute)
+                                <option>{{$attribute['size']}}</option>
+                            @endforeach
                         </select>
                         <input type="number" class="span1" placeholder="Qty."/>
                         <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i
@@ -75,11 +80,7 @@
 
             <hr class="soft clr"/>
             <p class="span6">
-                Our Blue Casual Polo T-Shirt has a simple yet sophisticated design which makes it perfect for all
-                outings, starting from regular morning jogs to casual outings and night walks. Coming to the
-                functionality part, it’s antimicrobial, breathable and moisture-wicking features make it an essential
-                wardrobe staple!
-
+                {{$productDetails['description']}}
             </p>
             <a class="btn btn-small pull-right" href="#detail">More Details</a>
             <br class="clr"/>
@@ -102,29 +103,51 @@
                         </tr>
                         <tr class="techSpecRow">
                             <td class="techSpecTD1">Brand:</td>
-                            <td class="techSpecTD2">Gap Premium</td>
+                            <td class="techSpecTD2">{{$productDetails['brand']['name']}}</td>
                         </tr>
                         <tr class="techSpecRow">
                             <td class="techSpecTD1">Code:</td>
-                            <td class="techSpecTD2">BCT001</td>
+                            <td class="techSpecTD2">{{$productDetails['product_code']}}</td>
                         </tr>
                         <tr class="techSpecRow">
                             <td class="techSpecTD1">Color:</td>
-                            <td class="techSpecTD2">Blue</td>
+                            <td class="techSpecTD2">{{$productDetails['product_color']}}</td>
                         </tr>
-                        <tr class="techSpecRow">
-                            <td class="techSpecTD1">Fabric:</td>
-                            <td class="techSpecTD2">Cotton</td>
-                        </tr>
-                        <tr class="techSpecRow">
-                            <td class="techSpecTD1">Pattern:</td>
-                            <td class="techSpecTD2">Plain</td>
-                        </tr>
+                        @if(!empty($productDetails['fabric']))
+                            <tr class="techSpecRow">
+                                <td class="techSpecTD1">Fabric:</td>
+                                <td class="techSpecTD2">{{$productDetails['fabric']}}</td>
+                            </tr>
+                        @endif
+                        @if(!empty($productDetails['pattern']))
+                            <tr class="techSpecRow">
+                                <td class="techSpecTD1">Pattern:</td>
+                                <td class="techSpecTD2">{{$productDetails['pattern']}}</td>
+                            </tr>
+                        @endif
+                        @if(!empty($productDetails['sleeve']))
+                            <tr class="techSpecRow">
+                                <td class="techSpecTD1">Sleeve:</td>
+                                <td class="techSpecTD2">{{$productDetails['sleeve']}}</td>
+                            </tr>
+                        @endif
+                        @if(!empty($productDetails['fit']))
+                            <tr class="techSpecRow">
+                                <td class="techSpecTD1">Fit:</td>
+                                <td class="techSpecTD2">{{$productDetails['fit']}}</td>
+                            </tr>
+                        @endif
+                        @if(!empty($productDetails['occasion']))
+                            <tr class="techSpecRow">
+                                <td class="techSpecTD1">Occasion:</td>
+                                <td class="techSpecTD2">{{$productDetails['occasion']}}</td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
-
+                    
                     <h5>Washcare</h5>
-                    <p>Machine Wash</p>
+                    <p>{{$productDetails['wash_care']}}</p>
                     <h5>Disclaimer</h5>
                     <p>
                         There may be a slight color variation between the image shown and original product.
@@ -339,7 +362,8 @@
                             <ul class="thumbnails">
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product_details.html"><img src="/assets/front/themes/images/products/10.jpg" alt=""/></a>
+                                        <a href="product_details.html"><img
+                                                src="/assets/front/themes/images/products/10.jpg" alt=""/></a>
                                         <div class="caption">
                                             <h5>Casual T-Shirt</h5>
                                             <p>
@@ -354,7 +378,8 @@
                                 </li>
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product_details.html"><img src="/assets/front/themes/images/products/11.jpg" alt=""/></a>
+                                        <a href="product_details.html"><img
+                                                src="/assets/front/themes/images/products/11.jpg" alt=""/></a>
                                         <div class="caption">
                                             <h5>Casual T-Shirt</h5>
                                             <p>
@@ -369,7 +394,8 @@
                                 </li>
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product_details.html"><img src="/assets/front/themes/images/products/12.jpg" alt=""/></a>
+                                        <a href="product_details.html"><img
+                                                src="/assets/front/themes/images/products/12.jpg" alt=""/></a>
                                         <div class="caption">
                                             <h5>Casual T-Shirt</h5>
                                             <p>
@@ -384,7 +410,8 @@
                                 </li>
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product_details.html"><img src="/assets/front/themes/images/products/13.jpg" alt=""/></a>
+                                        <a href="product_details.html"><img
+                                                src="/assets/front/themes/images/products/13.jpg" alt=""/></a>
                                         <div class="caption">
                                             <h5>Casual T-Shirt</h5>
                                             <p>
@@ -399,7 +426,8 @@
                                 </li>
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product_details.html"><img src="/assets/front/themes/images/products/1.jpg" alt=""/></a>
+                                        <a href="product_details.html"><img
+                                                src="/assets/front/themes/images/products/1.jpg" alt=""/></a>
                                         <div class="caption">
                                             <h5>Casual T-Shirt</h5>
                                             <p>
@@ -414,7 +442,8 @@
                                 </li>
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product_details.html"><img src="/assets/front/themes/images/products/2.jpg" alt=""/></a>
+                                        <a href="product_details.html"><img
+                                                src="/assets/front/themes/images/products/2.jpg" alt=""/></a>
                                         <div class="caption">
                                             <h5>Casual T-Shirt</h5>
                                             <p>
