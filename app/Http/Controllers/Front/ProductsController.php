@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Front;
+
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductsAttribute;
 use Illuminate\Http\Request;
+
 //use Illuminate\Routing\Route;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 class ProductsController extends Controller
 {
@@ -24,23 +28,23 @@ class ProductsController extends Controller
                 $catProducts = Product::with('brand')->whereIn('category_id', $catagoryDetails['catIds'])->where('status', 1);
                 /*check for fabric*/
                 if (isset($data['fabric']) && !empty($data['fabric'])) {
-                    $catProducts->whereIn('products.fabric',$data['fabric']);
+                    $catProducts->whereIn('products.fabric', $data['fabric']);
                 }
                 /*check for sleeve*/
                 if (isset($data['sleeve']) && !empty($data['sleeve'])) {
-                    $catProducts->whereIn('products.sleeve',$data['sleeve']);
+                    $catProducts->whereIn('products.sleeve', $data['sleeve']);
                 }
                 /*check for pattern*/
                 if (isset($data['pattern']) && !empty($data['pattern'])) {
-                    $catProducts->whereIn('products.pattern',$data['pattern']);
+                    $catProducts->whereIn('products.pattern', $data['pattern']);
                 }
                 /*check for fit*/
                 if (isset($data['fit']) && !empty($data['fit'])) {
-                    $catProducts->whereIn('products.fit',$data['fit']);
+                    $catProducts->whereIn('products.fit', $data['fit']);
                 }
                 /*check for occasion*/
                 if (isset($data['occasion']) && !empty($data['occasion'])) {
-                    $catProducts->whereIn('products.occasion',$data['occasion']);
+                    $catProducts->whereIn('products.occasion', $data['occasion']);
                 }
                 /*sort*/
                 if (isset($data['sort']) && !empty($data['sort'])) {
@@ -63,8 +67,7 @@ class ProductsController extends Controller
             } else {
                 abort(404);
             }
-        }
-        else {
+        } else {
             /*dynamic url*/
             $url = Route::getFacadeRoot()->current()->uri();
 
@@ -82,32 +85,78 @@ class ProductsController extends Controller
                 $occasionArray = $productFilters['occasionArray'];
 
                 $page_name = "listing";
-                return view('front.products.listing', compact('catagoryDetails', 'categoryProducts', 'url','fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray','page_name'));
+                return view('front.products.listing', compact('catagoryDetails', 'categoryProducts', 'url', 'fabricArray', 'sleeveArray', 'patternArray', 'fitArray', 'occasionArray', 'page_name'));
             } else {
                 abort(404);
             }
         }
     }
+
     /*product details page*/
     public function details($id)
     {
-        $productDetails = Product::with('category','brand','attributes','images')->find($id)->toArray();
-        $total_stoke = ProductsAttribute::where('product_id',$id)->sum('stock');
-        $relatedProducts = Product::where('category_id',$productDetails['category']['id'])->where('id','!=',$id)->limit(3)->inRandomOrder()->get()->toArray();
+        $productDetails = Product::with(['category', 'brand', 'attributes' => function ($query) {
+            $query->where('status', 1);
+        }, 'images'])->find($id)->toArray();
+        $total_stoke = ProductsAttribute::where('product_id', $id)->sum('stock');
+        $relatedProducts = Product::where('category_id', $productDetails['category']['id'])->where('id', '!=', $id)->limit(3)->inRandomOrder()->get()->toArray();
 
-        if(empty($productDetails))
+        if (empty($productDetails))
             return redirect()->back();
         else
-        return view('front.products.details',compact('productDetails','total_stoke','relatedProducts'));
+            return view('front.products.details', compact('productDetails', 'total_stoke', 'relatedProducts'));
     }
+
     /*get product details page price*/
     public function getProductPrice(Request $request)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $data = $request->all();
-            $getProductPrice = ProductsAttribute::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->first();
+            $getProductPrice = ProductsAttribute::where(['product_id' => $data['product_id'], 'size' => $data['size']])->first();
             return $getProductPrice->price;
+        }
+    }
+
+    /*add to cart*/
+    public function addTocCart(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            /*product available in stock*/
+            $getProductStock = ProductsAttribute::where(['product_id' => $data['product_id'], 'size' => $data['size']])->first();
+            if ($getProductStock['stock'] < $data['quantity']) {
+                $message = 'Quantity is not Available!';
+                Session::flash('message', $message);
+                Session::flash('type', 'danger');
+                return redirect()->back();
+            }
+            /*generate session id if not exist*/
+            $session_id = Session::get('session_id');
+            if (empty($session_id)) {
+                $session_id = Session::getId();
+                Session::put('session_id', $session_id);
+            }
+            /*product already exists*/
+            $countProducts = Cart::where(['product_id' => $data['product_id'], 'size' => $data['size']])->count();
+            if ($countProducts > 0) {
+                $message = 'Product already Exists in Cart!';
+                Session::flash('message', $message);
+                Session::flash('type', 'danger');
+                return redirect()->back();
+            }
+            /*save product in cart*/
+            $cart = new Cart;
+            $cart->session_id = $session_id;
+            $cart->product_id = $data['product_id'];
+            $cart->size = $data['size'];
+            $cart->quantity = $data['quantity'];
+            $cart->save();
+
+            $message = 'Product has been added in cart !';
+            Session::flash('message', $message);
+            Session::flash('type', 'success');
+            return redirect()->back();
+
         }
     }
 

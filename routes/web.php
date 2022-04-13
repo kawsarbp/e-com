@@ -87,5 +87,7 @@ Route::name('front.')->group(function () {
     Route::get('/product/{id}',[ProductsController::class,'details'])->name('details');
     /*get product attribute price*/
     Route::post('/get-product-price',[ProductsController::class,'getProductPrice']);
+    /*add to cart route*/
+    Route::post('/add-to-cart',[ProductsController::class,'addTocCart']);
 
 });

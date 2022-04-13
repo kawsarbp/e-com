@@ -12,8 +12,12 @@
         <div class="row">
             <div id="gallery" class="span3">
                 <a href="/image/admin/product_images/{{$productDetails['main_image']}}" title="{{$productDetails['product_name']}}">
-                    <img src="/image/admin/product_images/{{$productDetails['main_image']}}" style="width:100%"
-                         alt="Blue Casual T-Shirt"/>
+                    @if(!empty($productDetails['main_image']))
+                        <img style="height: 250px;" src="/image/admin/product_images/{{$productDetails['main_image']}}"
+                             alt="">
+                    @else
+                        <img style="height: 250px;" src="/image/admin/product_images/no_image.png" alt="">
+                    @endif
                 </a>
                 <div id="differentview" class="moreOptopm carousel slide">
                     <div class="carousel-inner">
@@ -50,20 +54,25 @@
                 </div>
             </div>
             <div class="span6">
+                @if(session()->has('message'))
+                    <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
+                @endif
                 <h3>{{$productDetails['product_name']}}</h3>
                 <small>- {{$productDetails['brand']['name']}}</small>
                 <hr class="soft"/>
                 <small>{{$total_stoke}} items in stock</small>
-                <form class="form-horizontal qtyFrm">
+                <form action="{{url('add-to-cart')}}" method="POST" class="form-horizontal qtyFrm">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
                     <div class="control-group">
                         <h4 class="getAttrPrice">Rs. {{$productDetails['product_price']}}</h4>
-                        <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="span2 pull-left">
+                        <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="span2 pull-left" required="">
                             <option value="" >Select Size</option>
                             @foreach($productDetails['attributes'] as $attribute)
                                 <option value="{{$attribute['size']}}">{{$attribute['size']}}</option>
                             @endforeach
                         </select>
-                        <input type="number" class="span1" placeholder="Qty."/>
+                        <input type="number" name="quantity" class="span1" placeholder="Qty." required="">
                         <button type="submit" class="btn btn-large btn-primary pull-right"> Add to cart <i
                                 class=" icon-shopping-cart"></i></button>
                     </div>
@@ -74,9 +83,9 @@
             <p class="span6">
                 {{$productDetails['description']}}
             </p>
-            <a class="btn btn-small pull-right" href="#detail">More Details</a>
+            <a class="btn btn-small pull-right" href="javascript:void (0);">More Details</a>
             <br class="clr"/>
-            <a href="#" name="detail"></a>
+            <a href="javascript:void (0)" name="detail"></a>
             <hr class="soft"/>
         </div>
 
@@ -200,7 +209,7 @@
                                 @foreach($relatedProducts as $product)
                                 <li class="span3">
                                     <div class="thumbnail">
-                                        <a href="product/{{$product['id']}}">
+                                        <a href="{{url('/product').'/'.$product['id']}}">
                                             @if(!empty($product['main_image']))
                                                 <img style="height: 230px;" src="/image/admin/product_images/{{$product['main_image']}}"
                                                      alt=""/>
