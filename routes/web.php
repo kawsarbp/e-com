@@ -89,5 +89,6 @@ Route::name('front.')->group(function () {
     Route::post('/get-product-price',[ProductsController::class,'getProductPrice']);
     /*add to cart route*/
     Route::post('/add-to-cart',[ProductsController::class,'addTocCart']);
-
+    /*shopping cart route*/
+    Route::get('/cart',[ProductsController::class,'cart']);
 });
