@@ -93,11 +93,12 @@ class ProductsController extends Controller
     {
         $productDetails = Product::with('category','brand','attributes','images')->find($id)->toArray();
         $total_stoke = ProductsAttribute::where('product_id',$id)->sum('stock');
+        $relatedProducts = Product::where('category_id',$productDetails['category']['id'])->where('id','!=',$id)->limit(3)->inRandomOrder()->get()->toArray();
 
         if(empty($productDetails))
             return redirect()->back();
         else
-        return view('front.products.details',compact('productDetails','total_stoke'));
+        return view('front.products.details',compact('productDetails','total_stoke','relatedProducts'));
     }
     /*get product details page price*/
     public function getProductPrice(Request $request)

@@ -3,7 +3,7 @@
         @foreach($categoryProducts as $product)
             <li class="span3">
                 <div class="thumbnail">
-                    <a href="javascript:void (0)">
+                    <a href="product/{{$product['id']}}">
                         @if(!empty($product['main_image']))
                             <img style="height: 230px;" src="/image/admin/product_images/{{$product['main_image']}}"
                                  alt=""/>
@@ -16,10 +16,10 @@
                         <p>
                             {{$product['brand']['name']}}
                         </p>
-                        <h4 style="text-align:center"><a class="btn" href="javascript:void (0) "> <i
-                                    class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
+                        <h4 style="text-align:center"><a class="btn" href="product/{{$product['id']}}"> <i
+                                    class="icon-zoom-in"></i></a> <a class="btn" href="javascript:void (0)">Add to <i
                                     class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
-                                                                           href="#">Rs.{{$product['product_price']}}</a>
+                                                                           href="javascript:void (0)">Rs.{{$product['product_price']}}</a>
                         </h4>
                     </div>
                 </div>
