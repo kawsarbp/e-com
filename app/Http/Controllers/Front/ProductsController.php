@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductsAttribute;
 use Illuminate\Http\Request;
 //use Illuminate\Routing\Route;
 
@@ -90,12 +91,13 @@ class ProductsController extends Controller
     /*product details page*/
     public function details($id)
     {
-        $productDetails = Product::with('category','brand','attributes','images')->find($id);
+        $productDetails = Product::with('category','brand','attributes','images')->find($id)->toArray();
+        $total_stoke = ProductsAttribute::where('product_id',$id)->sum('stock');
 
         if(empty($productDetails))
             return redirect()->back();
         else
-        return view('front.products.details',compact('productDetails'));
+        return view('front.products.details',compact('productDetails','total_stoke'));
     }
 
 }

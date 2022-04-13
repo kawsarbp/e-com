@@ -5,40 +5,32 @@
 @section('content')
     <div class="span9">
         <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> <span class="divider">/</span></li>
-            <li><a href="products.html">Products</a> <span class="divider">/</span></li>
+            <li><a href="{{route('front.index')}}">Home</a> <span class="divider">/</span></li>
+            <li><a href="javascript:void (0)">Products</a> <span class="divider">/</span></li>
             <li class="active">product Details</li>
         </ul>
         <div class="row">
             <div id="gallery" class="span3">
-                <a href="/assets/front/themes/images/products/large/f1.jpg" title="Blue Casual T-Shirt">
-                    <img src="/assets/front/themes/images/products/large/3.jpg" style="width:100%"
+                <a href="/image/admin/product_images/{{$productDetails['main_image']}}" title="{{$productDetails['product_name']}}">
+                    <img src="/image/admin/product_images/{{$productDetails['main_image']}}" style="width:100%"
                          alt="Blue Casual T-Shirt"/>
                 </a>
                 <div id="differentview" class="moreOptopm carousel slide">
                     <div class="carousel-inner">
                         <div class="item active">
-                            <a href="/assets/front/themes/images/products/large/f1.jpg"> <img style="width:29%"
-                                                                                              src="/assets/front/themes/images/products/large/f1.jpg"
-                                                                                              alt=""/></a>
-                            <a href="/assets/front/themes/images/products/large/f2.jpg"> <img style="width:29%"
-                                                                                              src="/assets/front/themes/images/products/large/f2.jpg"
-                                                                                              alt=""/></a>
-                            <a href="/assets/front/themes/images/products/large/f3.jpg"> <img style="width:29%"
-                                                                                              src="/assets/front/themes/images/products/large/f3.jpg"
-                                                                                              alt=""/></a>
+                            @foreach($productDetails['images'] as $image)
+                            <a href="/image/admin/product_images/{{$image['image']}}">
+                                <img style="width:29%; height: 80px;" src="/image/admin/product_images/{{$image['image']}}" alt=""/>
+                            </a>
+                            @endforeach
                         </div>
-                        <div class="item">
-                            <a href="/assets/front/themes/images/products/large/f3.jpg"> <img style="width:29%"
-                                                                                              src="/assets/front/themes/images/products/large/f3.jpg"
-                                                                                              alt=""/></a>
-                            <a href="/assets/front/themes/images/products/large/f1.jpg"> <img style="width:29%"
-                                                                                              src="/assets/front/themes/images/products/large/f1.jpg"
-                                                                                              alt=""/></a>
-                            <a href="/assets/front/themes/images/products/large/f2.jpg"> <img style="width:29%"
-                                                                                              src="/assets/front/themes/images/products/large/f2.jpg"
-                                                                                              alt=""/></a>
-                        </div>
+                        {{--<div class="item">
+                            @foreach($productDetails['images'] as $image)
+                                <a href="/image/admin/product_images/{{$image['image']}}">
+                                <img style="width:29%; height: 80px;" src="/image/admin/product_images/{{$image['image']}}" alt=""/>
+                            </a>
+                            @endforeach
+                        </div>--}}
                     </div>
                     <!--
                                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
@@ -61,7 +53,7 @@
                 <h3>{{$productDetails['product_name']}}</h3>
                 <small>- {{$productDetails['brand']['name']}}</small>
                 <hr class="soft"/>
-                <small>100 items in stock</small>
+                <small>{{$total_stoke}} items in stock</small>
                 <form class="form-horizontal qtyFrm">
                     <div class="control-group">
                         <h4>Rs.{{$productDetails['product_price']}}</h4>
@@ -145,7 +137,7 @@
                         @endif
                         </tbody>
                     </table>
-                    
+
                     <h5>Washcare</h5>
                     <p>{{$productDetails['wash_care']}}</p>
                     <h5>Disclaimer</h5>
