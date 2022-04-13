@@ -99,5 +99,15 @@ class ProductsController extends Controller
         else
         return view('front.products.details',compact('productDetails','total_stoke'));
     }
+    /*get product details page price*/
+    public function getProductPrice(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data = $request->all();
+            $getProductPrice = ProductsAttribute::where(['product_id'=>$data['product_id'],'size'=>$data['size']])->first();
+            return $getProductPrice->price;
+        }
+    }
 
 }

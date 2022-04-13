@@ -85,6 +85,7 @@ Route::name('front.')->group(function () {
     }
     /*product details route*/
     Route::get('/product/{id}',[ProductsController::class,'details'])->name('details');
-
+    /*get product attribute price*/
+    Route::post('/get-product-price',[ProductsController::class,'getProductPrice']);
 
 });

@@ -16,7 +16,7 @@
                                         <li class="span3">
                                             <div class="thumbnail">
                                                 <i class="tag"></i>
-                                                <a href="product_details.html">
+                                                <a href="/product/{{$item['id']}}">
                                                     @if(!empty($item['main_image']))
                                                         <img src="/image/admin/product_images/{{$item['main_image']}}"
                                                              alt="">
@@ -27,7 +27,7 @@
                                                 <div class="caption">
                                                     <h5>{{$item['product_name']}}</h5>
                                                     <h4>
-                                                        <a class="btn" href="product_details.html">VIEW</a>
+                                                        <a class="btn" href="/product/{{$item['id']}}">VIEW</a>
                                                         <span class="pull-right">Rs.{{$item['product_price']}}</span>
                                                     </h4>
                                                 </div>
@@ -48,7 +48,7 @@
             @foreach($newProducts as $product)
                 <li class="span3">
                     <div class="thumbnail">
-                        <a href="product_details.html">
+                        <a href="/product/{{$product['id']}}">
                             @if(!empty($product['main_image']))
                                 <img style="height: 250px;" src="/image/admin/product_images/{{$product['main_image']}}"
                                      alt="">
@@ -63,7 +63,7 @@
                                 ({{$product['product_color']}})
                             </p>
 
-                            <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i
+                            <h4 style="text-align:center"><a class="btn" href="/product/{{$product['id']}}"> <i
                                         class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
                                         class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
                                                                                href="#">Rs.1000</a>
