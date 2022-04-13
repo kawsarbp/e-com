@@ -165,14 +165,15 @@ class ProductsController extends Controller
             Session::flash('message', $message);
             Session::flash('type', 'success');
             return redirect()->back();
-
         }
     }
 
     /*hopping cart page*/
     public function cart()
     {
-        return view('front.products.cart');
+        $userCartItem = Cart::userCartItems();
+
+        return view('front.products.cart',compact('userCartItem'));
     }
 
 }
