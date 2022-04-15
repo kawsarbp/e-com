@@ -36,7 +36,7 @@ class CategoryTableSeeder extends Seeder
                 'category_images' => '',
                 'category_discount' => 0,
                 'description' => '',
-                'url' => 'casual t-shirt',
+                'url' => 'casual-t-shirt',
                 'meta_title' => '',
                 'meta_description' => '',
                 'meta_keywords' => '',
