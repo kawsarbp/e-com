@@ -1,3 +1,4 @@
+<?php use App\Models\Product; ?>
 @extends('front.include.layouts')
 @section('title')
     Product Details
@@ -65,7 +66,17 @@
                     @csrf
                     <input type="hidden" name="product_id" value="{{$productDetails['id']}}">
                     <div class="control-group">
-                        <h4 class="getAttrPrice">Rs. {{$productDetails['product_price']}}</h4>
+
+                        <?php $product_discount = Product::getDiscountedPrice($productDetails['id']); ?>
+
+                        <h4 class="getAttrPrice">
+                            @if($product_discount>0)
+                            <del>Rs.{{$productDetails['product_price']}}</del>
+                                Rs.{{$product_discount}}
+                            @else
+                            Rs.{{$productDetails['product_price']}}
+                            @endif
+                        </h4>
                         <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="span2 pull-left" required="">
                             <option value="" >Select Size</option>
                             @foreach($productDetails['attributes'] as $attribute)
