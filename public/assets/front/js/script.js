@@ -179,7 +179,13 @@ $(document).ready(function () {
             data: {size: size, product_id: product_id},
             type: 'post',
             success: function (response) {
-                $('.getAttrPrice').html("Rs. " + response);
+                if(response['discounted_price']>0)
+                {
+                    $('.getAttrPrice').html("<del>Rs."+ response['product_price']+"</del> Rs."+response['discounted_price']);
+                }else
+                {
+                    $('.getAttrPrice').html("Rs. " + response['product_price']);
+                }
             }, error: function () {
                 alert("Error");
             }
