@@ -1,3 +1,6 @@
+<?php
+use App\Models\Product;
+?>
 @extends('front.include.layouts')
 @section('title')
     Home Page
@@ -13,6 +16,7 @@
                             <div class="item @if($key == 1) active @endif ">
                                 <ul class="thumbnails">
                                     @foreach($featuredItem as $item)
+                                        <?php $product_discount = Product::getDiscountedPrice($item['id']); ?>
                                         <li class="span3">
                                             <div class="thumbnail">
                                                 <i class="tag"></i>
@@ -28,8 +32,17 @@
                                                     <h5>{{$item['product_name']}}</h5>
                                                     <h4>
                                                         <a class="btn" href="/product/{{$item['id']}}">VIEW</a>
-                                                        <span class="pull-right">Rs.{{$item['product_price']}}</span>
+                                                        <span class="pull-right">
+                                                            @if($product_discount>0)
+                                                                Rs. <del>{{$item['product_price']}}</del>
+                                                            @else
+                                                                Rs.{{$item['product_price']}}
+                                                            @endif
+                                                        </span>
                                                     </h4>
+                                                    @if($product_discount>0)
+                                                        <div style="text-align: center; font-weight: bold; font-style: italic;">Discounted Price:  Rs. <font color="green">{{$product_discount}}</font> </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </li>
@@ -46,6 +59,7 @@
         <h4>Latest Products </h4>
         <ul class="thumbnails">
             @foreach($newProducts as $product)
+                <?php $discounted_price = Product::getDiscountedPrice($product['id']); ?>
                 <li class="span3">
                     <div class="thumbnail">
                         <a href="/product/{{$product['id']}}">
@@ -63,10 +77,17 @@
                                 ({{$product['product_color']}})
                             </p>
 
-                            <h4 style="text-align:center"><a class="btn" href="/product/{{$product['id']}}"> <i
-                                        class="icon-zoom-in"></i></a> <a class="btn" href="#">Add to <i
-                                        class="icon-shopping-cart"></i></a> <a class="btn btn-primary"
-                                                                               href="#">Rs.1000</a>
+                            <h4 style="text-align:center">
+{{--                                <a class="btn" href="/product/{{$product['id']}}"> <i class="icon-zoom-in"></i></a>--}}
+                                <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a>
+                                <a class="btn btn-primary" href="javascript:void (0)">
+                                    @if($discounted_price>0)
+                                        Rs. <del>{{$product['product_price']}}</del>
+                                        <font color="yellow">{{$discounted_price}}</font>
+                                    @else
+                                        Rs.{{$product['product_price']}}
+                                    @endif
+                                </a>
                             </h4>
                         </div>
                     </div>

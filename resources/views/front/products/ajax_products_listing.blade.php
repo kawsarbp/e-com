@@ -5,7 +5,7 @@ use App\Models\Product;
     <ul class="thumbnails">
         @foreach($categoryProducts as $product)
             <li class="span3">
-                <div class="thumbnail">
+                <div class="thumbnail"  style="height: 400px;">
                     <a href="product/{{$product['id']}}">
                         @if(!empty($product['main_image']))
                             <img style="height: 230px;" src="/image/admin/product_images/{{$product['main_image']}}"
@@ -21,7 +21,7 @@ use App\Models\Product;
                             {{$product['brand']['name']}}
                         </p>
                         <h4 style="text-align:center">
-                            <a class="btn" href="product/{{$product['id']}}"> <i class="icon-zoom-in"></i></a>
+{{--                            <a class="btn" href="product/{{$product['id']}}"> <i class="icon-zoom-in"></i></a>--}}
                             <a class="btn" href="javascript:void (0)">Add to <i class="icon-shopping-cart"></i></a>
                             <a class="btn btn-primary" href="javascript:void (0)">
                                 @if($product_discount>0)
@@ -31,13 +31,9 @@ use App\Models\Product;
                                 @endif
                             </a>
                         </h4>
-                        <p>
-                            @if($product_discount>0)
-                                Discounted Price:  Rs.{{$product_discount}}
-                            @else
-                                No Discount.
-                            @endif
-                        </p>
+                        @if($product_discount>0)
+                            <div style="text-align: center; font-weight: bold; font-style: italic;">Discounted Price:  Rs. <font color="green">{{$product_discount}}</font> </div>
+                        @endif
                     </div>
                 </div>
             </li>
