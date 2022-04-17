@@ -54,7 +54,6 @@
                                                 </thead>
                                                 <tbody>
                                                 @foreach($product as $products)
-
                                                     <tr>
                                                         <td>{{$products->id}}</td>
                                                         <td>{{$products->product_name}}</td>

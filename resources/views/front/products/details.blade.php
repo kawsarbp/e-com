@@ -55,9 +55,9 @@
                 </div>
             </div>
             <div class="span6">
-                @if(session()->has('message'))
+                {{--@if(session()->has('message'))
                     <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
-                @endif
+                @endif--}}
                 <h3>{{$productDetails['product_name']}}</h3>
                 <small>- {{$productDetails['brand']['name']}}</small>
                 <hr class="soft"/>
@@ -71,14 +71,14 @@
 
                         <h4 class="getAttrPrice">
                             @if($product_discount>0)
-                            <del>Rs.{{$productDetails['product_price']}}</del>
-                                Rs.{{$product_discount}}
+                            <del>Rs. {{$productDetails['product_price']}}</del>
+                                Rs. {{$product_discount}}
                             @else
-                            Rs.{{$productDetails['product_price']}}
+                            Rs. {{$productDetails['product_price']}}
                             @endif
                         </h4>
                         <select name="size" id="getPrice" product-id="{{$productDetails['id']}}" class="span2 pull-left" required="">
-                            <option value="" >Select Size</option>
+                            <option value="">Select Size</option>
                             @foreach($productDetails['attributes'] as $attribute)
                                 <option value="{{$attribute['size']}}">{{$attribute['size']}}</option>
                             @endforeach

@@ -90,5 +90,5 @@ Route::name('front.')->group(function () {
     /*add to cart route*/
     Route::post('/add-to-cart',[ProductsController::class,'addTocCart']);
     /*shopping cart route*/
-    Route::get('/cart',[ProductsController::class,'cart']);
+    Route::get('/cart',[ProductsController::class,'cart'])->name('cart');
 });

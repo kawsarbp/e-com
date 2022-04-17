@@ -18,7 +18,7 @@ use App\Models\Product;
                                     @foreach($featuredItem as $item)
                                         <?php $product_discount = Product::getDiscountedPrice($item['id']); ?>
                                         <li class="span3">
-                                            <div class="thumbnail">
+                                            <div class="thumbnail"  style="height: 285px;">
                                                 <i class="tag"></i>
                                                 <a href="/product/{{$item['id']}}">
                                                     @if(!empty($item['main_image']))

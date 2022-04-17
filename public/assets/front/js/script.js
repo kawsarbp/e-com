@@ -179,9 +179,9 @@ $(document).ready(function () {
             data: {size: size, product_id: product_id},
             type: 'post',
             success: function (response) {
-                if(response['discounted_price']>0)
+                if(response['discount']>0)
                 {
-                    $('.getAttrPrice').html("<del>Rs."+ response['product_price']+"</del> Rs."+response['discounted_price']);
+                    $('.getAttrPrice').html("<del>Rs."+ response['product_price']+"</del> Rs."+response['final_price']);
                 }else
                 {
                     $('.getAttrPrice').html("Rs. " + response['product_price']);

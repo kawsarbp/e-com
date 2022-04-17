@@ -70,14 +70,17 @@ class Product extends Model
 
         if ($proDetails['product_discount'] >0) {
             /*product discount first priority*/
-            $discounted_price = $proAttrPrice['price'] - ($proAttrPrice['price']*$proDetails['product_discount']/100);
+            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*$proDetails['product_discount']/100);
+            $discount = $proAttrPrice['price'] - $final_price;
         } elseif ($catDetails['category_discount']>0) {
             /*category discount second priority*/
-            $discounted_price = $proAttrPrice['price'] - ($proAttrPrice['price']*$catDetails['category_discount']/100);
+            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*$catDetails['category_discount']/100);
+            $discount = $proAttrPrice['price'] - $final_price;
         } else {
-            $discounted_price = 0;
+            $final_price = $proAttrPrice['price'];
+            $discount = 0;
         }
-        return array('product_price'=>$proAttrPrice['price'],'discounted_price'=>$discounted_price);
+        return array('product_price'=>$proAttrPrice['price'],'final_price'=>$final_price,'discount'=>$discount);
     }
 
 }
