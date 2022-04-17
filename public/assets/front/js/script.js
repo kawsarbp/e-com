@@ -169,7 +169,7 @@ $(document).ready(function () {
     /*product price change*/
     $('#getPrice').change(function () {
         var size = $(this).val();
-        if (size=="") {
+        if (size == "") {
             alert('Please Select Size');
             return false;
         }
@@ -179,17 +179,36 @@ $(document).ready(function () {
             data: {size: size, product_id: product_id},
             type: 'post',
             success: function (response) {
-                if(response['discount']>0)
-                {
-                    $('.getAttrPrice').html("<del>Rs."+ response['product_price']+"</del> Rs."+response['final_price']);
-                }else
-                {
+                if (response['discount'] > 0) {
+                    $('.getAttrPrice').html("<del>Rs." + response['product_price'] + "</del> Rs." + response['final_price']);
+                } else {
                     $('.getAttrPrice').html("Rs. " + response['product_price']);
                 }
             }, error: function () {
                 alert("Error");
             }
         });
+    });
+    /*cart page cart qty update*/
+    $(document).on('click', '.btnItemUpdate', function () {
+        /*qty minus*/
+        if ($(this).hasClass('qtyMinus')) {
+            var quantity = $(this).prev().val();
+            if (quantity <= 1) {
+                alert("Item Quantity Must be 1 or Greater!")
+                return false;
+            } else {
+                new_qty = parseInt(quantity)-1;
+            }
+        }
+        /*qty plus*/
+        if ($(this).hasClass('qtyPlus')) {
+            var quantity = $(this).prev().prev().val();
+            new_qty = parseInt(quantity)+1;
+        }
+        alert(new_qty);
+
+
     });
 
 });
