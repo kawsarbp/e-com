@@ -214,6 +214,11 @@ $(document).ready(function () {
             url:'/update-cart-item-qty',
             type:'post',
             success:function (response) {
+                // alert(response.status);
+                if(response.status == false)
+                {
+                    alert(response.message);
+                }
                 $("#AppendCartItems").html(response.view);
             },error:function () {
                 alert("Error");

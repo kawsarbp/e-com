@@ -55,9 +55,9 @@
                 </div>
             </div>
             <div class="span6">
-                {{--@if(session()->has('message'))
+                @if(session()->has('message'))
                     <div class="alert alert-{{session('type')}} text-center">{{session('message')}}</div>
-                @endif--}}
+                @endif
                 <h3>{{$productDetails['product_name']}}</h3>
                 <small>- {{$productDetails['brand']['name']}}</small>
                 <hr class="soft"/>
