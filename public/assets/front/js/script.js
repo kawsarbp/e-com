@@ -226,4 +226,24 @@ $(document).ready(function () {
         });
     });
 
+    /*cart item delete*/
+    $(document).on('click', '.btnItemDelete', function () {
+        var cartid = $(this).data('cartid');
+        var result = confirm('Want to delete this Cart Item ?');
+        if(result)
+        {
+            $.ajax({
+                data: {"cartid":cartid},
+                url:'/delete-cart-item',
+                type:'post',
+                success:function (response) {
+                    $("#AppendCartItems").html(response.view);
+                },error:function () {
+                    alert("Error");
+                }
+            });
+        }
+    });
+
+
 });
