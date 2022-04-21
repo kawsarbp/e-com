@@ -8,7 +8,7 @@ use App\Models\Product;
         <th>Product</th>
         <th colspan="2">Description</th>
         <th>Quantity/Update</th>
-        <th>MRP Price</th>
+        <th>Unit Price</th>
         <th>Discount</th>
         <th>Sub Total</th>
     </tr>

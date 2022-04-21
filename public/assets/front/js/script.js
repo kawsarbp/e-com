@@ -182,7 +182,7 @@ $(document).ready(function () {
                 if (response['discount'] > 0) {
                     $('.getAttrPrice').html("<del>Rs." + response['product_price'] + "</del> Rs." + response['final_price']);
                 } else {
-                    $('.getAttrPrice').html("Rs. " + response['product_price']);
+                    $('.getAttrPrice').html("Rs." + response['product_price']);
                 }
             }, error: function () {
                 alert("Error");
@@ -206,9 +206,19 @@ $(document).ready(function () {
             var quantity = $(this).prev().prev().val();
             new_qty = parseInt(quantity)+1;
         }
-        alert(new_qty);
-
-
+        // alert(new_qty);
+        var cartid = $(this).data('cartid');
+        // alert(cartid);
+        $.ajax({
+            data: {"cartid":cartid,"qty":new_qty},
+            url:'/update-cart-item-qty',
+            type:'post',
+            success:function (response) {
+                $("#AppendCartItems").html(response.view);
+            },error:function () {
+                alert("Error");
+            }
+        });
     });
 
 });

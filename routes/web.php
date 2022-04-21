@@ -91,4 +91,6 @@ Route::name('front.')->group(function () {
     Route::post('/add-to-cart',[ProductsController::class,'addTocCart']);
     /*shopping cart route*/
     Route::get('/cart',[ProductsController::class,'cart'])->name('cart');
+    /*update cart item qty*/
+    Route::post('/update-cart-item-qty',[ProductsController::class,'updateCartItemQty']);
 });
