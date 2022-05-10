@@ -20,7 +20,6 @@ class UsersController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-//            echo '<pre>'; print_r($data); die;
             /*check user already exists*/
             $userCount = User::where('email', $data['email'])->count();
             if ($userCount > 0) {
@@ -35,12 +34,24 @@ class UsersController extends Controller
                 $user->save();
 //                return redirect()->back()->with(['message'=>'user registration successfully !','type'=>'success']);
                 if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-                    return redirect()->route('front.index');
+                    return redirect('t-shirt')/*->route('front.index')*/;
                 }
             }
         }
     }
-
+    /*login user*/
+    public function loginUser(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+//            echo '<pre>'; print_r($data); die;
+            if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+                return redirect('/cart');
+            }else{
+                return redirect()->back()->with(['message'=>'Username or Password Invalid','type'=>'danger']);
+            }
+        }
+    }
     /*user logout*/
     public function logoutUser()
     {
@@ -54,10 +65,11 @@ class UsersController extends Controller
         $data = $request->all();
         $emailCount = User::where('email', $data['email'])->count();
         if ($emailCount > 0) {
-            echo "false";
+            return "false";
         } else {
-            echo "true";die;
+            return "true";
         }
     }
+
 
 }

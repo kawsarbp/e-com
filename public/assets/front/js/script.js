@@ -283,4 +283,29 @@ $(document).ready(function () {
     });
 
 
+    /*user registration form validation*/
+    $("#loginForm").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+            },
+            password: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            email:{
+                required: "Please Enter you e-mail",
+                email: "Please enter your valid e-mail",
+            },
+            password: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 6 characters long"
+            }
+        }
+    });
+
+
 });

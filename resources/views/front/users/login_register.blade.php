@@ -53,17 +53,17 @@
             <div class="span4">
                 <div class="well">
                     <h5>ALREADY REGISTERED ?</h5>
-                    <form>
+                    <form id="loginForm" action="{{ route('front.loginUser') }}" method="POST">@csrf
                         <div class="control-group">
-                            <label class="control-label" for="inputEmail1">Email</label>
+                            <label class="control-label" for="email">Email</label>
                             <div class="controls">
-                                <input class="span3"  type="text" id="inputEmail1" placeholder="Email">
+                                <input class="span3" name="email"  type="email" id="email" placeholder="Email">
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword1">Password</label>
+                            <label class="control-label" for="password">Password</label>
                             <div class="controls">
-                                <input type="password" class="span3"  id="inputPassword1" placeholder="Password">
+                                <input type="password" name="password" class="span3"  id="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="control-group">
