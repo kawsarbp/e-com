@@ -40,6 +40,7 @@
 @include('front.include.footer')
 <!-- Placed at the end of the document so the pages load faster ============================================= -->
 <script src="/assets/front/js/jquery.js" type="text/javascript"></script>
+<script src="/assets/front/js/jquery.validate.min.js" type="text/javascript"></script>
 <script src="/assets/front/js/front.min.js" type="text/javascript"></script>
 <script src="/assets/front/js/google-code-prettify/prettify.js"></script>
 

@@ -8,12 +8,13 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\ProductsController;
+use App\Http\Controllers\Front\UsersController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 
-Auth::routes();
+//Auth::routes();
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -95,4 +96,15 @@ Route::name('front.')->group(function () {
     Route::post('/update-cart-item-qty',[ProductsController::class,'updateCartItemQty']);
     /*Delete cart item*/
     Route::post('/delete-cart-item',[ProductsController::class,'deleteCartItem']);
+    /*login register route for users*/
+    Route::get('/login-register',[UsersController::class,'loginRegister'])->name('loginRegister');
+    /*register user*/
+    Route::post('/register',[UsersController::class,'registerUser'])->name('registerUser');
+    /*login user*/
+    Route::post('/login',[UsersController::class,'loginUser'])->name('loginUser');
+    /*logout user*/
+    Route::get('/logout',[UsersController::class,'logoutUser'])->name('logoutUser');
+    /*check-email*/
+    Route::match(['get','post'],'/check-email',[UsersController::class,'checkEmail']);
+
 });

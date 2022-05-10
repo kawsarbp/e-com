@@ -244,6 +244,43 @@ $(document).ready(function () {
             });
         }
     });
+    /*user registration form validation*/
+    $("#registerForm").validate({
+        rules: {
+            name: "required",
+            mobile: {
+                required: true,
+                minlength: 11,
+                maxlength: 11,
+                digits: true
+            },
+            email: {
+                required: true,
+                email: true,
+                remote: "check-email"
+            },
+            password: {
+                required: true,
+                minlength: 6
+            }
+        },
+        messages: {
+            name: "Please enter your name",
+            mobile: {
+                required: "Please enter a Mobile",
+                minlength: "Your mobile must 11 characters"
+            },
+            email:{
+                required: "Please Enter you e-mail",
+                email: "Please enter your valid e-mail",
+                remote: "E-mail already exists"
+            },
+            password: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 6 characters long"
+            }
+        }
+    });
 
 
 });
