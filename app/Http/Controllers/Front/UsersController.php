@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
 {
@@ -34,24 +36,39 @@ class UsersController extends Controller
                 $user->save();
 //                return redirect()->back()->with(['message'=>'user registration successfully !','type'=>'success']);
                 if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-                    return redirect('t-shirt')/*->route('front.index')*/;
+                    /*update user cart with userid*/
+                    if (!empty(Session::get('session_id'))) {
+                        $user_id = Auth::user()->id;
+                        $session_id = Session::get('session_id');
+                        Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
+                    }
+                    
+                    return redirect('t-shirt')/*->route('front.index')*/ ;
                 }
             }
         }
     }
+
     /*login user*/
     public function loginUser(Request $request)
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
 //            echo '<pre>'; print_r($data); die;
-            if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+            if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+                /*update user cart with userid*/
+                if (!empty(Session::get('session_id'))) {
+                    $user_id = Auth::user()->id;
+                    $session_id = Session::get('session_id');
+                    Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
+                }
                 return redirect('/cart');
-            }else{
-                return redirect()->back()->with(['message'=>'Username or Password Invalid','type'=>'danger']);
+            } else {
+                return redirect()->back()->with(['message' => 'Username or Password Invalid', 'type' => 'danger']);
             }
         }
     }
+
     /*user logout*/
     public function logoutUser()
     {

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 //use Illuminate\Routing\Route;
 
 use Illuminate\Support\Facades\Auth;
+
 //use Illuminate\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -117,7 +118,7 @@ class ProductsController extends Controller
         if ($request->ajax()) {
             $data = $request->all();
 //            $getProductPrice = ProductsAttribute::where(['product_id' => $data['product_id'], 'size' => $data['size']])->first();
-            $getDiscountedAttrPrice = Product::getDiscountedAttrPrice($data['product_id'],$data['size']);
+            $getDiscountedAttrPrice = Product::getDiscountedAttrPrice($data['product_id'], $data['size']);
             return $getDiscountedAttrPrice;
         }
     }
@@ -144,10 +145,10 @@ class ProductsController extends Controller
             /*product already exists session_id or User_id*/
             if (Auth::check()) {
                 /*User is Logged in*/
-                $countProducts = Cart::where(['product_id' => $data['product_id'], 'size' => $data['size'],'user_id'=>Auth::user()->id ])->count();
+                $countProducts = Cart::where(['product_id' => $data['product_id'], 'size' => $data['size'], 'user_id' => Auth::user()->id])->count();
             } else {
                 /*User is not Logged in*/
-                $countProducts = Cart::where(['product_id' => $data['product_id'], 'size' => $data['size'],'session_id'=>Session::get('session_id')])->count();
+                $countProducts = Cart::where(['product_id' => $data['product_id'], 'size' => $data['size'], 'session_id' => Session::get('session_id')])->count();
             }
             if ($countProducts > 0) {
                 $message = 'Product already Exists in Cart!';
@@ -155,9 +156,16 @@ class ProductsController extends Controller
                 Session::flash('type', 'danger');
                 return redirect()->back();
             }
+
+            if (Auth::check()) {
+                $user_id = Auth::user()->id;
+            } else {
+                $user_id = 0;
+            }
             /*save product in cart*/
             $cart = new Cart;
             $cart->session_id = $session_id;
+            $cart->user_id = $user_id;
             $cart->product_id = $data['product_id'];
             $cart->size = $data['size'];
             $cart->quantity = $data['quantity'];
@@ -174,59 +182,58 @@ class ProductsController extends Controller
     public function cart()
     {
         $userCartItem = Cart::userCartItems();
-        return view('front.products.cart',compact('userCartItem'));
+        return view('front.products.cart', compact('userCartItem'));
     }
+
     /*update cart item qty*/
     public function updateCartItemQty(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             $data = $request->all();
             /*get cart details*/
             $cartDetails = Cart::find($data['cartid']);
             /*get available products*/
-            $availableStock = ProductsAttribute::select('stock')->where(['product_id'=>$cartDetails['product_id'],'size'=>$cartDetails['size']])->first()->toArray();
+            $availableStock = ProductsAttribute::select('stock')->where(['product_id' => $cartDetails['product_id'], 'size' => $cartDetails['size']])->first()->toArray();
 
             /*check available stock or not*/
-            if($data['qty']>$availableStock['stock'])
-            {
+            if ($data['qty'] > $availableStock['stock']) {
                 $userCartItem = Cart::userCartItems();
                 return response()->json([
-                    'status'=>false,
-                    'message'=>'Product Stock is not Available!',
-                    'view'=>(String)View::make('front.products.cart_item',compact('userCartItem'))
+                    'status' => false,
+                    'message' => 'Product Stock is not Available!',
+                    'view' => (string)View::make('front.products.cart_item', compact('userCartItem'))
                 ]);
             }
             /*check size available or not*/
-            $availableSize = ProductsAttribute::where(['product_id'=>$cartDetails['product_id'],'size'=>$cartDetails['size'],'status'=>1])->count();
-            if($availableSize==0)
-            {
+            $availableSize = ProductsAttribute::where(['product_id' => $cartDetails['product_id'], 'size' => $cartDetails['size'], 'status' => 1])->count();
+            if ($availableSize == 0) {
                 $userCartItem = Cart::userCartItems();
                 return response()->json([
-                    'status'=>false,
-                    'message'=>'Product Size is not Available!',
-                    'view'=>(String)View::make('front.products.cart_item',compact('userCartItem'))
+                    'status' => false,
+                    'message' => 'Product Size is not Available!',
+                    'view' => (string)View::make('front.products.cart_item', compact('userCartItem'))
                 ]);
             }
-            Cart::where('id',$data['cartid'])->update(['quantity'=>$data['qty']]);
+            Cart::where('id', $data['cartid'])->update(['quantity' => $data['qty']]);
             $userCartItem = Cart::userCartItems();
             return response()->json([
-                'status'=>true,
-                'view'=>(String)View::make('front.products.cart_item',compact('userCartItem'))
+                'status' => true,
+                'view' => (string)View::make('front.products.cart_item', compact('userCartItem'))
             ]);
 
         }
     }
+
     /*delete cart item*/
     public function deleteCartItem(Request $request)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $data = $request->all();
-            Cart::where('id',$data['cartid'])->delete();
+            Cart::where('id', $data['cartid'])->delete();
 
             $userCartItem = Cart::userCartItems();
             return response()->json([
-                'view'=>(String)View::make('front.products.cart_item',compact('userCartItem'))
+                'view' => (string)View::make('front.products.cart_item', compact('userCartItem'))
             ]);
         }
     }
