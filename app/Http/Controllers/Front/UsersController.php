@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Country;
 use App\Models\Sms;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -197,9 +198,22 @@ class UsersController extends Controller
     {
         $user_id = Auth::user()->id;
         $userDetails = User::find($user_id);
+
+        $countries = Country::where('status',1)->get();
+
         if($request->isMethod('post'))
         {
             $data = $request->all();
+            $rules = [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'mobile' => 'required|numeric'
+            ];
+            $customMessage = [
+                'name.required' => 'This Name Field Is Required !',
+                'name.alpha' => 'Valid name is required !',
+                'mobile.required' => 'Mobile is required !',
+            ];
+            $this->validate($request, $rules, $customMessage);
 
             $user = User::find($user_id);
             $user->name = $data['name'];
@@ -213,7 +227,7 @@ class UsersController extends Controller
             return redirect()->back()->with(['message'=>'Your Account details update success !','type'=>'success']);
         }
 
-        return view('front.users.account',compact('userDetails'));
+        return view('front.users.account',compact('userDetails','countries'));
     }
 
 

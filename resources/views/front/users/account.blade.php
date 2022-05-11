@@ -25,6 +25,7 @@
                             <div class="controls">
                                 <input class="span3" name="name" value="{{ $userDetails['name'] }}" type="text" id="name" placeholder="Enter Name">
                             </div>
+                            @error('name') <span class="text-danger font-italic">{{$message}}</span> @enderror
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="address">Address</label>
@@ -47,7 +48,12 @@
                         <div class="control-group">
                             <label class="control-label" for="country">Country</label>
                             <div class="controls">
-                                <input class="span3" name="country" value="{{ $userDetails['country'] }}" type="text" id="country" placeholder="Enter Country">
+                                <select name="country" id="country">
+                                    <option value="">Select Country</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{$country['country_name']}}" @if($country['country_name'] == $userDetails['country']) selected="" @endif >{{$country['country_name']}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="control-group">
@@ -61,6 +67,7 @@
                             <div class="controls">
                                 <input class="span3" name="mobile" value="{{ $userDetails['mobile'] }}" type="text" id="mobile" placeholder="Enter Mobile">
                             </div>
+                            @error('mobile') <span class="text-danger font-italic">{{$message}}</span> @enderror
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="email">E-mail address</label>

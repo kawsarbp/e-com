@@ -28,7 +28,7 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        Session::put('page','dashboard');
+        Session::put('page', 'dashboard');
         return view('admin.dashboard');
     }
 
@@ -61,7 +61,7 @@ class AdminController extends Controller
     /*settings*/
     public function settings()
     {
-        Session::put('page','settings');
+        Session::put('page', 'settings');
 
         $auth = Auth::guard('admin')->user();
         return view('admin.settings', compact('auth'));
@@ -80,7 +80,7 @@ class AdminController extends Controller
 
     public function checkupdatepassword(Request $request)
     {
-        Session::put('page','update-current-password');
+        Session::put('page', 'update-current-password');
 
         if ($request->isMethod('post')) {
             $data = $request->all();
@@ -101,7 +101,7 @@ class AdminController extends Controller
     /*admin details*/
     public function admindetails(Request $request)
     {
-        Session::put('page','update-admin-details');
+        Session::put('page', 'update-admin-details');
 
         if ($request->isMethod('post')) {
             $data = $request->all();
