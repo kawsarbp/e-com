@@ -106,5 +106,7 @@ Route::name('front.')->group(function () {
     Route::get('/logout',[UsersController::class,'logoutUser'])->name('logoutUser');
     /*check-email*/
     Route::match(['get','post'],'/check-email',[UsersController::class,'checkEmail']);
+    /*confirm email user*/
+    Route::match(['GET','POST'],'/confirm/{code}',[UsersController::class,'confirmAccount']);
 
 });

@@ -34,30 +34,45 @@ class UsersController extends Controller
                 $user->mobile = $data['mobile'];
                 $user->email = $data['email'];
                 $user->password = bcrypt($data['password']);
-                $user->status = 1;
+                $user->status = 0;
                 $user->save();
-//                return redirect()->back()->with(['message'=>'user registration successfully !','type'=>'success']);
-                if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
-                    /*update user cart with userid*/
-                    if (!empty(Session::get('session_id'))) {
-                        $user_id = Auth::user()->id;
-                        $session_id = Session::get('session_id');
-                        Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
-                    }
-                    /*send register sms*/
-                    /*$message = 'This is the test SMS from Faz Group LTD';
-                    $mobile = $data['mobile'];
-                    Sms::sendSms($message,$mobile);*/
 
-                    /*send register email*/
-                    $email = $data['email'];
-                    $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];
-                    Mail::send('emails.register',$messageData,function ($message) use ($email){
-                        $message->to($email)->subject('Welcome to Faz Group LTD');
-                    });
+                /*send confirmation email*/
+                $email = $data['email'];
+                $messageData = [
+                    'email' => $data['email'],
+                    'name' => $data['name'],
+                    'code' => base64_encode($data['email'])
+                ];
+                Mail::send('emails.confirmation', $messageData, function ($message) use ($email) {
+                    $message->to($email)->subject('Confirm your E-commerce Account');
+                });
+                // redirect back success message
+                $message = 'Please Check your email to activate your account!';
+                return redirect()->back()->with(['message' => $message, 'type' => 'success']);
 
-                    return redirect('t-shirt')/*->route('front.index')*/ ;
-                }
+//                if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+//                    /*update user cart with userid*/
+//                    if (!empty(Session::get('session_id'))) {
+//                        $user_id = Auth::user()->id;
+//                        $session_id = Session::get('session_id');
+//                        Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
+//                    }
+//                    /*send register sms*/
+//                    /*$message = 'This is the test SMS from Faz Group LTD';
+//                    $mobile = $data['mobile'];
+//                    Sms::sendSms($message,$mobile);*/
+//
+//                    /*send register email offline*/
+//                    $email = $data['email'];
+//                    $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];
+//                    Mail::send('emails.register',$messageData,function ($message) use ($email){
+//                        $message->to($email)->subject('Welcome to Faz Group LTD');
+//                    });
+//
+//                    return redirect('t-shirt')/*->route('front.index')*/ ;
+//                }
+
             }
         }
     }
@@ -67,14 +82,29 @@ class UsersController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = $request->all();
-//            echo '<pre>'; print_r($data); die;
             if (Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+                /*check email active or not*/
+                $userStatus = User::where('email', $data['email'])->first();
+                if ($userStatus->status == 0) {
+                    Auth::logout();
+                    return redirect()->back()->with(['message' => 'You account is not activate yet ! Please confirm your email to active account', 'type' => 'danger']);
+                }
+
                 /*update user cart with userid*/
                 if (!empty(Session::get('session_id'))) {
                     $user_id = Auth::user()->id;
                     $session_id = Session::get('session_id');
                     Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
                 }
+
+                /*send login email offline*/
+                /*$email = $data['email'];
+                $messageData = ['email'=>$data['email']];
+                Mail::send('emails.login',$messageData,function ($message) use ($email){
+                    $message->to($email)->subject('Welcome to Faz Group LTD');
+                });*/
+
+
                 return redirect('/cart');
             } else {
                 return redirect()->back()->with(['message' => 'Username or Password Invalid', 'type' => 'danger']);
@@ -101,5 +131,34 @@ class UsersController extends Controller
         }
     }
 
+    /*confirmAccount user with email*/
+
+    public function confirmAccount($email)
+    {
+        /*decode email*/
+        $email = base64_decode($email);
+        /*email exists*/
+        $userCount = User::where('email', $email)->count();
+        if ($userCount > 0) {
+            $userDetails = User::where('email', $email)->first();
+            if ($userDetails->status == 1) {
+                return redirect('login-register')->with(['message' => 'Your email account is already active. You can login', 'type' => 'success']);
+            } else {
+                User::where('email', $email)->update(['status' => 1]);
+
+                /*send register email offline*/
+                $messageData = ['name' => $userDetails['name'], 'mobile' => $userDetails['mobile'], 'email' => $email];
+                Mail::send('emails.register', $messageData, function ($message) use ($email) {
+                    $message->to($email)->subject('Welcome to Faz Group LTD');
+                });
+                /*redirect login / register page with success message*/
+                return redirect('login-register')->with(['message'=>'Your Email Account is Activate. You can login now.','type'=>'success']);
+
+            }
+        } else {
+            abort(404);
+        }
+
+    }
 
 }
