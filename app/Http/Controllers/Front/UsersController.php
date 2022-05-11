@@ -152,13 +152,48 @@ class UsersController extends Controller
                     $message->to($email)->subject('Welcome to Faz Group LTD');
                 });
                 /*redirect login / register page with success message*/
-                return redirect('login-register')->with(['message'=>'Your Email Account is Activate. You can login now.','type'=>'success']);
+                return redirect('login-register')->with(['message' => 'Your Email Account is Activate. You can login now.', 'type' => 'success']);
 
             }
         } else {
             abort(404);
         }
+    }
 
+    /*forgotPassword user*/
+    public function forgotPassword(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+//            echo '<pre>'; print_r($data); die;
+            $emailCount = User::where('email', $data['email'])->count();
+            if ($emailCount == 0) {
+                return redirect()->back()->with(['message'=>'Email Dose not Exists !','type'=>'danger']);
+            }
+            /*generate new random password*/
+            $random_password = str_random(8);
+            /*encode secure password*/
+            $new_password = bcrypt($random_password);
+            /*update password*/
+            User::where('email',$data['email'])->update(['password'=>$new_password]);
+            /*get user name*/
+            $userName = User::select('name')->where('email',$data['email'])->first();
+            /*send forgot password email*/
+            $email = $data['email'];
+            $name = $userName->name;
+            $messageData = [
+                'email'=>$email,
+                'name'=>$name,
+                'password'=>$random_password
+            ];
+            Mail::send('emails.forgot_password',$messageData,function ($message) use ($email){
+                $message->to($email)->subject('New Password');
+            });
+            return redirect('login-register')->with(['message'=>'Please check your email for new password !','type'=>'success']);
+
+        }
+        
+        return view('front.users.forgot_password');
     }
 
 }

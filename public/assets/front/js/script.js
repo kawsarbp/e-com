@@ -306,6 +306,22 @@ $(document).ready(function () {
             }
         }
     });
+    /*forgot password validation*/
+    $("#forgotPasswordForm").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+            }
+        },
+        messages: {
+            email:{
+                required: "Please Enter you e-mail",
+                email: "Please enter your valid e-mail",
+            }
+        }
+    });
+
 
 
 });
