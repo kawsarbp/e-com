@@ -132,7 +132,6 @@ class UsersController extends Controller
     }
 
     /*confirmAccount user with email*/
-
     public function confirmAccount($email)
     {
         /*decode email*/
@@ -190,10 +189,32 @@ class UsersController extends Controller
                 $message->to($email)->subject('New Password');
             });
             return redirect('login-register')->with(['message'=>'Please check your email for new password !','type'=>'success']);
-
         }
-        
         return view('front.users.forgot_password');
     }
+    /*my account*/
+    public function account(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $userDetails = User::find($user_id);
+        if($request->isMethod('post'))
+        {
+            $data = $request->all();
+
+            $user = User::find($user_id);
+            $user->name = $data['name'];
+            $user->address = $data['address'];
+            $user->city = $data['city'];
+            $user->state = $data['state'];
+            $user->country = $data['country'];
+            $user->pincode = $data['pincode'];
+            $user->mobile = $data['mobile'];
+            $user->save();
+            return redirect()->back()->with(['message'=>'Your Account details update success !','type'=>'success']);
+        }
+
+        return view('front.users.account',compact('userDetails'));
+    }
+
 
 }

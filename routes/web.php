@@ -110,5 +110,7 @@ Route::name('front.')->group(function () {
     Route::match(['GET','POST'],'/confirm/{code}',[UsersController::class,'confirmAccount']);
     /*forgot-password route*/
     Route::match(['GET','POST'],'/forgot-password',[UsersController::class,'forgotPassword']);
+    /*my account route*/
+    Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
 
 });

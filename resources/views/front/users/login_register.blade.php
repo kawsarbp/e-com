@@ -4,7 +4,7 @@
 @section('content')
     <div class="span9">
         <ul class="breadcrumb">
-            <li><a href="index.html">Home</a> <span class="divider">/</span></li>
+            <li><a href="{{url('/')}}">Home</a> <span class="divider">/</span></li>
             <li class="active">Login / Register</li>
         </ul>
         <h3>Login / Register</h3>

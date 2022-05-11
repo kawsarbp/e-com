@@ -282,7 +282,6 @@ $(document).ready(function () {
         }
     });
 
-
     /*user registration form validation*/
     $("#loginForm").validate({
         rules: {
@@ -321,7 +320,25 @@ $(document).ready(function () {
             }
         }
     });
-
+    /*account Form validation*/
+    $("#accountForm").validate({
+        rules: {
+            name: "required",
+            mobile: {
+                required: true,
+                minlength: 11,
+                maxlength: 11,
+                digits: true
+            }
+        },
+        messages: {
+            name: "Please enter your name",
+            mobile: {
+                required: "Please enter a Mobile",
+                minlength: "Your mobile must 11 characters"
+            }
+        }
+    });
 
 
 });
