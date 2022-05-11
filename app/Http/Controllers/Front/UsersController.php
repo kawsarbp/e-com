@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Sms;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
@@ -42,7 +44,18 @@ class UsersController extends Controller
                         $session_id = Session::get('session_id');
                         Cart::where('session_id', $session_id)->update(['user_id' => $user_id]);
                     }
-                    
+                    /*send register sms*/
+                    /*$message = 'This is the test SMS from Faz Group LTD';
+                    $mobile = $data['mobile'];
+                    Sms::sendSms($message,$mobile);*/
+
+                    /*send register email*/
+                    $email = $data['email'];
+                    $messageData = ['name'=>$data['name'],'mobile'=>$data['mobile'],'email'=>$data['email']];
+                    Mail::send('emails.register',$messageData,function ($message) use ($email){
+                        $message->to($email)->subject('Welcome to Faz Group LTD');
+                    });
+
                     return redirect('t-shirt')/*->route('front.index')*/ ;
                 }
             }
