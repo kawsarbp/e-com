@@ -18,7 +18,7 @@
                 <div class="well">
                     <h5>CREATE YOUR ACCOUNT</h5>
                     Enter your name & e-mail address to create an account.<br/><br/>
-                    <form id="registerForm" action="{{ route('front.registerUser') }}" method="POST"> @csrf
+                    <form id="registerForm" action="{{ url('/register') }}" method="POST"> @csrf
                         <div class="control-group">
                             <label class="control-label" for="name">Name</label>
                             <div class="controls">
@@ -53,7 +53,7 @@
             <div class="span4">
                 <div class="well">
                     <h5>ALREADY REGISTERED ?</h5>
-                    <form id="loginForm" action="{{ route('front.loginUser') }}" method="POST">@csrf
+                    <form id="loginForm" action="{{ url('/login') }}" method="POST">@csrf
                         <div class="control-group">
                             <label class="control-label" for="email">Email</label>
                             <div class="controls">

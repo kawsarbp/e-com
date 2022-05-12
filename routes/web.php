@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 
-//Auth::routes();
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -108,9 +107,21 @@ Route::name('front.')->group(function () {
     Route::match(['get','post'],'/check-email',[UsersController::class,'checkEmail']);
     /*confirm email user*/
     Route::match(['GET','POST'],'/confirm/{code}',[UsersController::class,'confirmAccount']);
+
+    /*Route::group(['middleware'=>['auth']],function (){
+
+    });*/
+
     /*forgot-password route*/
     Route::match(['GET','POST'],'/forgot-password',[UsersController::class,'forgotPassword']);
     /*my account route*/
+
+    /*Auth::routes();*/
+
     Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
+    /*my account change password route*/
+    Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);
+    Route::post('/update-user-password',[UsersController::class,'updateUserPassword']);
+
 
 });

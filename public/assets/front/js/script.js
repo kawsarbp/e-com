@@ -198,29 +198,29 @@ $(document).ready(function () {
                 alert("Item Quantity Must be 1 or Greater!")
                 return false;
             } else {
-                new_qty = parseInt(quantity)-1;
+                new_qty = parseInt(quantity) - 1;
             }
         }
         /*qty plus*/
         if ($(this).hasClass('qtyPlus')) {
             var quantity = $(this).prev().prev().val();
-            new_qty = parseInt(quantity)+1;
+            new_qty = parseInt(quantity) + 1;
         }
         // alert(new_qty);
         var cartid = $(this).data('cartid');
         // alert(cartid);
         $.ajax({
-            data: {"cartid":cartid,"qty":new_qty},
-            url:'/update-cart-item-qty',
-            type:'post',
-            success:function (response) {
+            data: {"cartid": cartid, "qty": new_qty},
+            url: '/update-cart-item-qty',
+            type: 'post',
+            success: function (response) {
                 // alert(response.status);
-                if(response.status == false)
-                {
+                if (response.status == false) {
                     alert(response.message);
                 }
+                $(".totalCartItems").html(response.totalCartItems);
                 $("#AppendCartItems").html(response.view);
-            },error:function () {
+            }, error: function () {
                 alert("Error");
             }
         });
@@ -230,15 +230,15 @@ $(document).ready(function () {
     $(document).on('click', '.btnItemDelete', function () {
         var cartid = $(this).data('cartid');
         var result = confirm('Want to delete this Cart Item ?');
-        if(result)
-        {
+        if (result) {
             $.ajax({
-                data: {"cartid":cartid},
-                url:'/delete-cart-item',
-                type:'post',
-                success:function (response) {
+                data: {"cartid": cartid},
+                url: '/delete-cart-item',
+                type: 'post',
+                success: function (response) {
+                    $(".totalCartItems").html(response.totalCartItems);
                     $("#AppendCartItems").html(response.view);
-                },error:function () {
+                }, error: function () {
                     alert("Error");
                 }
             });
@@ -270,7 +270,7 @@ $(document).ready(function () {
                 required: "Please enter a Mobile",
                 minlength: "Your mobile must 11 characters"
             },
-            email:{
+            email: {
                 required: "Please Enter you e-mail",
                 email: "Please enter your valid e-mail",
                 remote: "E-mail already exists"
@@ -295,7 +295,7 @@ $(document).ready(function () {
             }
         },
         messages: {
-            email:{
+            email: {
                 required: "Please Enter you e-mail",
                 email: "Please enter your valid e-mail",
             },
@@ -314,7 +314,7 @@ $(document).ready(function () {
             }
         },
         messages: {
-            email:{
+            email: {
                 required: "Please Enter you e-mail",
                 email: "Please enter your valid e-mail",
             }
@@ -339,6 +339,45 @@ $(document).ready(function () {
             }
         }
     });
+
+    /*Password change Form validation*/
+    $("#updatePasswordForm").validate({
+        rules: {
+            current_password: {
+                required: true,
+                minlength: 6,
+                maxlength: 20
+            },new_password: {
+                required: true,
+                minlength: 6,
+                maxlength: 20
+            },confirm_password: {
+                required: true,
+                minlength: 6,
+                maxlength: 20,
+                equalTo:"#new_password"
+            },
+        }
+    });
+    /*update user password*/
+    $("#current_password").keyup(function () {
+        var current_password = $(this).val();
+        $.ajax({
+            type: 'post',
+            url: '/check-user-password',
+            data: {current_password: current_password},
+            success: function (response) {
+                // alert(response);
+                if (response == 'false') {
+                    $('#checkPwd').html("<font color='red'>Wrong Password<font>");
+                } else if (response == 'true') {
+                    $('#checkPwd').html("<font color='green'>Correct Password<font>");
+                }
+            }, error: function () {
+                alert("Error");
+            }
+        });
+    })
 
 
 });

@@ -9,6 +9,7 @@ use App\Models\Sms;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -168,41 +169,41 @@ class UsersController extends Controller
 //            echo '<pre>'; print_r($data); die;
             $emailCount = User::where('email', $data['email'])->count();
             if ($emailCount == 0) {
-                return redirect()->back()->with(['message'=>'Email Dose not Exists !','type'=>'danger']);
+                return redirect()->back()->with(['message' => 'Email Dose not Exists !', 'type' => 'danger']);
             }
             /*generate new random password*/
             $random_password = str_random(8);
             /*encode secure password*/
             $new_password = bcrypt($random_password);
             /*update password*/
-            User::where('email',$data['email'])->update(['password'=>$new_password]);
+            User::where('email', $data['email'])->update(['password' => $new_password]);
             /*get user name*/
-            $userName = User::select('name')->where('email',$data['email'])->first();
+            $userName = User::select('name')->where('email', $data['email'])->first();
             /*send forgot password email*/
             $email = $data['email'];
             $name = $userName->name;
             $messageData = [
-                'email'=>$email,
-                'name'=>$name,
-                'password'=>$random_password
+                'email' => $email,
+                'name' => $name,
+                'password' => $random_password
             ];
-            Mail::send('emails.forgot_password',$messageData,function ($message) use ($email){
+            Mail::send('emails.forgot_password', $messageData, function ($message) use ($email) {
                 $message->to($email)->subject('New Password');
             });
-            return redirect('login-register')->with(['message'=>'Please check your email for new password !','type'=>'success']);
+            return redirect('login-register')->with(['message' => 'Please check your email for new password !', 'type' => 'success']);
         }
         return view('front.users.forgot_password');
     }
+
     /*my account*/
     public function account(Request $request)
     {
         $user_id = Auth::user()->id;
         $userDetails = User::find($user_id);
 
-        $countries = Country::where('status',1)->get();
+        $countries = Country::where('status', 1)->get();
 
-        if($request->isMethod('post'))
-        {
+        if ($request->isMethod('post')) {
             $data = $request->all();
             $rules = [
                 'name' => 'required|regex:/^[\pL\s\-]+$/u',
@@ -224,10 +225,42 @@ class UsersController extends Controller
             $user->pincode = $data['pincode'];
             $user->mobile = $data['mobile'];
             $user->save();
-            return redirect()->back()->with(['message'=>'Your Account details update success !','type'=>'success']);
+            return redirect()->back()->with(['message' => 'Your Account details update success !', 'type' => 'success']);
         }
 
-        return view('front.users.account',compact('userDetails','countries'));
+        return view('front.users.account', compact('userDetails', 'countries'));
+    }
+
+    /*check User Password*/
+    public function checkUserPassword(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $user_id = Auth::user()->id;
+            $checkPassword = User::select('password')->where('id', $user_id)->first();
+            if (Hash::check($data['current_password'], $checkPassword->password)) {
+                return 'true';
+            } else {
+                return 'false';
+            }
+        }
+    }
+    /*update user password*/
+    public function updateUserPassword(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            /*echo '<pre>';print_r($data);die;*/
+            $user_id = Auth::user()->id;
+            $checkPassword = User::select('password')->where('id', $user_id)->first();
+            if (Hash::check($data['current_password'], $checkPassword->password)) {
+                $new_paw = bcrypt($data['new_password']);
+                User::where('id',$user_id)->update(['password'=>$new_paw]);
+                return redirect()->back()->with(['message'=>'password update successfully !','type'=>'success']);
+            } else {
+                return redirect()->back()->with(['message'=>'password Incorrect !','type'=>'danger']);
+            }
+        }
     }
 
 
