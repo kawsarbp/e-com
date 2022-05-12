@@ -252,11 +252,13 @@ class UsersController extends Controller
             $data = $request->all();
             /*echo '<pre>';print_r($data);die;*/
             $user_id = Auth::user()->id;
-            $checkPassword = User::select('password')->where('id', $user_id)->first();
-            if (Hash::check($data['current_password'], $checkPassword->password)) {
+            $user = User::where('id', $user_id)->first();
+            if (Hash::check($data['current_password'], $user->password)) {
                 $new_paw = bcrypt($data['new_password']);
-                User::where('id',$user_id)->update(['password'=>$new_paw]);
-                return redirect()->back()->with(['message'=>'password update successfully !','type'=>'success']);
+                $user->password = $new_paw;
+                $user->save();
+//                User::where('id',$user_id)->save(['password'=>$new_paw]);
+                return redirect()->route('front.loginRegister')->with(['message'=>'password update successfully !','type'=>'success']);
             } else {
                 return redirect()->back()->with(['message'=>'password Incorrect !','type'=>'danger']);
             }

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 
 
+//Auth::routes();
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -76,7 +78,6 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     });
 });
 
-
 /*Front End Routes*/
 Route::name('front.')->group(function () {
     /*Home Page Route*/
@@ -100,31 +101,29 @@ Route::name('front.')->group(function () {
     /*Delete cart item*/
     Route::post('/delete-cart-item',[ProductsController::class,'deleteCartItem']);
     /*login register route for users*/
-    Route::get('/login-register',[UsersController::class,'loginRegister'])->name('loginRegister');
+    Route::get('/login-register',[UsersController::class,'loginRegister'])->name('loginRegister')->middleware('guest:web');
     /*register user*/
     Route::post('/register',[UsersController::class,'registerUser'])->name('registerUser');
     /*login user*/
-    Route::post('/login',[UsersController::class,'loginUser'])->name('loginUser');
+    Route::post('/login-user',[UsersController::class,'loginUser'])->name('loginUser');
     /*logout user*/
     Route::get('/logout',[UsersController::class,'logoutUser'])->name('logoutUser');
     /*check-email*/
     Route::match(['get','post'],'/check-email',[UsersController::class,'checkEmail']);
     /*confirm email user*/
     Route::match(['GET','POST'],'/confirm/{code}',[UsersController::class,'confirmAccount']);
+});
 
-    /*Route::group(['middleware'=>['auth']],function (){
+/*login register route for users*/
+Route::get('/login',[UsersController::class,'loginRegister'])->name('login')->middleware('guest:web');
 
-    });*/
-
+Route::middleware('auth:web')->group(function (){
     /*forgot-password route*/
     Route::match(['GET','POST'],'/forgot-password',[UsersController::class,'forgotPassword']);
     /*my account route*/
-
-    /*Auth::routes();*/
     Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
     /*my account change password route*/
     Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);
     Route::post('/update-user-password',[UsersController::class,'updateUserPassword']);
-
-
 });
+
