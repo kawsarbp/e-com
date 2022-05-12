@@ -58,8 +58,7 @@
                                             <input type="radio" name="coupon_option" value="Manual"
                                                    id="ManualCoupon"> <label for="ManualCoupon">Manual</label>
                                         </span>
-                                            @error('coupon_option') <span
-                                                class="text-danger">{{$message}}</span> @enderror
+
                                         </div>
                                         <div class="form-group" style="display:none;" id="couponField">
                                             <label for="coupon_code">Coupon Code</label>
@@ -68,7 +67,7 @@
                                         </div>
                                     @else
                                         <input type="hidden" name="coupon_option" value="{{ $coupon['coupon_option'] }}">
-{{--                                        <input type="hidden" name="coupon_code" value="{{ $coupon['coupon_code'] }}">--}}
+                                        <input type="hidden" name="coupon_code" value="{{ $coupon['coupon_code'] }}">
                                         <div class="form-group">
                                             <label for="coupon_code">Coupon Code</label>
                                             <span>{{ $coupon['coupon_code'] }} </span>

@@ -63,7 +63,7 @@ class CouponsController extends Controller
             if ($data['coupon_option'] == "Automatic") {
                 $coupon_code = str_random(8);
             } else {
-                $coupon_code = $data['coupon_option'];
+                $coupon_code = $data['coupon_code'];
             }
 
             $coupon->coupon_option = $data['coupon_option'];
