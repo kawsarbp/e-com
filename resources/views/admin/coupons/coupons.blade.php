@@ -41,7 +41,7 @@
                                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <table id="banners"
+                                            <table id="coupons"
                                                    class="table table-bordered table-striped dataTable dtr-inline">
                                                 <thead>
                                                 <tr>

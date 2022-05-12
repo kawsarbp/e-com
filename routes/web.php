@@ -70,9 +70,9 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/delete-banner/{id}', [BannerController::class, 'deleteBanner'])->name('deleteBanner');
         Route::match(['get', 'post'], '/add-edit-banner/{id?}', [BannerController::class, 'addEditBanner'])->name('addEditBanner');
         /*Coupons Route*/
-        Route::get('/coupons',[CouponsController::class,'coupons']);
+        Route::get('/coupons',[CouponsController::class,'coupons'])->name('coupons');
         Route::post('/update-coupon-status',[CouponsController::class,'updateCouponStatus']);
-
+        Route::match(['get','post'],'/add-edit-coupon/{id?}',[CouponsController::class,'addEditCoupon']);
     });
 });
 

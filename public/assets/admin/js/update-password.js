@@ -21,7 +21,7 @@ $(document).ready(function () {
         })
     });
     /*update section Status*/
-        $(document).on("click",".updateSectionStatus",function () {
+    $(document).on("click", ".updateSectionStatus", function () {
         var status = $(this).text();
         var section_id = $(this).attr("section_id");
         $.ajax({
@@ -41,7 +41,7 @@ $(document).ready(function () {
     });
 
     /*update category Status*/
-        $(document).on("click",".updateCategoryStatus",function () {
+    $(document).on("click", ".updateCategoryStatus", function () {
         var status = $(this).text();
         var category_id = $(this).attr("category_id");
         $.ajax({
@@ -61,7 +61,7 @@ $(document).ready(function () {
     });
 
     /*update product attribute Status*/
-        $(document).on("click",".updateAttributeStatus",function () {
+    $(document).on("click", ".updateAttributeStatus", function () {
         var status = $(this).text();
         var attribute_id = $(this).attr("attribute_id");
         $.ajax({
@@ -80,7 +80,7 @@ $(document).ready(function () {
         });
     });
     /*update product Image Status*/
-            $(document).on("click",".updateImageStatus",function () {
+    $(document).on("click", ".updateImageStatus", function () {
         var status = $(this).text();
         var image_id = $(this).attr("image_id");
         $.ajax({
@@ -99,7 +99,7 @@ $(document).ready(function () {
         });
     });
     /*update Brand Status*/
-        $(document).on("click",".updateBrandStatus",function () {
+    $(document).on("click", ".updateBrandStatus", function () {
 
         var status = $(this).children("i").attr("status");
         var brand_id = $(this).attr("brand_id");
@@ -119,7 +119,7 @@ $(document).ready(function () {
         });
     });
     /*update products Status*/
-    $(document).on("click",".updateProductStatus",function () {
+    $(document).on("click", ".updateProductStatus", function () {
         var status = $(this).text();
         var product_id = $(this).attr("product_id");
         $.ajax({
@@ -138,7 +138,7 @@ $(document).ready(function () {
         });
     });
     /*update banner Status*/
-    $(document).on("click",".updateBannerStatus",function () {
+    $(document).on("click", ".updateBannerStatus", function () {
         var status = $(this).text();
         var banner_id = $(this).attr("banner_id");
         $.ajax({
@@ -158,7 +158,7 @@ $(document).ready(function () {
     });
 
     /*update Coupon Status*/
-    $(document).on("click",".updateCouponStatus",function () {
+    $(document).on("click", ".updateCouponStatus", function () {
         var status = $(this).text();
         var coupon_id = $(this).attr("coupon_id");
         $.ajax({
@@ -190,6 +190,7 @@ $(document).ready(function () {
             }
         });
     });
+
     /*confirm delete*/
 
     /*$(".confirmDelete").click(function () {
@@ -203,7 +204,7 @@ $(document).ready(function () {
 
     /*sweetAlert*/
 
-        $(document).on("click",".confirmDelete",function () {
+    $(document).on("click", ".confirmDelete", function () {
         var record = $(this).attr("record");
         var recordid = $(this).attr("recordid");
 
@@ -223,7 +224,7 @@ $(document).ready(function () {
                     'success'
                 )*/
                 /*{{url('admin/delete-category/'.$categories->id)}}"*/
-                window.location.href = "/admin/delete-"+record+"/"+recordid;
+                window.location.href = "/admin/delete-" + record + "/" + recordid;
             }
         });
 
@@ -236,19 +237,29 @@ $(document).ready(function () {
     var x = 1; //Initial field counter is 1
 
     //Once add button is clicked
-    $(addButton).click(function(){
+    $(addButton).click(function () {
         //Check maximum number of input fields
-        if(x < maxField){
+        if (x < maxField) {
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
         }
     });
 
     //Once remove button is clicked
-    $(wrapper).on('click', '.remove_button', function(e){
+    $(wrapper).on('click', '.remove_button', function (e) {
         e.preventDefault();
         $(this).parent('div').remove(); //Remove field html
         x--; //Decrement field counter
     });
+
+    //show hide coupon field
+    $("#ManualCoupon").click(function () {
+        $("#couponField").show();
+    });
+    $("#AutomaticCoupon").click(function () {
+        $("#couponField").hide();
+    });
+
+
 
 });
