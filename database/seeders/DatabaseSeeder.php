@@ -18,15 +18,16 @@ class DatabaseSeeder extends Seeder
 //        $this->call(SectionsTableSeeder::class);
 
         $this->call([
-                AdminsTableSeeder::class,
-                SectionsTableSeeder::class,
-                CategoryTableSeeder::class,
-                ProductsTableSeeder::class,
-                ProductsAttributesTableSeeder::class,
-                ProductsImagesTableSeeder::class,
-                BrandsTableSeeder::class,
-                BannerTableSeeder::class,
-            ]);
+            AdminsTableSeeder::class,
+            SectionsTableSeeder::class,
+            CategoryTableSeeder::class,
+            ProductsTableSeeder::class,
+            ProductsAttributesTableSeeder::class,
+            ProductsImagesTableSeeder::class,
+            BrandsTableSeeder::class,
+            BannerTableSeeder::class,
+            CouponsTableSeeder::class,
+        ]);
 
         // \App\Models\User::factory(10)->create();
     }

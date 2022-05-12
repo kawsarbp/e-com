@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
@@ -68,6 +69,9 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::post('/update-banner-status', [BannerController::class, 'updateBannerStatus'])->name('updateBannerStatus');
         Route::get('/delete-banner/{id}', [BannerController::class, 'deleteBanner'])->name('deleteBanner');
         Route::match(['get', 'post'], '/add-edit-banner/{id?}', [BannerController::class, 'addEditBanner'])->name('addEditBanner');
+        /*Coupons Route*/
+        Route::get('/coupons',[CouponsController::class,'coupons']);
+        Route::post('/update-coupon-status',[CouponsController::class,'updateCouponStatus']);
 
     });
 });
@@ -117,7 +121,6 @@ Route::name('front.')->group(function () {
     /*my account route*/
 
     /*Auth::routes();*/
-
     Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
     /*my account change password route*/
     Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);
