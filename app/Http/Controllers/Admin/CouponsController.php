@@ -55,7 +55,6 @@ class CouponsController extends Controller
         //users
         $users = User::select('email')->where('status',1)->get()->toArray();
 
-
         return view('admin.coupons.add_edit_coupon',compact('title','coupon','categories','users'));
     }
 

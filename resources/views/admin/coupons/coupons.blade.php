@@ -71,18 +71,12 @@
                                                         <td>{{$coupon['expire_date']}}</td>
                                                         <td>
                                                             @if($coupon['status'] == 1)
-                                                                <a class="updateCouponStatus"
-                                                                   id="#coupon-{{$coupon['id']}}"
-                                                                   coupon_id="{{$coupon['id']}}"
-                                                                   href="javascript:void (0)">
-                                                                    Active
+                                                                <a class="updateCouponStatus" id="coupon-{{$coupon['id']}}" coupon_id="{{$coupon['id']}}" href="javascript:void (0)">
+                                                                    <i class="fas fa-toggle-on" aria-hidden="true" status="Active"></i>
                                                                 </a>
                                                             @else
-                                                                <a class="updateCouponStatus"
-                                                                   id="#coupon-{{$coupon['id']}}"
-                                                                   coupon_id="{{$coupon['id']}}"
-                                                                   href="javascript:void (0)">
-                                                                    Inactive
+                                                                <a class="updateCouponStatus" id="coupon-{{$coupon['id']}}" coupon_id="{{$coupon['id']}}" href="javascript:void (0)">
+                                                                    <i class="fa fa-toggle-off" aria-hidden="true" status="Inactive"></i>
                                                                 </a>
                                                             @endif
                                                         </td>
