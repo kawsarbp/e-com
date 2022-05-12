@@ -52,10 +52,10 @@
                                         <label>Coupon Option</label>
                                         <br>
                                         <span>
-                                            <input type="radio" name="coupon_option" value="Automatic" id="AutomaticCoupon"> <label for="AutomaticCoupon">Automatic</label> &nbsp;&nbsp;
+                                            <input type="radio" checked="" name="coupon_option" value="Automatic" id="AutomaticCoupon"> <label for="AutomaticCoupon">Automatic</label> &nbsp;&nbsp;
                                             <input type="radio" name="coupon_option" value="Manual" id="ManualCoupon"> <label for="ManualCoupon">Manual</label>
                                         </span>
-                                        @error('title') <span class="text-danger">{{$message}}</span> @enderror
+                                        @error('coupon_option') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
                                     <div class="form-group" style="display:none;" id="couponField">
                                         <label for="coupon_code">Coupon Code</label>
@@ -65,14 +65,14 @@
                                                @else
                                                value="{{old('coupon_code')}}"
                                                @endif
-                                               name="coupon_code" id="coupon_code" placeholder="Enter Coupon Code" required="">
-                                        @error('coupon_code') <span class="text-danger">{{$message}}</span> @enderror
+                                               name="coupon_code" id="coupon_code" placeholder="Enter Coupon Code">
+{{--                                        @error('coupon_code') <span class="text-danger">{{$message}}</span> @enderror--}}
                                     </div>
                                     <div class="form-group">
                                         <label>Coupon Type</label>
                                         <br>
                                         <span>
-                                            <input type="radio" name="coupon_type" value="Multiple Times" id="Multiple_Times"> <label for="Multiple_Times">Multiple Times</label> &nbsp;&nbsp;
+                                            <input type="radio" checked="" name="coupon_type" value="Multiple Times" id="Multiple_Times"> <label for="Multiple_Times">Multiple Times</label> &nbsp;&nbsp;
                                             <input type="radio" name="coupon_type" value="Single Times" id="Single_Times"> <label for="Single_Times">Single Times</label>
                                         </span>
                                         @error('coupon_type') <span class="text-danger">{{$message}}</span> @enderror
@@ -81,21 +81,23 @@
                                         <label>Amount Type</label>
                                         <br>
                                         <span>
-                                            <input type="radio" name="amount_type" value="Percentage" id="Percentage"> <label for="Percentage">Percentage &nbsp; (in %)</label> &nbsp;&nbsp;
+                                            <input type="radio" checked="" name="amount_type" value="Percentage" id="Percentage"> <label for="Percentage">Percentage &nbsp; (in %)</label> &nbsp;&nbsp;
                                             <input type="radio" name="amount_type" value="Fixed" id="Fixed"> <label for="Fixed">Fixed &nbsp; (in INR or USD)</label>
                                         </span>
                                         @error('amount_type') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="amount">Amount</label>
-                                        <input type="text" placeholder="Amount" name="amount" class="form-control" id="amount">
+                                        <input type="text" required="" placeholder="Amount" name="amount" class="form-control" id="amount">
+                                        @error('amount') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
 
                                     <div class="form-group">
                                         <label for="categories">Add Categories</label>
-                                        <select name="categories[]" multiple=""  class="form-control select2" >
+                                        <select required="" name="categories[]" multiple=""  class="form-control select2" >
+                                            <option value="">Select Categories</option>
                                             @foreach($categories as $section)
                                                 <optgroup label="{{$section['name']}}"></optgroup>
                                                 @foreach($section['categories'] as $category)
@@ -106,20 +108,24 @@
                                                 @endforeach
                                             @endforeach
                                         </select>
+                                        @error('categories') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label for="user">Select Users</label>
-                                        <select name="user[]" multiple=""  class="form-control select2" >
-                                            @foreach($users as $user)
+                                        <select required="" name="user[]" multiple=""  class="form-control select2" >
+                                            <option value="">Select Users</option>
+                                        @foreach($users as $user)
                                                 <option value="{{ $user['email'] }}">{{ $user['email'] }}</option>
                                             @endforeach
                                         </select>
+                                        @error('users') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label for="expire_date">Expire Date</label>
-                                        <input type="date" id="expire_date" name="expire_date" class="form-control">
+                                        <input type="date" required="" id="expire_date" name="expire_date" class="form-control">
+                                        @error('expire_date') <span class="text-danger">{{$message}}</span> @enderror
                                     </div>
 
                                 </div>

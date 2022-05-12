@@ -179,27 +179,6 @@ $(document).ready(function () {
         });
     });
 
-
-
-
-    /*$(document).on("click", ".updateCouponStatus", function () {
-        var status = $(this).text();
-        var coupon_id = $(this).attr("coupon_id");
-        $.ajax({
-            type: 'post',
-            url: '/admin/update-coupon-status',
-            data: {status: status, coupon_id: coupon_id},
-            success: function (resp) {
-                if (resp['status'] == 0) {
-                    $("#coupon-" + coupon_id).html("<a class='updateCouponStatus'  href='javascript:void (0)'>Inactive</a>");
-                } else if (resp['status'] == 1) {
-                    $("#coupon-" + coupon_id).html("<a class='updateCouponStatus'  href='javascript:void (0)'>Active</a>");
-                }
-            }, error: function () {
-                alert("Error");
-            }
-        });
-    });*/
     /*append categories lavel*/
     $('#section_id').change(function () {
         var section_id = $(this).val();
@@ -283,7 +262,6 @@ $(document).ready(function () {
     $("#AutomaticCoupon").click(function () {
         $("#couponField").hide();
     });
-
 
 
 });

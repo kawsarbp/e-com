@@ -31,7 +31,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Banners</h3>
+                                <h3 class="card-title">Coupons</h3>
                                 <a href="{{url('admin/add-edit-coupon')}}" class="btn btn-success btn-sm float-right">Add
                                     coupon</a>
                                 <div class="clearfix"></div>
