@@ -75,6 +75,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/coupons',[CouponsController::class,'coupons'])->name('coupons');
         Route::post('/update-coupon-status',[CouponsController::class,'updateCouponStatus']);
         Route::match(['get','post'],'/add-edit-coupon/{id?}',[CouponsController::class,'addEditCoupon']);
+        Route::get('delete-coupon/{id}',[CouponsController::class,'deleteCoupon']);
     });
 });
 

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Coupon;
 use App\Models\Section;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class CouponsController extends Controller
 {
@@ -38,39 +40,20 @@ class CouponsController extends Controller
         if ($id == "") {
             /*add coupon*/
             $coupon = new Coupon;
+            $sleCats = array();
+            $sleUsers = array();
             $title = 'Add Coupon';
-
+            $message = "Add Coupon Successfully!";
         } else {
             /*update coupon*/
             $coupon = Coupon::find($id);
+            $sleCats = explode(',',$coupon['categories']);
+            $sleUsers = explode(',',$coupon['users']);
             $title = 'Update Coupon';
+            $message = "Update Successfully!";
         }
         if ($request->isMethod('post')) {
             $data = $request->all();
-
-            /*$rules = [
-                'coupon_option' => 'required',
-                'coupon_code' => 'required',
-                'categories' => 'required',
-                'user' => 'required',
-                'coupon_type' => 'required',
-                'amount_type' => 'required',
-                'amount' => 'required',
-                'expire_date' => 'required',
-            ];
-            $customMessage = [
-                'coupon_option.required' => 'This Field required !',
-                'coupon_code.required' => 'This Field required !',
-                'categories.required' => 'This Field required !',
-                'user.required' => 'This Field required !',
-                'coupon_type.required' => 'This Field required !',
-                'amount_type.required' => 'This Field required !',
-                'amount.required' => 'This Field required !',
-                'expire_date.required' => 'This Field required !',
-            ];
-            $this->validate($request, $rules, $customMessage);*/
-
-//            echo "<pre>";print_r($data);die;
             if (isset($data['user'])) {
                 $users = implode(',', $data['user']);
             }
@@ -93,7 +76,7 @@ class CouponsController extends Controller
             $coupon->expire_date = $data['expire_date'];
             $coupon->status = 1;
             $coupon->save();
-            return redirect()->back()->with(['message'=>'successfully added !','type'=>'success']);
+            return redirect()->back()->with(['message' => $message, 'type' => 'success']);
 
         }
 
@@ -101,8 +84,15 @@ class CouponsController extends Controller
         $categories = Section::with('categories')->get();
         //users
         $users = User::select('email')->where('status', 1)->get()->toArray();
+        return view('admin.coupons.add_edit_coupon', compact('title', 'coupon', 'categories', 'users','sleCats','sleUsers'));
+    }
+    /*delete Coupon*/
+    public function deleteCoupon($id)
+    {
+        $banner = Coupon::find($id);
 
-        return view('admin.coupons.add_edit_coupon', compact('title', 'coupon', 'categories', 'users'));
+        $banner->delete();
+        return redirect()->back()->with(['message' => 'Coupon Delete Successfully!', 'type' => 'success']);
     }
 
 }

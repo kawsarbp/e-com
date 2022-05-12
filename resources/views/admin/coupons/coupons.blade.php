@@ -84,7 +84,7 @@
                                                             <a href="{{url('admin/add-edit-coupon/'.$coupon['id'])}}"
                                                                class="btn btn-info btn-sm">Edit</a>
                                                             <a class="confirmDelete btn btn-danger btn-sm"
-                                                               href="javascript:void (0)" record="banner"
+                                                               href="javascript:void (0)" record="coupon"
                                                                recordid="{{$coupon['id']}}">Delete</a>
                                                         </td>
                                                     </tr>
