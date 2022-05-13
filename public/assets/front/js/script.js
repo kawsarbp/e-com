@@ -398,6 +398,8 @@ $(document).ready(function () {
                 }
                 $(".totalCartItems").html(response.totalCartItems);
                 $("#AppendCartItems").html(response.view);
+                $(".couponAmount").text("Rs."+response.couponAmount);
+                $(".grand_total").text("Rs."+response.grand_total);
             }, error: function () {
                 alert("Error");
             }
