@@ -347,15 +347,15 @@ $(document).ready(function () {
                 required: true,
                 minlength: 6,
                 maxlength: 20
-            },new_password: {
+            }, new_password: {
                 required: true,
                 minlength: 6,
                 maxlength: 20
-            },confirm_password: {
+            }, confirm_password: {
                 required: true,
                 minlength: 6,
                 maxlength: 20,
-                equalTo:"#new_password"
+                equalTo: "#new_password"
             },
         }
     });
@@ -378,6 +378,31 @@ $(document).ready(function () {
             }
         });
     })
+    /*apply coupon*/
+    $("#ApplyCoupon").submit(function () {
+        var user = $(this).attr("user");
+        if (user == 1) {
 
+        } else {
+            alert('Please Apply To login Coupon!');
+            return false;
+        }
+        var code = $('#code').val();
+        $.ajax({
+            type: 'post',
+            data: {code: code},
+            url: '/apply-coupon',
+            success: function (response) {
+                if (response.messages != "") {
+                    alert(response.message);
+                }
+                $(".totalCartItems").html(response.totalCartItems);
+                $("#AppendCartItems").html(response.view);
+            }, error: function () {
+                alert("Error");
+            }
+        });
+
+    });
 
 });

@@ -26,5 +26,6 @@ class VerifyCsrfToken extends Middleware
         "/update-cart-item-qty",
         "/delete-cart-item",
         "/check-user-password",
+        "/apply-coupon",
     ];
 }

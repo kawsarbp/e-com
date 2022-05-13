@@ -48,7 +48,7 @@
                                                     <th>Id</th>
                                                     <th>Coupon Code</th>
                                                     <th>Coupon Type</th>
-                                                    <th>Amount</th>
+                                                    <th>Amount Type</th>
                                                     <th>Expire Date</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -61,11 +61,11 @@
                                                         <td>{{$coupon['coupon_code']}}</td>
                                                         <td>{{$coupon['coupon_type']}}</td>
                                                         <td>
-                                                            {{$coupon['amount_type']}}
-                                                            @if($coupon['amount_type']=="percentage")
+                                                            {{$coupon['amount']}}
+                                                            @if($coupon['amount_type']=='Percentage')
                                                                 %
                                                             @else
-                                                            INR
+                                                                INR
                                                             @endif
                                                         </td>
                                                         <td>{{$coupon['expire_date']}}</td>

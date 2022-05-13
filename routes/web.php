@@ -113,18 +113,20 @@ Route::name('front.')->group(function () {
     Route::match(['get','post'],'/check-email',[UsersController::class,'checkEmail']);
     /*confirm email user*/
     Route::match(['GET','POST'],'/confirm/{code}',[UsersController::class,'confirmAccount']);
+    /*forgot-password route*/
+    Route::match(['GET','POST'],'/forgot-password',[UsersController::class,'forgotPassword']);
+
 });
 
 /*login register route for users*/
 Route::get('/login',[UsersController::class,'loginRegister'])->name('login')->middleware('guest:web');
 
 Route::middleware('auth:web')->group(function (){
-    /*forgot-password route*/
-    Route::match(['GET','POST'],'/forgot-password',[UsersController::class,'forgotPassword']);
     /*my account route*/
     Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
     /*my account change password route*/
     Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);
     Route::post('/update-user-password',[UsersController::class,'updateUserPassword']);
+    Route::post('/apply-coupon',[ProductsController::class,'applyCoupon']);
 });
 
