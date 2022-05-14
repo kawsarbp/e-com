@@ -19,7 +19,6 @@ class CouponsTableSeeder extends Seeder
     {
         $couponRecords = [
             [
-                'id'=>1,
                 'coupon_option'=>'manual',
                 'coupon_code'=>'test10',
                 'categories'=>'1,2',

@@ -337,10 +337,11 @@ class ProductsController extends Controller
                         'view' => (string)View::make('front.products.cart_item', compact('userCartItem'))
                     ]);
                 }
-
             }
-
         }
     }
+
+
+
 
 }

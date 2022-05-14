@@ -18,9 +18,9 @@ class SectionsTableSeeder extends Seeder
     public function run()
     {
         $SectionRecoards = [
-            ['id'=>1, 'name'=>'Man','status'=>1 ],
-            ['id'=>2, 'name'=>'Woman','status'=>1 ],
-            ['id'=>3, 'name'=>'Kids','status'=>1 ],
+            ['name'=>'Man','status'=>1 ],
+            ['name'=>'Woman','status'=>1 ],
+            ['name'=>'Kids','status'=>1 ],
         ];
 
         DB::table('sections')->insert($SectionRecoards);
