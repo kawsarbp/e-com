@@ -281,20 +281,24 @@ class ProductsController extends Controller
 
                 //check if coupon belongs to logged in user
                 //get all selected users of coupon
-                $userArry = explode(',', $couponDetails->users);
-                foreach ($userArry as $key => $user) {
-                    $getUserID = User::select('id')->where('email', $user)->first()->toArray();
-                    $userID[] = $getUserID['id'];
+                if (!empty($couponDetails->users)) {
+                    $userArry = explode(',', $couponDetails->users);
+                    foreach ($userArry as $key => $user) {
+                        $getUserID = User::select('id')->where('email', $user)->first()->toArray();
+                        $userID[] = $getUserID['id'];
+                    }
                 }
+
 
                 $total_amount = 0;
                 foreach ($userCartItem as $key => $item) {
                     if (!in_array($item['product']['category_id'], $catArry)) {
                         $message = 'This Coupon code is not for one of the selected products!';
                     }
-
-                    if (!in_array($item['user_id'], $userID)) {
-                        $message = 'This coupon is not for you !';
+                    if (!empty($couponDetails->users)) {
+                        if (!in_array($item['user_id'], $userID)) {
+                            $message = 'This coupon is not for you !';
+                        }
                     }
                     $attrPrice = Product::getDiscountedAttrPrice($item['product_id'], $item['size']);
                     $total_amount = $total_amount + ($attrPrice['final_price'] * $item['quantity']);
@@ -319,8 +323,8 @@ class ProductsController extends Controller
                     }
                     $grand_total = $total_amount - $couponAmount;
                     // Add coupon code & amount in session variable
-                    Session::put('couponAmount',$couponAmount);
-                    Session::put('couponCode',$data['code']);
+                    Session::put('couponAmount', $couponAmount);
+                    Session::put('couponCode', $data['code']);
                     $message = 'Coupon code successfully apply. You are available Discount!';
                     $userCartItem = Cart::userCartItems();
                     $totalCartItems = totalCartItems();
@@ -328,8 +332,8 @@ class ProductsController extends Controller
                         'status' => true,
                         'message' => $message,
                         'totalCartItems' => $totalCartItems,
-                        'couponAmount'=>$couponAmount,
-                        'grand_total'=>$grand_total,
+                        'couponAmount' => $couponAmount,
+                        'grand_total' => $grand_total,
                         'view' => (string)View::make('front.products.cart_item', compact('userCartItem'))
                     ]);
                 }

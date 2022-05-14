@@ -398,8 +398,14 @@ $(document).ready(function () {
                 }
                 $(".totalCartItems").html(response.totalCartItems);
                 $("#AppendCartItems").html(response.view);
-                $(".couponAmount").text("Rs."+response.couponAmount);
-                $(".grand_total").text("Rs."+response.grand_total);
+                if (response.couponAmount >= 0) {
+                    $(".couponAmount").text("Rs." + response.couponAmount);
+                } else {
+                    $(".couponAmount").text("Rs.0");
+                }
+                if (response.grand_total >= 0) {
+                    $(".grand_total").text("Rs." + response.grand_total);
+                }
             }, error: function () {
                 alert("Error");
             }
