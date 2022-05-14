@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 //            BrandsTableSeeder::class,
 //            BannerTableSeeder::class,
 //            CouponsTableSeeder::class,
-            DeliveryAddressTableSeeder::class,
+//            DeliveryAddressTableSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();
