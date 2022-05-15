@@ -126,6 +126,7 @@ Route::middleware('auth:web')->group(function (){
     /*my account route*/
     Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
     Route::get('/orders',[OrdersController::class,'orders']);
+    Route::get('/orders/{id}',[OrdersController::class,'orderDetails']);
 
     /*my account change password route*/
     Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);

@@ -18,16 +18,24 @@
                 <table class="table table-bordered table-striped">
                     <tr>
                         <th>Order ID</th>
+                        <th>Order Product</th>
                         <th>Payment Method</th>
                         <th>Grand Total</th>
                         <th>Create On</th>
+                        <th>Details</th>
                     </tr>
                     @foreach($orders as $order)
                         <tr>
-                            <td>{{ $order['id'] }}</td>
+                            <td><a href="{{ url('/orders/'.$order['id']) }}">{{ $order['id'] }}</a></td>
+                            <td>
+                                @foreach($order['orders_products'] as $pro)
+                                    {{ $pro['product_code'] }}
+                                @endforeach
+                            </td>
                             <td>{{ $order['payment_method'] }}</td>
                             <td>{{ $order['grand_total'] }}</td>
                             <td>{{ date('d-m-y',strtotime($order['created_at'])) }}</td>
+                            <td><a href="{{ url('/orders/'.$order['id']) }}">View Details</a></td>
                         </tr>
                     @endforeach
                 </table>
