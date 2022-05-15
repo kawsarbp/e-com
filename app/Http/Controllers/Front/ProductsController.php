@@ -345,8 +345,20 @@ class ProductsController extends Controller
     }
 
     /*checkout*/
-    public function checkout()
+    public function checkout(Request $request)
     {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            if (empty($data['address_id'])) {
+                $message = "Please Select Delivery Address !";
+                return redirect()->back()->with(['message'=>$message,'type'=>'danger']);
+            }
+            if (empty($data['payment_method'])) {
+                $message = "Please Select Payment Method !";
+                return redirect()->back()->with(['message'=>$message,'type'=>'danger']);
+            }
+            return $data;
+        }
         $userCartItem = Cart::userCartItems();
         $deliveryAddresses = DeliveryAddress::deliveryAddresses();
         return view('front.products.checkout', compact('userCartItem', 'deliveryAddresses'));
@@ -368,13 +380,21 @@ class ProductsController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\pL\s\-]+$/u',
                 'mobile' => 'required|numeric',
-                'address' => 'required'
+                'address' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'country' => 'required',
+                'pincode' => 'required|numeric',
             ];
             $customMessage = [
                 'name.required' => 'This Name Field Is Required !',
                 'name.alpha' => 'Valid name is required !',
                 'mobile.required' => 'Mobile is required !',
                 'address.required' => 'Address Field is required !',
+                'address.city' => 'City Field is required !',
+                'address.state' => 'State Field is required !',
+                'address.country' => 'Country Field is required !',
+                'address.pincode' => 'Pincode Field is required !',
             ];
             $this->validate($request, $rules, $customMessage);
             $address->user_id = Auth::user()->id;
@@ -389,12 +409,13 @@ class ProductsController extends Controller
             return redirect('/checkout')->with(['message' => $messsage, 'type' => 'success']);
         }
         $countries = Country::where('status', 1)->get();
-        return view('front.products.add_edit_delivery_address',compact('countries','title','address'));
+        return view('front.products.add_edit_delivery_address', compact('countries', 'title', 'address'));
     }
+
     /*deleteDeliveryAddress*/
     public function deleteDeliveryAddress($id)
     {
-        DeliveryAddress::where('id',$id)->delete();
+        DeliveryAddress::where('id', $id)->delete();
         return redirect()->back()->with(['message' => 'Delivery Address Delete Successfully !', 'type' => 'success']);
     }
 

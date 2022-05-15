@@ -16,9 +16,9 @@ use App\Models\Product;
     <tbody>
     <?php $total_price = 0; ?>
     @foreach($userCartItem as $item)
-        <?php $attrPrice = Product::getDiscountedAttrPrice($item['product_id'],$item['size']);  ?>
+        <?php $attrPrice = Product::getDiscountedAttrPrice($item['product_id'], $item['size']);  ?>
         <tr>
-            <td> <img width="60" src="/image/admin/product_images/{{$item['product']['main_image']}}" alt=""/></td>
+            <td><img width="60" src="/image/admin/product_images/{{$item['product']['main_image']}}" alt=""/></td>
             <td colspan="2">
                 {{$item['product']['product_name']}} ({{$item['product']['product_code']}})<br/>
                 Color : {{$item['product']['product_color']}}<br/>
@@ -26,10 +26,14 @@ use App\Models\Product;
             </td>
             <td>
                 <div class="input-append">
-                    <input class="span1" style="max-width:34px" value="{{$item['quantity']}}" id="appendedInputButtons" size="16" type="text">
-                    <button class="btn btnItemUpdate qtyMinus" type="button" data-cartid="{{$item['id']}}"><i class="icon-minus"></i></button>
-                    <button class="btn btnItemUpdate qtyPlus" type="button" data-cartid="{{$item['id']}}"><i class="icon-plus"></i></button>
-                    <button class="btn btn-danger btnItemDelete" type="button" data-cartid="{{$item['id']}}"><i class="icon-remove icon-white"></i></button>
+                    <input class="span1" style="max-width:34px" value="{{$item['quantity']}}" id="appendedInputButtons"
+                           size="16" type="text">
+                    <button class="btn btnItemUpdate qtyMinus" type="button" data-cartid="{{$item['id']}}"><i
+                            class="icon-minus"></i></button>
+                    <button class="btn btnItemUpdate qtyPlus" type="button" data-cartid="{{$item['id']}}"><i
+                            class="icon-plus"></i></button>
+                    <button class="btn btn-danger btnItemDelete" type="button" data-cartid="{{$item['id']}}"><i
+                            class="icon-remove icon-white"></i></button>
                 </div>
             </td>
             <td>Rs. {{$attrPrice['product_price']}}</td>
@@ -40,22 +44,24 @@ use App\Models\Product;
     @endforeach
 
     <tr>
-        <td colspan="6" style="text-align:right">Sub Total:	</td>
+        <td colspan="6" style="text-align:right">Sub Total:</td>
         <td> Rs. {{$total_price}}</td>
     </tr>
     <tr>
-        <td colspan="6" style="text-align:right">Coupon Discount:	</td>
+        <td colspan="6" style="text-align:right">Coupon Discount:</td>
         <td class="couponAmount">
-            @if(Session::has('CouponAmount'))
-                - Rs. <?php echo Session::get('CouponAmount');  ?>
+            @if(Session::has('couponAmount'))
+                - Rs. <?php echo Session::get('couponAmount');  ?>
             @else
                 Rs. 0
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="6" style="text-align:right"><strong>GRAND TOTAL (Rs. {{$total_price}} - <span class="couponAmount">Rs.0 </span>) =</strong></td>
-        <td class="label label-important" style="display:block"> <strong class="grand_total"> Rs. {{ $total_price - Session::get('CouponAmount') }} </strong></td>
+        <td colspan="6" style="text-align:right"><strong>GRAND TOTAL (Rs. {{$total_price}} - <span class="couponAmount">Rs.0 </span>)
+                =</strong></td>
+        <td class="label label-important" style="display:block"><strong class="grand_total">
+                Rs. {{ $total_price - Session::get('couponAmount') }} </strong></td>
     </tr>
     </tbody>
 </table>
