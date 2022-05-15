@@ -50,37 +50,44 @@ class Product extends Model
     {
         $proDetails = Product::select('product_price', 'product_discount', 'category_id')->where('id', $product_id)->first();
         $catDetails = Category::select('category_discount')->where('id', $proDetails['category_id'])->first();
-        if ($proDetails['product_discount']>0) {
+        if ($proDetails['product_discount'] > 0) {
             /*product discount first priority*/
-            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*$proDetails['product_discount']/100);
-        } elseif ($catDetails['category_discount']>0) {
+            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price'] * $proDetails['product_discount'] / 100);
+        } elseif ($catDetails['category_discount'] > 0) {
             /*category discount second priority*/
-            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*$catDetails['category_discount']/100);
+            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price'] * $catDetails['category_discount'] / 100);
         } else {
             $discounted_price = 0;
         }
         return $discounted_price;
     }
+
     /*discount attribute listing page*/
-    public static function getDiscountedAttrPrice($product_id,$size)
+    public static function getDiscountedAttrPrice($product_id, $size)
     {
-        $proAttrPrice = ProductsAttribute::where(['product_id'=>$product_id,'size'=>$size])->first();
+        $proAttrPrice = ProductsAttribute::where(['product_id' => $product_id, 'size' => $size])->first();
         $proDetails = Product::select('product_discount', 'category_id')->where('id', $product_id)->first();
         $catDetails = Category::select('category_discount')->where('id', $proDetails['category_id'])->first();
 
-        if ($proDetails['product_discount'] >0) {
+        if ($proDetails['product_discount'] > 0) {
             /*product discount first priority*/
-            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*$proDetails['product_discount']/100);
+            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price'] * $proDetails['product_discount'] / 100);
             $discount = $proAttrPrice['price'] - $final_price;
-        } elseif ($catDetails['category_discount']>0) {
+        } elseif ($catDetails['category_discount'] > 0) {
             /*category discount second priority*/
-            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price']*$catDetails['category_discount']/100);
+            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price'] * $catDetails['category_discount'] / 100);
             $discount = $proAttrPrice['price'] - $final_price;
         } else {
             $final_price = $proAttrPrice['price'];
             $discount = 0;
         }
-        return array('product_price'=>$proAttrPrice['price'],'final_price'=>$final_price,'discount'=>$discount);
+        return array('product_price' => $proAttrPrice['price'], 'final_price' => $final_price, 'discount' => $discount);
+    }
+
+    public static function getProductImage($product_id)
+    {
+        $getProductImage = Product::select('main_image')->where('id',$product_id)->first();
+        return $getProductImage['main_image'];
     }
 
 }

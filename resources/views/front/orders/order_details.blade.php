@@ -1,3 +1,4 @@
+<?php use App\Models\Product; ?>
 @extends('front.include.layouts')
 @section('title') Orders Details @endsection
 
@@ -92,6 +93,7 @@
             <div class="span8">
                 <table class="table table-bordered table-striped">
                     <tr>
+                        <th>Product Image</th>
                         <th>Product Code</th>
                         <th>Product Name</th>
                         <th>Product Size</th>
@@ -100,6 +102,10 @@
                     </tr>
                     @foreach($orderDetails['orders_products'] as $product)
                         <tr>
+                            <td style="width: 30%; text-align:center;">
+                                <?php $getProductImage = Product::getProductImage($product['product_id']) ?>
+                                    <a href="{{ url('product/'.$product['product_id']) }}" target="_blank"><img src="/image/admin/product_images/{{$getProductImage}}" alt="" style="width: 25%;"></a>
+                            </td>
                             <td>{{ $product['product_code'] }}</td>
                             <td>{{ $product['product_name'] }}</td>
                             <td>{{ $product['product_size'] }}</td>
