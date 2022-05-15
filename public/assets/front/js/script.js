@@ -412,5 +412,12 @@ $(document).ready(function () {
         });
 
     });
+    /*deliveryAddressDeleted*/
+    $(document).on('click','.deliveryAddressDeleted',function () {
+        var result = confirm('Want to delete this Address ?');
+        if(!result){
+            return false;
+        }
+    })
 
 });

@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Country;
 use App\Models\Coupon;
 use App\Models\DeliveryAddress;
 use App\Models\Product;
 use App\Models\ProductsAttribute;
 use App\Models\User;
+use Faker\Provider\Address;
 use Illuminate\Http\Request;
 
 //use Illuminate\Routing\Route;
@@ -341,14 +343,59 @@ class ProductsController extends Controller
             }
         }
     }
+
     /*checkout*/
     public function checkout()
     {
         $userCartItem = Cart::userCartItems();
         $deliveryAddresses = DeliveryAddress::deliveryAddresses();
-        return view('front.products.checkout',compact('userCartItem','deliveryAddresses'));
+        return view('front.products.checkout', compact('userCartItem', 'deliveryAddresses'));
     }
 
-
+    public function addEditDeliveryAddress(Request $request, $id = null)
+    {
+        if ($id == "") {
+            $title = "Add Delivery Address";
+            $address = new DeliveryAddress;
+            $messsage = 'Your Delivery Address Added successfully !';
+        } else {
+            $title = "Edit Delivery Address";
+            $address = DeliveryAddress::find($id);
+            $messsage = 'Your Delivery Address Updated successfully !';
+        }
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $rules = [
+                'name' => 'required|regex:/^[\pL\s\-]+$/u',
+                'mobile' => 'required|numeric',
+                'address' => 'required'
+            ];
+            $customMessage = [
+                'name.required' => 'This Name Field Is Required !',
+                'name.alpha' => 'Valid name is required !',
+                'mobile.required' => 'Mobile is required !',
+                'address.required' => 'Address Field is required !',
+            ];
+            $this->validate($request, $rules, $customMessage);
+            $address->user_id = Auth::user()->id;
+            $address->name = $data['name'];
+            $address->address = $data['address'];
+            $address->city = $data['city'];
+            $address->state = $data['state'];
+            $address->country = $data['country'];
+            $address->pincode = $data['pincode'];
+            $address->mobile = $data['mobile'];
+            $address->save();
+            return redirect('/checkout')->with(['message' => $messsage, 'type' => 'success']);
+        }
+        $countries = Country::where('status', 1)->get();
+        return view('front.products.add_edit_delivery_address',compact('countries','title','address'));
+    }
+    /*deleteDeliveryAddress*/
+    public function deleteDeliveryAddress($id)
+    {
+        DeliveryAddress::where('id',$id)->delete();
+        return redirect()->back()->with(['message' => 'Delivery Address Delete Successfully !', 'type' => 'success']);
+    }
 
 }

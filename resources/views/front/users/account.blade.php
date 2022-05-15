@@ -48,7 +48,7 @@
                         <div class="control-group">
                             <label class="control-label" for="country">Country</label>
                             <div class="controls">
-                                <select name="country" id="country">
+                                <select name="country" id="country" style="width: 82%;">
                                     <option value="">Select Country</option>
                                     @foreach($countries as $country)
                                         <option value="{{$country['country_name']}}" @if($country['country_name'] == $userDetails['country']) selected="" @endif >{{$country['country_name']}}</option>

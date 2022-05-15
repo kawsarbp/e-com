@@ -128,6 +128,9 @@ Route::middleware('auth:web')->group(function (){
     Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);
     Route::post('/update-user-password',[UsersController::class,'updateUserPassword']);
     Route::post('/apply-coupon',[ProductsController::class,'applyCoupon']);
+    /*checkout*/
     Route::match(['GET','POST'],'/checkout',[ProductsController::class,'checkout']);
+    Route::match(['GET','POST'],'/add-edit-delivery-address/{id?}',[ProductsController::class,'addEditDeliveryAddress']);
+    Route::get('/delete-delivery-address/{id}',[ProductsController::class,'deleteDeliveryAddress']);
 });
 

@@ -21,19 +21,24 @@ use App\Models\Product;
 
         <table class="table table-bordered">
             <tr>
-                <th> DELIVERY ADDRESSES</th>
+                <td><strong> DELIVERY ADDRESSES </strong> | <a href="{{ url('/add-edit-delivery-address') }}">Add
+                        DeliveryA ddress</a></td>
             </tr>
             @foreach($deliveryAddresses as $address)
                 <tr>
                     <td>
                         <div class="control-group" style="float: left; margin-top: -2px; margin-right: 5px;">
-                            <input type="radio" id="address{{ $address['id'] }}" name="address_id" value="{{ $address['id'] }}">
+                            <input type="radio" id="address{{ $address['id'] }}" name="address_id"
+                                   value="{{ $address['id'] }}">
                         </div>
                         <div class="control-group">
-                            <label class="control-label">{{ $address['name'] }},{{ $address['address'] }}
-                                ,{{ $address['city'] }},{{ $address['state'] }},{{ $address['country'] }}</label>
+                            <label class="control-label"> {{ $address['name'] }} , {{ $address['address'] }}
+                                , {{ $address['city'] }} , {{ $address['pincode'] }} , {{ $address['state'] }}
+                                , {{ $address['country'] }} , {{ $address['mobile'] }} </label>
                         </div>
                     </td>
+                    <td><a href="{{ url('/add-edit-delivery-address/'.$address['id']) }}">Edit</a> | <a
+                            href="{{ url('/delete-delivery-address/'.$address['id']) }}" class="deliveryAddressDeleted">Delete</a></td>
                 </tr>
             @endforeach
         </table>
@@ -66,11 +71,14 @@ use App\Models\Product;
                         <div class="input-append">
                             <input class="span1" disabled style="max-width:34px" value="{{$item['quantity']}}"
                                    id="appendedInputButtons" size="16" type="text">
-                            <button disabled class="btn btnItemUpdate qtyMinus" type="button" data-cartid="{{$item['id']}}"><i
+                            <button disabled class="btn btnItemUpdate qtyMinus" type="button"
+                                    data-cartid="{{$item['id']}}"><i
                                     class="icon-minus"></i></button>
-                            <button disabled class="btn btnItemUpdate qtyPlus" type="button" data-cartid="{{$item['id']}}"><i
+                            <button disabled class="btn btnItemUpdate qtyPlus" type="button"
+                                    data-cartid="{{$item['id']}}"><i
                                     class="icon-plus"></i></button>
-                            <button disabled class="btn btn-danger btnItemDelete" type="button" data-cartid="{{$item['id']}}"><i
+                            <button disabled class="btn btn-danger btnItemDelete" type="button"
+                                    data-cartid="{{$item['id']}}"><i
                                     class="icon-remove icon-white"></i></button>
                         </div>
                     </td>
@@ -125,6 +133,6 @@ use App\Models\Product;
         </table>
 
         <a href="{{ url('/cart') }}" class="btn btn-large"><i class="icon-arrow-left"></i> Back to Cart </a>
-        <a href="{{ url('/checkout') }}" class="btn btn-large pull-right">Please Order <i class="icon-arrow-right"></i></a>
+        <a href="" class="btn btn-large pull-right">Please Order <i class="icon-arrow-right"></i></a>
     </div>
 @endsection
