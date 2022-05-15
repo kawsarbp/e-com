@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
+use App\Http\Controllers\Front\OrdersController;
 use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\UsersController;
 use App\Http\Controllers\HomeController;
@@ -124,6 +125,8 @@ Route::get('/login',[UsersController::class,'loginRegister'])->name('login')->mi
 Route::middleware('auth:web')->group(function (){
     /*my account route*/
     Route::match(['GET','POST'],'/account',[UsersController::class,'account']);
+    Route::get('/orders',[OrdersController::class,'orders']);
+
     /*my account change password route*/
     Route::post('/check-user-password',[UsersController::class,'checkUserPassword']);
     Route::post('/update-user-password',[UsersController::class,'updateUserPassword']);
@@ -132,5 +135,8 @@ Route::middleware('auth:web')->group(function (){
     Route::match(['GET','POST'],'/checkout',[ProductsController::class,'checkout']);
     Route::match(['GET','POST'],'/add-edit-delivery-address/{id?}',[ProductsController::class,'addEditDeliveryAddress']);
     Route::get('/delete-delivery-address/{id}',[ProductsController::class,'deleteDeliveryAddress']);
+    /*thanks page*/
+    Route::get('/thanks',[ProductsController::class,'thanks']);
+
 });
 

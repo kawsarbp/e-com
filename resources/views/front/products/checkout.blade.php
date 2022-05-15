@@ -109,7 +109,7 @@ use App\Models\Product;use Illuminate\Support\Facades\Session;
                 </tr>
                 <tr>
                     <td colspan="6" style="text-align:right"><strong>GRAND TOTAL (Rs. {{$total_price}} - <span
-                                class="couponAmount">Rs.0 </span>) =</strong></td>
+                                class="couponAmount">Rs.0 </span>) = </strong></td>
                     <td class="label label-important" style="display:block">
                         <strong class="grand_total">
                             Rs. {{ $grand_total =  $total_price - Session::get('couponAmount') }}
@@ -128,9 +128,9 @@ use App\Models\Product;use Illuminate\Support\Facades\Session;
                             <label class="control-label"><strong> PAYMENT METHODS: </strong> </label>
                             <div class="controls">
                                 <span>
-                                    <input type="radio" name="payment_method" id="COD" value="COD"
+                                    <input type="radio" name="payment_gateway" id="COD" value="COD"
                                            style="margin-top: -3px;"> <strong>COD</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" name="payment_method" id="Paypal" value="Paypal"
+                                    <input type="radio" name="payment_gateway" id="Paypal" value="Paypal"
                                            style="margin-top: -3px;"> <strong>Paypal</strong>
                                 </span>
                             </div>

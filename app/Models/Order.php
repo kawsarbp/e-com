@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\OrdersProduct;
+
+class Order extends Model
+{
+    use HasFactory;
+
+    public function orders_products()
+    {
+        return $this->hasMany('App\Models\OrdersProduct','user_id');
+    }
+}
