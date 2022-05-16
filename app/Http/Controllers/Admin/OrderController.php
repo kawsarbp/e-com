@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function orders()
     {
-        $orders = Order::with('orders_products')->orderBy('id', 'Desc')->get();
+        $orders = Order::with('orders_products')->get();
         return view('admin.orders.orders',compact('orders'));
     }
     /*orderDetails*/

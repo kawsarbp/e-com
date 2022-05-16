@@ -12,6 +12,7 @@ use App\Models\Order;
 use App\Models\OrdersProduct;
 use App\Models\Product;
 use App\Models\ProductsAttribute;
+use App\Models\Sms;
 use App\Models\User;
 use Faker\Provider\Address;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 
 //use Illuminate\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
@@ -414,13 +416,31 @@ class ProductsController extends Controller
             Session::put('order_id', $order_id);
             DB::commit();
             if ($data['payment_gateway'] == 'COD') {
+                // send order sms
+                /*$message = "Dear Customer. Your Order ".$order_id." has been Successfully";
+                $mobile = Auth::user()->mobile;
+                Sms::sendSms($message,$mobile);*/
+
+                //send mail
+                $orderDetails = Order::with('orders_products')->where('id',$order_id)->first();
+
+                $email = Auth::user()->email;
+                $messageData = [
+                    'email'=>$email,
+                    'name'=>Auth::user()->name,
+                    'order_id'=>$order_id,
+                    'orderDetails'=>$orderDetails,
+                ];
+                Mail::send('emails.order',$messageData,function ($message) use ($email){
+                    $message->to($email)->subject('Order Placed - FAZ GROUP LTD');
+                });
+
                 return redirect('/thanks');
             } else {
                 echo "Prepaid Method Coming Soon";
                 die;
             }
-            echo 'order inserted';
-            die;
+            echo 'order inserted'; die;
 
         }
         $userCartItem = Cart::userCartItems();
