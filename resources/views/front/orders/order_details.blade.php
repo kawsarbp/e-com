@@ -104,7 +104,9 @@
                         <tr>
                             <td style="width: 30%; text-align:center;">
                                 <?php $getProductImage = Product::getProductImage($product['product_id']) ?>
-                                    <a href="{{ url('product/'.$product['product_id']) }}" target="_blank"><img src="/image/admin/product_images/{{$getProductImage}}" alt="" style="width: 25%;"></a>
+                                <a href="{{ url('product/'.$product['product_id']) }}" target="_blank"><img
+                                        src="/image/admin/product_images/{{$getProductImage}}" alt=""
+                                        style="width: 25%;"></a>
                             </td>
                             <td>{{ $product['product_code'] }}</td>
                             <td>{{ $product['product_name'] }}</td>

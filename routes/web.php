@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Front\IndexController;
@@ -77,6 +78,10 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::post('/update-coupon-status',[CouponsController::class,'updateCouponStatus']);
         Route::match(['get','post'],'/add-edit-coupon/{id?}',[CouponsController::class,'addEditCoupon']);
         Route::get('delete-coupon/{id}',[CouponsController::class,'deleteCoupon']);
+        /*orders*/
+        Route::get('/orders',[OrderController::class,'orders'])->name('orders');
+        Route::get('/orders/{id}',[OrderController::class,'orderDetails']);
+        Route::post('/update-order-status',[OrderController::class,'updateOrderStatus']);
     });
 });
 
