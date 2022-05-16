@@ -211,6 +211,14 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            @foreach($orderLog as $log)
+                                                <strong>{{ $log['order_status'] }}</strong><br>
+                                                <strong>{{ date('j F,Y, g:i:a',strtotime($log['created_at'])) }}</strong><br>
+                                            @endforeach
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

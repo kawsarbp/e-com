@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrdersLog;
 use App\Models\OrderStatus;
 use App\Models\Sms;
 use App\Models\User;
@@ -25,7 +26,8 @@ class OrderController extends Controller
         $orderDetails = Order::with('orders_products')->where('id', $id)->first();
         $userDetails = User::where('id', $orderDetails['user_id'])->first();
         $orderStatuses = OrderStatus::where('status', 1)->get();
-        return view('admin.orders.order_details', compact('orderDetails', 'userDetails', 'orderStatuses'));
+        $orderLog = OrdersLog::where('order_id',$id)->orderBy('id','desc')->get();
+        return view('admin.orders.order_details', compact('orderDetails', 'userDetails', 'orderStatuses','orderLog'));
     }
 
     /*updateOrderStatus*/
@@ -54,6 +56,11 @@ class OrderController extends Controller
             Mail::send('emails.order_status',$messageData,function ($message) use ($email){
                 $message->to($email)->subject('Order Status Updated - FAZ GROUP LTD');
             });
+            //update order log
+            $log = new OrdersLog;
+            $log->order_id = $data['order_id'];
+            $log->order_status = $data['order_status'];
+            $log->save();
 
 
             return redirect()->back()->with(['message' => 'Order Status Has benn Update!', 'type' => 'success']);
