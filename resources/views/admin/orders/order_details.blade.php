@@ -48,6 +48,18 @@
                                         <td>Order Status</td>
                                         <td>{{ $orderDetails['order_status'] }}</td>
                                     </tr>
+                                    @if(!empty($orderDetails['courier_name']))
+                                    <tr>
+                                        <td>Courier Name</td>
+                                        <td>{{ $orderDetails['courier_name'] }}</td>
+                                    </tr>
+                                    @endif
+                                    @if(!empty($orderDetails['tracking_number']))
+                                    <tr>
+                                        <td>Tracking Number</td>
+                                        <td>{{ $orderDetails['tracking_number'] }}</td>
+                                    </tr>
+                                    @endif
                                     <tr>
                                         <td>Order Total</td>
                                         <td>INR {{ $orderDetails['grand_total'] }}</td>
@@ -198,14 +210,15 @@
                                         <td colspan="2">
                                             <form action="{{ url('admin/update-order-status') }}" method="POST">@csrf
                                                 <input type="hidden" name="order_id" value="{{ $orderDetails['id'] }}">
-                                                <select name="order_status" required="" id="" class="form-control">
+                                                <select name="order_status" required="" id="order_status" class="form-control" style="margin-bottom: 10px;">
                                                     <option value="">Select Status</option>
                                                     @foreach($orderStatuses as $status)
                                                         <option
                                                             value="{{ $status['name'] }}" @if(isset($orderDetails['order_status']) && $orderDetails['order_status']==$status['name']) selected="" @endif >{{ $status['name'] }}</option>
                                                     @endforeach
                                                 </select>
-                                                <br>
+                                                <input type="text" name="courier_name" value="{{ $orderDetails['courier_name'] }}" @if(empty($orderDetails['courier_name'])) id="courier_name" @endif placeholder="Courier Name" class="form-control" style="margin-bottom: 10px;">
+                                                <input type="text" name="tracking_number" value="{{ $orderDetails['tracking_number'] }}" @if(empty($orderDetails['courier_name'])) id="tracking_number" @endif  placeholder="Tracking Number" class="form-control" style="margin-bottom: 10px;">
                                                 <button class="btn btn-info btn-block btn-sm" type="submit">Update
                                                 </button>
                                             </form>

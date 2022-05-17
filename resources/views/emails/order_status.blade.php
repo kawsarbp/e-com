@@ -17,6 +17,10 @@
         <tr><td>Hello {{$name}},</td></tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>Your Order #{{ $order_id }} Status has benn updated to <strong>{{ $order_status }}</strong>. Your order details are as below:-</td></tr>
+        @if(!empty($courier_name) && !empty($tracking_number))
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>Courier Name is:- <strong>{{$courier_name}}</strong> and Tracking number is :- <strong>{{$tracking_number}}</strong></td></tr>
+        @endif
         <tr><td>&nbsp;</td></tr>
         <tr><td>
             <table style="width: 95%;" callpadding="5" callpadding="5" bgcolor="#f7f4f4">

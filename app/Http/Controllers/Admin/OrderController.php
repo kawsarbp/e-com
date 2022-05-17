@@ -36,6 +36,11 @@ class OrderController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
             Order::where('id', $data['order_id'])->update(['order_status' => $data['order_status']]);
+            //update courier name and tracking number
+            if(!empty($data['courier_name']) && !empty($data['tracking_number'])){
+                Order::where('id',$data['order_id'])->update(['courier_name'=>$data['courier_name'],'tracking_number'=>$data['tracking_number']]);
+            }
+
             /*send register sms*/
             $deliveryDetails = Order::select('mobile','email','name')->where('id',$data['order_id'])->first();
             /*$message = 'Dear Customer, Your order status has been update successfully!';
@@ -51,6 +56,8 @@ class OrderController extends Controller
                 'name'=>$deliveryDetails['name'],
                 'order_id'=>$data['order_id'],
                 'order_status'=>$data['order_status'],
+                'courier_name'=>$data['courier_name'],
+                'tracking_number'=>$data['tracking_number'],
                 'orderDetails'=>$orderDetails,
             ];
             Mail::send('emails.order_status',$messageData,function ($message) use ($email){
