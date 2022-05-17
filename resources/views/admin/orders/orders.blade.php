@@ -66,9 +66,10 @@
                                                         <td>{{ $order['order_status'] }}</td>
                                                         <td>{{ $order['payment_method'] }}</td>
                                                         <td>
-                                                            <a href="{{ url('/admin/orders/'.$order['id']) }}" title="View Order Details">View</a>&nbsp;&nbsp;
+                                                            <a href="{{ url('/admin/orders/'.$order['id']) }}" title="View Order Details">View</a><br>
                                                             @if($order['order_status']=="Shipped" || $order['order_status']=="Delivered" )
-                                                            <a href="{{ url('/admin/view-order-invoice/'.$order['id']) }}" title="View Order Invoice"><i class="fa fa-print"></i></a>
+                                                            <a href="{{ url('/admin/view-order-invoice/'.$order['id']) }}" title="View Order Invoice"><i class="fa fa-print"></i></a>&nbsp;&nbsp;&nbsp;
+                                                            <a href="{{ url('/admin/print-pdf-invoice/'.$order['id']) }}" title="View Order PDF"><i class="fa fa-file-pdf"></i></a>
                                                             @endif
                                                         </td>
                                                     </tr>

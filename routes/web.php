@@ -83,6 +83,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/orders/{id}',[OrderController::class,'orderDetails']);
         Route::post('/update-order-status',[OrderController::class,'updateOrderStatus']);
         Route::get('/view-order-invoice/{id}',[OrderController::class,'viewOrderInvoice']);
+        Route::get('/print-pdf-invoice/{id}',[OrderController::class,'printPdfInvoice']);
     });
 });
 
