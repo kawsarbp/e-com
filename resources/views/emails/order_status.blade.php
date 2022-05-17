@@ -12,7 +12,7 @@
     <table style="width: 700px;">
         <tr><td>&nbsp;</td></tr>
         <tr><td><h1>Admin Photo</h1></td> </tr>
-        <tr><td><img style="width: 30%;" src="{{ '/image/admin.jpg' }}" alt=""></td> </tr>
+        <tr><td><img style="width: 30%;" src="{{ '/image/admin.jpg' }}" alt="{{ '/image/admin.jpg' }}"></td> </tr>
         <tr><td>&nbsp;</td></tr>
         <tr><td>Hello {{$name}},</td></tr>
         <tr><td>&nbsp;</td></tr>

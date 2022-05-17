@@ -86,8 +86,8 @@ use App\Models\Product;use Illuminate\Support\Facades\Session;
                                         class="icon-remove icon-white"></i></button>
                             </div>
                         </td>
-                        <td>Rs. {{$attrPrice['product_price']}}</td>
-                        <td>Rs. {{$attrPrice['discount']}}</td>
+                        <td>Rs. {{$attrPrice['product_price'] * $item['quantity']}}</td>
+                        <td>Rs. -{{$attrPrice['discount'] * $item['quantity']}}</td>
                         <td>Rs. {{$attrPrice['final_price'] * $item['quantity']}}</td>
                     </tr>
                     <?php $total_price = $total_price + ($attrPrice['final_price'] * $item['quantity']); ?>

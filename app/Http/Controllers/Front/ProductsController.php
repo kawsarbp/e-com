@@ -422,16 +422,16 @@ class ProductsController extends Controller
                 Sms::sendSms($message,$mobile);*/
 
                 //send mail
-                $orderDetails = Order::with('orders_products')->where('id',$order_id)->first();
+                $orderDetails = Order::with('orders_products')->where('id', $order_id)->first();
 
                 $email = Auth::user()->email;
                 $messageData = [
-                    'email'=>$email,
-                    'name'=>Auth::user()->name,
-                    'order_id'=>$order_id,
-                    'orderDetails'=>$orderDetails,
+                    'email' => $email,
+                    'name' => Auth::user()->name,
+                    'order_id' => $order_id,
+                    'orderDetails' => $orderDetails,
                 ];
-                Mail::send('emails.order',$messageData,function ($message) use ($email){
+                Mail::send('emails.order', $messageData, function ($message) use ($email) {
                     $message->to($email)->subject('Order Placed - FAZ GROUP LTD');
                 });
 
@@ -440,10 +440,14 @@ class ProductsController extends Controller
                 echo "Prepaid Method Coming Soon";
                 die;
             }
-            echo 'order inserted'; die;
-
+            echo 'order inserted';
+            die;
         }
         $userCartItem = Cart::userCartItems();
+        if(count($userCartItem)==0)
+        {
+            return redirect('/cart')->with(['message'=>'Sopping cart is empty! please add product to checkout.','type'=>'danger']);
+        }
         $deliveryAddresses = DeliveryAddress::deliveryAddresses();
         return view('front.products.checkout', compact('userCartItem', 'deliveryAddresses'));
     }
