@@ -8,11 +8,13 @@ use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\OrdersController;
 use App\Http\Controllers\Front\ProductsController;
 use App\Http\Controllers\Front\UsersController;
 use App\Http\Controllers\HomeController;
+use App\Models\ShippingCharge;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
@@ -84,6 +86,10 @@ Route::prefix('/admin')->name('admin.')->group(function () {
         Route::post('/update-order-status',[OrderController::class,'updateOrderStatus']);
         Route::get('/view-order-invoice/{id}',[OrderController::class,'viewOrderInvoice']);
         Route::get('/print-pdf-invoice/{id}',[OrderController::class,'printPdfInvoice']);
+        /*shipping charges*/
+        Route::get('/view-shipping-charges',[ShippingController::class,'shippingCharges'])->name('shippingCharges');
+        Route::match(['GET','POST'],'/edit-shipping-charges/{id}',[ShippingController::class,'editShippingCharges']);
+        Route::post('/update-shipping-status',[ShippingController::class,'updateShippingStatus']);
     });
 });
 

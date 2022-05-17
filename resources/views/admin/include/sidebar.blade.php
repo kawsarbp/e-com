@@ -72,9 +72,9 @@
 
                 {{--catalogues--}}
 
-                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/banners') ?'menu-open':'' }} {{request()->is('admin/brands') ?'menu-open':'' }} {{request()->is('admin/add-edit-product') ?'menu-open':'' }} {{request()->is('admin/products') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }} {{request()->is('admin/coupons') ?'menu-open':'' }} {{request()->is('admin/orders') ?'menu-open':'' }}">
+                <li class="nav-item  {{request()->is('admin/sections') ?'menu-open':'' }} {{request()->is('admin/banners') ?'menu-open':'' }} {{request()->is('admin/brands') ?'menu-open':'' }} {{request()->is('admin/add-edit-product') ?'menu-open':'' }} {{request()->is('admin/products') ?'menu-open':'' }} {{request()->is('admin/categories') ?'menu-open':'' }} {{request()->is('admin/add-edit-category') ?'menu-open':'' }} {{request()->is('admin/coupons') ?'menu-open':'' }} {{request()->is('admin/orders') ?'menu-open':'' }}{{request()->is('admin/view-shipping-charges') ?'menu-open':'' }}">
                     <a href="#"
-                       class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/banners') ?'active':'' }}  {{request()->is('admin/products') ?'active':'' }} {{request()->is('admin/brands') ?'active':'' }} {{request()->is('admin/add-edit-product') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }} {{request()->is('admin/coupons') ?'active':'' }} {{request()->is('admin/orders') ?'active':'' }}">
+                       class="nav-link {{request()->is('admin/sections') ?'active':'' }} {{request()->is('admin/banners') ?'active':'' }}  {{request()->is('admin/products') ?'active':'' }} {{request()->is('admin/brands') ?'active':'' }} {{request()->is('admin/add-edit-product') ?'active':'' }} {{request()->is('admin/categories') ?'active':'' }} {{request()->is('admin/add-edit-category') ?'active':'' }} {{request()->is('admin/coupons') ?'active':'' }} {{request()->is('admin/orders') ?'active':'' }}{{request()->is('admin/view-shipping-charges') ?'active':'' }}">
                         <i class="nav-icon fas fa-th"></i>
                         <p> Catalogues </p>
                     </a>
@@ -120,6 +120,12 @@
                             <a href="{{  route('admin.orders')  }}"
                                class="nav-link {{request()->is('admin/orders') ?'active':'' }}">
                                 <p>Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{  route('admin.shippingCharges')  }}"
+                               class="nav-link {{request()->is('admin/view-shipping-charges') ?'active':'' }}">
+                                <p>Shipping Charges</p>
                             </a>
                         </li>
                     </ul>
