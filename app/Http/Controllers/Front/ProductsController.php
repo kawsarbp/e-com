@@ -406,9 +406,9 @@ class ProductsController extends Controller
                 $cartItem->product_code = $getProductDetails['product_code'];
                 $cartItem->product_name = $getProductDetails['product_name'];
                 $cartItem->product_color = $getProductDetails['product_color'];
-                $cartItem->product_size = $item['product_size'];
+                $cartItem->product_size = $item['size'];
                 $getDiscountedAttrPrice = Product::getDiscountedAttrPrice($item['product_id'], $item['size']);
-                $cartItem->product_size = $getDiscountedAttrPrice['final_price'];
+                $cartItem->product_price = $getDiscountedAttrPrice['final_price'];
                 $cartItem->product_qty = $item['quantity'];
                 $cartItem->save();
             }

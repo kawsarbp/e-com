@@ -69,8 +69,16 @@ class OrderController extends Controller
             $log->order_status = $data['order_status'];
             $log->save();
 
-
             return redirect()->back()->with(['message' => 'Order Status Has benn Update!', 'type' => 'success']);
         }
     }
+    /*viewOrderInvoice*/
+    public function viewOrderInvoice($id)
+    {
+        $orderDetails = Order::with('orders_products')->where('id', $id)->first();
+        $userDetails = User::where('id', $orderDetails['user_id'])->first();
+
+        return view('admin.orders.order_invoice',compact('orderDetails','userDetails'));
+    }
+
 }

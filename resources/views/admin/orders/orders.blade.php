@@ -65,7 +65,12 @@
                                                         <td>{{ $order['grand_total'] }}</td>
                                                         <td>{{ $order['order_status'] }}</td>
                                                         <td>{{ $order['payment_method'] }}</td>
-                                                        <td><a href="{{ url('/admin/orders/'.$order['id']) }}" title="View Order Details">View</a></td>
+                                                        <td>
+                                                            <a href="{{ url('/admin/orders/'.$order['id']) }}" title="View Order Details">View</a>&nbsp;&nbsp;
+                                                            @if($order['order_status']=="Shipped" || $order['order_status']=="Delivered" )
+                                                            <a href="{{ url('/admin/view-order-invoice/'.$order['id']) }}" title="View Order Invoice"><i class="fa fa-print"></i></a>
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
