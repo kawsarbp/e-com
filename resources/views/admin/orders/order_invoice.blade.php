@@ -24,7 +24,12 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="invoice-title">
-                <h2>Invoice</h2><h3 class="pull-right">Order # {{ $orderDetails['id'] }}</h3>
+                <h2>Invoice</h2><h3 class="pull-right">Order # {{ $orderDetails['id'] }}
+                    <br>
+                    <div>
+                        <?php echo DNS1D::getBarcodeHTML($orderDetails['id'], 'C39');  ?>
+                    </div>
+                </h3>
             </div>
             <hr>
             <div class="row">
@@ -92,10 +97,12 @@
                             @foreach($orderDetails['orders_products'] as $product)
                                 <tr>
                                     <td>
-                                        Name:- {{$product['product_name']}}
-                                        Code:- {{$product['product_code']}}
-                                        Size:- {{$product['product_size']}}
-                                        Color:- {{$product['product_color']}}
+                                        Name:- {{$product['product_name']}}<br>
+                                        Code:- {{$product['product_code']}}<br>
+                                        Size:- {{$product['product_size']}}<br>
+                                        Color:- {{$product['product_color']}}<br>
+
+                                        <?php echo DNS1D::getBarcodeHTML($product['product_code'], 'C39');  ?>
                                     </td>
                                     <td class="text-center">
                                         INR {{$product['product_price']}}
